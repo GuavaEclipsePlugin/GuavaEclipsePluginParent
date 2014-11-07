@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+     
+      <viewerContribution
+            id="com.builder.actions.TextEditorActions"
+            targetID="#CompilationUnitEditorContext">
+         <menu
+               id="googleGuavaEditor"
+               label="Google Guava Helper"
+               path="additions"/>
+         <action
+               class="com.builder.actions.ToStringAction"
+               id="com.builder.actions.toString"
+               label="Generate toString()"
+               menubarPath="googleGuavaEditor/additions"
+               tooltip="Generate toString()"
+               />
+         <action
+               class="com.builder.actions.EqualsAction"
+               id="com.builder.actions.equals"
+               label="Generate hashCode() and equals()"
+               menubarPath="googleGuavaEditor/additions"
+               tooltip="Generate equals() and hashCode()"
+               />
+<!--
+	   <action
+               class="com.builder.actions.CompareAction"
+               id="com.builder.actions.equals"
+               label="Generate compareTo()"
+               menubarPath="googleGuavaEditor/additions"
+               tooltip="Generate compareTo()"/>
+-->			   
+      </viewerContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.builder.preferences.UserPreferencePage"
+            id="com.builder.preferences.UserPreferencePage"
+            name="Guava Preference ">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.builder.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+
+</plugin>
