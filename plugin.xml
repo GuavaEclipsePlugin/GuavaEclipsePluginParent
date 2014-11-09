@@ -26,14 +26,12 @@
                menubarPath="googleGuavaEditor/additions"
                tooltip="Generate equals() and hashCode()"
                />
-<!--
 	   <action
                class="com.builder.actions.CompareAction"
                id="com.builder.actions.equals"
                label="Generate compareTo()"
                menubarPath="googleGuavaEditor/additions"
                tooltip="Generate compareTo()"/>
--->			   
       </viewerContribution>
    </extension>
    <extension

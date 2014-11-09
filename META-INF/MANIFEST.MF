@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Google Guava Helper
 Bundle-SymbolicName: guava_helper;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1.SNAPSHOT
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide;bundle-version="3.4.2",

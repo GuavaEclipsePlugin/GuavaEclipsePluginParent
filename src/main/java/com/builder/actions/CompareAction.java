@@ -53,14 +53,14 @@ public class CompareAction implements IEditorActionDelegate {
 				MessageDialog.openError(shell, "Method Generation Failed", "No non-static field present for method generation.");
 				return;
 			}
-			org.eclipse.jdt.core.IMethod equalsMethod = Utils.getMethod(insertionPoint.getInsertionType(), "compare");
+			org.eclipse.jdt.core.IMethod equalsMethod = Utils.getMethod(insertionPoint.getInsertionType(), "compareTo");
 			if (equalsMethod != null) {
-				boolean ans = MessageDialog.openQuestion(shell, "Duplicate Method", "compare()already present. Replace it?");
+				boolean ans = MessageDialog.openQuestion(shell, "Duplicate Method", "compareTo() already present. Replace it?");
 				if (!ans)
 					return;
 			}
 			GenericDialogBox dialog = new GenericDialogBox(shell, insertionPoint, Utils.getNonStaticFieldNames(insertionPoint.getInsertionType()),
-			        new ArrayContentProvider(), new LabelProvider(), (new StringBuilder("Generate compare() for '"))
+			        new ArrayContentProvider(), new LabelProvider(), (new StringBuilder("Generate compareTo() for '"))
 			                .append(insertionPoint.getInsertionType().getElementName()).append("' class").toString());
 			dialog.open();
 			if (!dialog.isCancelPressed()) {

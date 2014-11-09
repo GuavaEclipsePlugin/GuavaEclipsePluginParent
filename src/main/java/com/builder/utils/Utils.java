@@ -50,6 +50,24 @@ public class Utils
 
         return list;
     }
+    
+    
+    // use goog
+    public static List<IField> getFields(IType type)
+            throws JavaModelException
+        {
+            IField fields[] = type.getFields();
+            List<IField> list = new ArrayList<IField>();
+            IField aifield[];
+            int j = (aifield = fields).length;
+            for(int i = 0; i < j; i++)
+            {
+                IField field = aifield[i];
+                list.add(field);
+            }
+
+            return list;
+        }
 
     public static List getNonStaticFieldNames(IType type)
         throws JavaModelException
