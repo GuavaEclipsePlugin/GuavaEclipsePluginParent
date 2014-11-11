@@ -28,7 +28,7 @@ public abstract class AbstractCreator {
         methodGenerationStratergy = UserPrefernce.getMethodGenerationStratergy();
         if (methodGenerationStratergy == MethodGenerationStratergy.SMART_OPTION) {
             ITypeHierarchy a = this.insertionPoint.getInsertionType().newSupertypeHierarchy(new NullProgressMonitor());
-            IType superTypes[] = a.getAllSupertypes(this.insertionPoint.getInsertionType());
+			IType superTypes[] = a.getAllSuperclasses(this.insertionPoint.getInsertionType());
             if (superTypes.length == 1 && superTypes[0].getKey().equals("Ljava/lang/Object;"))
                 methodGenerationStratergy = MethodGenerationStratergy.DONT_USE_SUPER;
             else
