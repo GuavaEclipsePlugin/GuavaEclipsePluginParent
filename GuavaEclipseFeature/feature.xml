@@ -209,7 +209,7 @@ Visit http://www.eclipse.org
 
    <plugin
          id="GuavaEclipsePlugin"
-         download-size="0"
+         download-size="32"
          install-size="0"
          version="1.0.1.qualifier"
          unpack="false"/>
