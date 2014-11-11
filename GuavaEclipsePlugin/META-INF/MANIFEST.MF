@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Google Guava Helper
-Bundle-SymbolicName: guava_helper;singleton:=true
+Bundle-Name: Google Guava Eclipse Plugin
+Bundle-SymbolicName: GuavaEclipsePlugin;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
