@@ -1,5 +1,7 @@
 package com.builder.preferences;
 
+import net.sf.guavaeclipse.constants.EqualsEqualityType;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -13,5 +15,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
     {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setDefault("guavaPreference", "choice3");
+		store.setDefault("guavaEclipseEqualsPreference", EqualsEqualityType.INSTANCEOF.name());
     }
 }

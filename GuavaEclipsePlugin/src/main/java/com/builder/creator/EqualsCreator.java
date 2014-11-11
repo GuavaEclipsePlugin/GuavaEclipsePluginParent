@@ -3,11 +3,14 @@ package com.builder.creator;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.guavaeclipse.constants.EqualsEqualityType;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 
 import com.builder.constant.MethodGenerationStratergy;
+import com.builder.constant.UserPrefernce;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.utils.Utils;
 
@@ -15,12 +18,16 @@ import com.builder.utils.Utils;
 public class EqualsCreator extends AbstractCreator
 {
 
+	private EqualsEqualityType eet;
+
     public EqualsCreator(MethodInsertionPoint insertionPoint, List fields)
         throws JavaModelException
     {
         super(insertionPoint, fields);
+		eet = UserPrefernce.getEqualsEqualityType();
     }
 
+    @Override
     public void generate()
         throws JavaModelException
     {
@@ -49,7 +56,11 @@ public class EqualsCreator extends AbstractCreator
         equalsContent.append(content.toString());
         equalsContent.append("\n@Override\n");
         equalsContent.append("public boolean equals(Object object){\n");
+		if (eet == EqualsEqualityType.CLASS_EQUALITY) {
+			equalsContent.append("\tif (object != null && getClass() == object.getClass()) {\n");
+		} else {
         equalsContent.append("\tif (object instanceof ").append(insertionPoint.getInsertionType().getElementName()).append(") {\n");
+		}
         if(methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER)
             equalsContent.append("\t\tif (!super.equals(object)) \n\t\t\treturn false;\n");
         equalsContent.append((new StringBuilder("\t\t")).append(insertionPoint.getInsertionType().getElementName()).toString()).append(" that = (").append(insertionPoint.getInsertionType().getElementName()).append(") object;\n");

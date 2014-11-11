@@ -1,7 +1,10 @@
 package com.builder.constant;
 
-import com.builder.Activator;
+import net.sf.guavaeclipse.constants.EqualsEqualityType;
+
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import com.builder.Activator;
 
 public class UserPrefernce {
 
@@ -21,5 +24,11 @@ public class UserPrefernce {
 			return MethodGenerationStratergy.SMART_OPTION;
 		else
 			return null;
+	}
+
+	public static EqualsEqualityType getEqualsEqualityType() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		String a = store.getString("guavaEclipseEqualsPreference");
+		return EqualsEqualityType.valueOf(a);
 	}
 }
