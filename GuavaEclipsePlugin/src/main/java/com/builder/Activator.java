@@ -6,7 +6,7 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin {
 
-	public static final String PLUGIN_ID = "guava_helper";
+	public static final String PLUGIN_ID = "GuavaEclipsePlugin";
 	private static Activator plugin;
 
 	public Activator() {
@@ -29,6 +29,6 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin("guava_helper", path);
+		return imageDescriptorFromPlugin("GuavaEclipsePlugin", path);
 	}
 }
