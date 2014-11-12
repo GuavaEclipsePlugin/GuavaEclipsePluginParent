@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Google Guava Eclipse Plugin
 Bundle-SymbolicName: GuavaEclipsePlugin;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.0.1
 Require-Bundle: org.eclipse.ui;bundle-version="3.4.2",
  org.eclipse.core.runtime;bundle-version="3.4.2",
+ org.eclipse.ui;bundle-version="3.4.2",
  org.eclipse.ui.ide;bundle-version="3.4.2",
+ org.eclipse.ui.editors;bundle-version="3.4.2",
  org.eclipse.core.resources;bundle-version="3.4.2",
- org.eclipse.jdt.core;bundle-version="3.4.4",
+ org.eclipse.jdt.core;bundle-version="3.4.2",
  org.eclipse.jface.text;bundle-version="3.4.2",
- org.eclipse.jdt.ui;bundle-version="3.4.2",
- org.eclipse.ui.editors;bundle-version="3.4.0",
- com.google.guava;bundle-version="12.0.0"
+ org.eclipse.jdt.ui;bundle-version="3.4.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.builder.Activator
