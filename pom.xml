@@ -49,7 +49,7 @@
 				<version>2.5.1</version>
 				<configuration>
 					<tagNameFormat>@{project.version}</tagNameFormat>
-                    <preparationGoals>clean -DnewVersion=${releaseVersion} -Dprudent=true org.sonatype.tycho:tycho-versions-plugin:set-version verify scm:checkin</preparationGoals>
+                    <preparationGoals>clean -DnewVersion=${releaseVersion} -Dprudent=truetycho-versions-plugin:set-version scm:checkin</preparationGoals>
                 	<arguments>-Prelease</arguments>
         		</configuration> 
 			</plugin>
