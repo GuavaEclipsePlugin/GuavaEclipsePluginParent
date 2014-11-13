@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>0.21.0</tycho.version>
@@ -19,7 +19,6 @@
 		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
 		<developerConnection>scm:git:https//${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
 		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
-	  <tag>1.0.2</tag>
   </scm>
 
 	<distributionManagement>
@@ -138,7 +137,7 @@
                                 <artifactId>maven-scm-plugin</artifactId>
                                 <configuration>
                                         <basedir>${project.basedir}</basedir>
-                                        <includes>${project.basedir}/GuavaEclipseFeature/feature.xml,${project.basedir}/GuavaEclipseSite/site.xml</includes>
+                                        <includes>${project.basedir}/GuavaEclipsePlugin/META-INF/MANIFEST.MF,${project.basedir}/GuavaEclipseFeature/feature.xml,${project.basedir}/GuavaEclipseSite/site.xml</includes>
                                         <message>[maven-release-plugin] prepare release of OSGI artifacts</message>
                                 </configuration>
                         </plugin>
