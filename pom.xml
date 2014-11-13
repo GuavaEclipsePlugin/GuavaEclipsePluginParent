@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>0.21.0</tycho.version>
@@ -19,6 +19,7 @@
 		<connection>scm:git:ssh://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
 		<developerConnection>scm:git:ssh://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
 		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
+    <tag>1.0.2</tag>
   </scm>
 
 	<distributionManagement>
