@@ -13,17 +13,23 @@
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
-		<!-- <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>--> 
+		<!-- <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url> -->
 		<luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url>
 	</properties>
 
 	<scm>
-		<developerConnection>scm:git:https://git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
-    	<connection>scm:git:https://git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
-    	<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
+		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
+		<developerConnection>scm:git:https//${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
+		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
 	</scm>
-	
-	
+
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
 	<repositories>
 		<repository>
 			<id>luna</id>
@@ -44,7 +50,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<tagNameFormat>{project.version}</tagNameFormat>
+					<tagNameFormat>@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -57,6 +63,15 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho.version}</version>
+				<executions>
+					<execution>
+						<id>versions</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>update-pom</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -65,7 +80,42 @@
 				<configuration>
 					<configuration>
 						<pomDependencies>consider</pomDependencies>
+						<environments>
+							<environment>
+								<os>linux</os>
+								<ws>gtk</ws>
+								<arch>x86</arch>
+							</environment>
+							<environment>
+								<os>linux</os>
+								<ws>gtk</ws>
+								<arch>x86_64</arch>
+							</environment>
+							<environment>
+								<os>win32</os>
+								<ws>win32</ws>
+								<arch>x86</arch>
+							</environment>
+							<environment>
+								<os>win32</os>
+								<ws>win32</ws>
+								<arch>x86_64</arch>
+							</environment>
+							<environment>
+								<os>macosx</os>
+								<ws>cocoa</ws>
+								<arch>x86_64</arch>
+							</environment>
+						</environments>
 					</configuration>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
 				</configuration>
 			</plugin>
 		</plugins>
