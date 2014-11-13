@@ -137,7 +137,7 @@
                                 <artifactId>maven-scm-plugin</artifactId>
                                 <configuration>
                                         <basedir>${project.basedir}</basedir>
-                                        <includes>${project.basedir}/GuavaEclipsePlugin/META-INF/MANIFEST.MF,${project.basedir}/GuavaEclipseFeature/feature.xml,${project.basedir}/GuavaEclipseSite/site.xml</includes>
+                                        <includes>${basedir}/GuavaEclipsePlugin/META-INF/MANIFEST.MF,${basedir}/GuavaEclipseFeature/feature.xml,${basedir}/GuavaEclipseSite/site.xml</includes>
                                         <message>[maven-release-plugin] prepare release of OSGI artifacts</message>
                                 </configuration>
                         </plugin>
