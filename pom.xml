@@ -11,13 +11,13 @@
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
-		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
-		<!-- <luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url> -->
+		<!-- <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url> -->
+		<luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url>
 	</properties>
 
 	<scm>
-		<connection>scm:git:ssh://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
-		<developerConnection>scm:git:ssh://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
+		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
+		<developerConnection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
 		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
   </scm>
 
