@@ -2,7 +2,7 @@
 <feature
       id="GuavaEclipseFeature"
       label="Guava Eclipse Feature"
-      version="1.0.2">
+      version="1.0.3.qualifier">
 
    <description url="https://sourceforge.net/p/guavaeclipse/wiki/Home/">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
@@ -211,7 +211,7 @@ Visit http://www.eclipse.org
          id="GuavaEclipsePlugin"
          download-size="32"
          install-size="0"
-         version="1.0.2"
+         version="1.0.3.qualifier"
          unpack="false"/>
 
 </feature>

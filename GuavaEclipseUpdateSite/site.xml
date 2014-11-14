@@ -8,5 +8,5 @@ equals(Object object)
 hashCode()
 compareTo(...)
    </description>
-   <feature url="features/GuavaEclipseFeature_1.0.2.jar" id="GuavaEclipseFeature" version="1.0.2"/>
+   <feature url="features/GuavaEclipseFeature_1.0.3.qualifier.jar" id="GuavaEclipseFeature" version="1.0.3.qualifier"/>
 </site>
