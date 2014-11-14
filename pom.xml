@@ -49,8 +49,9 @@
 				<version>2.5.1</version>
 				<configuration>
 					<tagNameFormat>@{project.version}</tagNameFormat>
-                    <preparationGoals>clean -DnewVersion=${releaseVersion} -Dprudent=truetycho-versions-plugin:set-version scm:checkin</preparationGoals>
+                    <preparationGoals>clean verify -DnewVersion=${releaseVersion} -Dprudent=true org.eclipse.tycho:tycho-versions-plugin:set-version scm:checkin</preparationGoals>
                 	<arguments>-Prelease</arguments>
+                	<autoVersionSubmodules>true</autoVersionSubmodules>
         		</configuration> 
 			</plugin>
 			<plugin>
@@ -126,13 +127,14 @@
         <id>release</id>
         <build>
                 <plugins>
-                        <plugin>
-                                <groupId>org.sonatype.tycho</groupId>
-                                <artifactId>maven-osgi-packaging-plugin</artifactId>
-                                <configuration>
-                                        <strictVersions>false</strictVersions>
-                                </configuration>
-                        </plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<strictVersions>false</strictVersions>
+				</configuration>
+			</plugin>
                         <plugin>
                                 <artifactId>maven-scm-plugin</artifactId>
                                 <configuration>
