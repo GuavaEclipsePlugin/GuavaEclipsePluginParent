@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>0.21.0</tycho.version>
@@ -114,31 +114,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<profiles>
-<profile>
-        <id>release</id>
-        <build>
-                <plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-packaging-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<strictVersions>false</strictVersions>
-				</configuration>
-			</plugin>
-                        <plugin>
-                                <artifactId>maven-scm-plugin</artifactId>
-                                <configuration>
-                                        <basedir>${project.basedir}</basedir>
-                                        <includes>${basedir}/GuavaEclipsePlugin/META-INF/MANIFEST.MF,${basedir}/GuavaEclipseFeature/feature.xml,${basedir}/GuavaEclipseSite/site.xml</includes>
-                                        <message>[maven-release-plugin] prepare release of OSGI artifacts</message>
-                                </configuration>
-                        </plugin>
-                </plugins>
-        </build>
-</profile>
-	
-	</profiles>
+
 </project>
