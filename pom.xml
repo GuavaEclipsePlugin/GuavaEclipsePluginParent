@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
@@ -13,13 +14,21 @@
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
 		<!-- <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url> -->
 		<luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url>
+
+		<!-- <swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url> -->
+		<swtbot.url>file:/D:/Wad/p2repos/swtbot/swtbot</swtbot.url>
+
+
+		<test.vmparams></test.vmparams>
+		<uitest.vmparams>-Dorg.eclipse.swtbot.search.timeout=10000 -Xmx1024m -XX:MaxPermSize=512m</uitest.vmparams>
+		<skipIntegrationTests>false</skipIntegrationTests>
 	</properties>
 
 	<scm>
 		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
 		<developerConnection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
 		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
-  </scm>
+	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -34,10 +43,16 @@
 			<url>${luna-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
-
+		<repository>
+			<id>swtbot</id>
+			<url>${swtbot.url}</url>
+			<layout>p2</layout>
+		</repository>
 	</repositories>
 	<modules>
 		<module>GuavaEclipsePlugin</module>
+		<module>GuavaEclipseTest</module>
+		<module>GuavaEclipseSwtBotTest</module>
 		<module>GuavaEclipseFeature</module>
 		<module>GuavaEclipseUpdateSite</module>
 	</modules>
@@ -49,12 +64,12 @@
 				<version>2.5.1</version>
 				<configuration>
 					<tagNameFormat>@{project.version}</tagNameFormat>
-                    <preparationGoals>clean -DnewVersion=${releaseVersion} -Dprudent=true org.eclipse.tycho:tycho-versions-plugin:set-version verify scm:checkin</preparationGoals>
-                	<arguments>-Prelease</arguments>
-                	<autoVersionSubmodules>true</autoVersionSubmodules>
-                	<useReleaseProfile>true</useReleaseProfile>
-                	<releaseProfiles>release</releaseProfiles>
-        		</configuration> 
+					<preparationGoals>clean -DnewVersion=${releaseVersion} -Dprudent=true org.eclipse.tycho:tycho-versions-plugin:set-version verify scm:checkin</preparationGoals>
+					<arguments>-Prelease</arguments>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>true</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -104,15 +119,32 @@
 					</configuration>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<useUIHarness>true</useUIHarness>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-packaging-plugin</artifactId>
+						<configuration>
+							<strictVersions>false</strictVersions>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-scm-plugin</artifactId>
+						<configuration>
+							<basedir>${project.basedir}</basedir>
+							<includes>${basedir}/GuavaEclipsePlugin/META-INF/MANIFEST.MF,${basedir}/GuavaEclipseFeature/feature.xml,${basedir}/GuavaEclipseSite/site.xml</includes>
+							<message>[maven-release-plugin] prepare release of OSGI artifacts</message>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 
 </project>
