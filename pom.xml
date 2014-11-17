@@ -24,6 +24,16 @@
 		<skipIntegrationTests>false</skipIntegrationTests>
 	</properties>
 
+	<licenses>
+		<license>
+	      <name>Apache License, Version 2.0</name>
+	      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>SourceForge Trac Bugs/FeatureRequests</system>
+		<url>https://sourceforge.net/p/guavaeclipse/_list/tickets?source=navbar</url>
+	</issueManagement>
 	<scm>
 		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
 		<developerConnection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
