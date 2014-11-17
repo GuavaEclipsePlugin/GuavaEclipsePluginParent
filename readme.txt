@@ -1,3 +1,25 @@
+Guava Eclipse Plugin 1.0.2 RELEASE NOTES
+
+We are pleased to announce the Guava Eclipse Plugin 1.0.2 release!
+
+GuavaEclipsePlugin_1.0.2.jar
+MD5 checksum 
+SHA1 checksum 
+
+
+New features:
+- FR#5: Maven and Tycho to build the plugin (https://sourceforge.net/p/guavaeclipse/feature-requests/5/)
+- FR#6: Provide unit tests (https://sourceforge.net/p/guavaeclipse/feature-requests/6/)
+- Refactored Code for Preference Page
+
+Fixed Bugs:
+- 
+
+Known Issues:
+- FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
+
+---------------------------------------------------------------------------------------------------
+
 Guava Eclipse Plugin 1.0.1 RELEASE NOTES
 
 We are pleased to announce the Guava Eclipse Plugin 1.0.1 release!
