@@ -3,14 +3,14 @@ package com.builder.creator;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.guavaeclipse.constants.EqualsEqualityType;
+import net.sf.guavaeclipse.preferences.EqualsEqualityType;
+import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 
-import com.builder.constant.MethodGenerationStratergy;
-import com.builder.constant.UserPrefernce;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.utils.Utils;
 
@@ -24,7 +24,7 @@ public class EqualsCreator extends AbstractCreator
         throws JavaModelException
     {
         super(insertionPoint, fields);
-		eet = UserPrefernce.getEqualsEqualityType();
+		eet = UserPreferenceUtil.getEqualsEqualityType();
     }
 
     @Override

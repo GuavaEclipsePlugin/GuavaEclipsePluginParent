@@ -2,6 +2,9 @@ package com.builder.creator;
 
 import java.util.List;
 
+import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -9,8 +12,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
-import com.builder.constant.MethodGenerationStratergy;
-import com.builder.constant.UserPrefernce;
 import com.builder.dto.MethodInsertionPoint;
 
 @SuppressWarnings({ "rawtypes" })
@@ -25,7 +26,7 @@ public abstract class AbstractCreator {
         this.fields = null;
         this.insertionPoint = insertionPoint;
         this.fields = fields;
-        methodGenerationStratergy = UserPrefernce.getMethodGenerationStratergy();
+        methodGenerationStratergy = UserPreferenceUtil.getMethodGenerationStratergy();
         if (methodGenerationStratergy == MethodGenerationStratergy.SMART_OPTION) {
             ITypeHierarchy a = this.insertionPoint.getInsertionType().newSupertypeHierarchy(new NullProgressMonitor());
 			IType superTypes[] = a.getAllSuperclasses(this.insertionPoint.getInsertionType());

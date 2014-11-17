@@ -37,7 +37,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="com.builder.preferences.UserPreferencePage"
+            class="net.sf.guavaeclipse.preferences.UserPreferencePage"
             id="com.builder.preferences.UserPreferencePage"
             name="Guava Preference ">
       </page>
@@ -45,7 +45,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.builder.preferences.PreferenceInitializer">
+            class="net.sf.guavaeclipse.preferences.PreferenceInitializer">
       </initializer>
    </extension>
 

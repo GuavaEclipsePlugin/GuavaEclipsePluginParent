@@ -3,11 +3,12 @@ package com.builder.creator;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 
-import com.builder.constant.MethodGenerationStratergy;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.utils.Utils;
 
