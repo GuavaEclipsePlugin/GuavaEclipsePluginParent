@@ -1,3 +1,20 @@
+/* Copyright 2014
+ * 
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.builder.creator;
 
 import java.util.Iterator;
@@ -22,25 +39,33 @@ public class ToStringCreator extends AbstractCreator
         super(insertionPoint, fields);
     }
 
-    public void generate()
+    @Override
+	public void generate()
         throws JavaModelException
     {
         StringBuilder content = new StringBuilder();
-        content.append("\n@Override\n");
+		content.append("@Override\n");
         content.append("public String toString() {\n");
-        content.append("\treturn Objects.toStringHelper(this)\n");
+		content.append("  return Objects.toStringHelper(this)\n");
         if(methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER)
-            content.append("\t\t.add(\"super\", super.toString())\n");
+			content.append("    .add(\"super\", super.toString())\n");
         String field;
-        for(Iterator iterator = fields.iterator(); iterator.hasNext(); content.append("\t\t.add(\"").append(field).append("\", ").append(field).append(")\n"))
+		for (Iterator iterator = fields.iterator(); iterator.hasNext(); content
+				.append("    .add(\"").append(field).append("\", ")
+				.append(field).append(")\n"))
             field = (String)iterator.next();
 
-        content.append("\t\t.toString();\n");
+		content.append("    .toString();\n");
         content.append("}\n");
         IMethod method = Utils.getMethod(insertionPoint.getInsertionType(), "toString");
-        if(method != null)
+		if (method != null) {
             method.delete(true, new NullProgressMonitor());
-        insertionPoint.getInsertionType().createMethod(content.toString(), insertionPoint.getInsertionMember(), true, new NullProgressMonitor());
+		}
+		insertionPoint.getInsertionType().createMethod(
+				formatCode(content.toString()),
+				insertionPoint.getInsertionMember(), 
+				true,
+				new NullProgressMonitor());
         generateImport("com.google.common.base.Objects");
     }
 }

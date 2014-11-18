@@ -1,3 +1,20 @@
+/* Copyright 2014
+ * 
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.builder.creator;
 
 import java.util.Iterator;
@@ -32,9 +49,9 @@ public class EqualsCreator extends AbstractCreator
         throws JavaModelException
     {
         StringBuilder content = new StringBuilder();
-        content.append("\n\t@Override\n");
-        content.append("public int hashCode(){\n");
-        content.append("\treturn Objects.hashCode(");
+		content.append("@Override\n");
+		content.append("public int hashCode(){\n");
+		content.append("   return Objects.hashCode(");
         if(methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER)
             content.append("super.hashCode(), ");
         for(Iterator iterator = fields.iterator(); iterator.hasNext();)
@@ -45,40 +62,62 @@ public class EqualsCreator extends AbstractCreator
             else
                 content.append(field).append(", ");
         }
-
-        content.trimToSize();
         content.append(");\n");
-        content.append("}\n");
+		content.append("}\n");
+		content.append("\n");
         IMethod method = Utils.getMethod(insertionPoint.getInsertionType(), "hashCode");
-        if(method != null)
+        if(method != null) {
             method.delete(true, new NullProgressMonitor());
-        StringBuilder equalsContent = new StringBuilder();
-        equalsContent.append(content.toString());
-        equalsContent.append("\n@Override\n");
-        equalsContent.append("public boolean equals(Object object){\n");
+        }
+		insertionPoint.getInsertionType().createMethod(
+				formatCode(content.toString()),
+				insertionPoint.getInsertionMember(), 
+				true,
+				new NullProgressMonitor());
+
+		content = new StringBuilder();
+		content.append("@Override\n");
+		content.append("public boolean equals(Object object){\n");
 		if (eet == EqualsEqualityType.CLASS_EQUALITY) {
-			equalsContent.append("\tif (object != null && getClass() == object.getClass()) {\n");
+			content.append("   if (object != null && getClass() == object.getClass()) {\n");
 		} else {
-        equalsContent.append("\tif (object instanceof ").append(insertionPoint.getInsertionType().getElementName()).append(") {\n");
+			content.append("   if (object instanceof ")
+					.append(insertionPoint.getInsertionType().getElementName())
+					.append(") {\n");
 		}
-        if(methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER)
-            equalsContent.append("\t\tif (!super.equals(object)) \n\t\t\treturn false;\n");
-        equalsContent.append((new StringBuilder("\t\t")).append(insertionPoint.getInsertionType().getElementName()).toString()).append(" that = (").append(insertionPoint.getInsertionType().getElementName()).append(") object;\n");
-        equalsContent.append("\t\treturn ");
+        if(methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
+			content.append("      if (!super.equals(object))\n");
+			content.append("         return false;\n");
+        }
+		content.append("      ")
+				.append(insertionPoint.getInsertionType().getElementName())
+				.append(" that = (")
+				.append(insertionPoint.getInsertionType().getElementName())
+				.append(") object;\n");
+		content.append("      return ");
         String field;
-        for(Iterator iterator1 = fields.iterator(); iterator1.hasNext(); equalsContent.append("Objects.equal(this.").append(field).append(", that.").append(field).append(")"))
+        for(Iterator iterator1 = fields.iterator(); iterator1.hasNext(); content.append("Objects.equal(this.").append(field).append(", that.").append(field).append(")"))
         {
             field = (String)iterator1.next();
             if(!((String)fields.get(0)).equals(field))
-                equalsContent.append("\n\t\t\t&& ");
+				content.append("\n         && ");
         }
 
-        equalsContent.append(";\n\t}\n\treturn false;\n");
-        equalsContent.append("}\n");
+		content.append(";\n   }\n   return false;\n");
+		content.append("}");
         IMethod equalsMethod = Utils.getMethod(insertionPoint.getInsertionType(), "equals");
         if(equalsMethod != null)
             equalsMethod.delete(true, new NullProgressMonitor());
-        insertionPoint.getInsertionType().createMethod(equalsContent.toString(), insertionPoint.getInsertionMember(), true, new NullProgressMonitor());
+
+		insertionPoint.getInsertionType()
+				.createMethod(
+				formatCode(content.toString()),
+				insertionPoint.getInsertionMember(), 
+				true,
+				new NullProgressMonitor());
+
         generateImport("com.google.common.base.Objects");
+
     }
+
 }
