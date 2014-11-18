@@ -11,9 +11,10 @@ New features:
 - FR#5: Maven and Tycho to build the plugin (https://sourceforge.net/p/guavaeclipse/feature-requests/5/)
 - FR#6: Provide unit tests (https://sourceforge.net/p/guavaeclipse/feature-requests/6/)
 - Refactored Code for Preference Page
+- FR#9: PreFormat generated Methods (https://sourceforge.net/p/guavaeclipse/feature-requests/9/)
 
 Fixed Bugs:
-- 
+- Bug#3: NullPointerException when multiple Editors are open (https://sourceforge.net/p/guavaeclipse/bugs/3/)
 
 Known Issues:
 - FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
