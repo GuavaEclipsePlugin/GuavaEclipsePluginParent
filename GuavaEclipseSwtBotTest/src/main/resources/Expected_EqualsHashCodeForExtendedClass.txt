@@ -1,0 +1,26 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.Objects;
+
+public class ExtendSimpleSample extends SampleSimple {
+   
+   
+   private Object objectValue;
+
+@Override
+public int hashCode(){
+	return Objects.hashCode(super.hashCode(), objectValue);
+}
+
+@Override
+public boolean equals(Object object){
+	if (object instanceof ExtendSimpleSample) {
+		if (!super.equals(object)) 
+			return false;
+		ExtendSimpleSample that = (ExtendSimpleSample) object;
+		return Objects.equal(this.objectValue, that.objectValue);
+	}
+	return false;
+}
+   
+}
