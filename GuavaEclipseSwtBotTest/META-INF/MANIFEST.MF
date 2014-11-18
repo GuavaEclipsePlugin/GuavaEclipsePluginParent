@@ -7,5 +7,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: 
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.swtbot.go;bundle-version="2.2.1",
- GuavaEclipsePlugin;bundle-version="1.0.2",
- com.google.guava;bundle-version="15.0.0"
+ GuavaEclipsePlugin;bundle-version="1.0.2"
