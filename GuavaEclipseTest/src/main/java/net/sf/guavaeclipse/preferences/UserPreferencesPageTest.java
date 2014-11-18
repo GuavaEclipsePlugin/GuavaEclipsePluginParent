@@ -20,18 +20,8 @@ package net.sf.guavaeclipse.preferences;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Map;
-
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.ToolFactory;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.text.edits.MalformedTreeException;
-import org.eclipse.text.edits.TextEdit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -53,48 +43,6 @@ public class UserPreferencesPageTest {
 	@After
 	public void tearDown() throws Exception {
 		waitForJobs();
-	}
-
-	private static final String expectedText = 
-			"	@Override\n" + 
-			"	public int hashCode(){\n" + 
-			"		return Objects.hashCode(intValue, strValue);\n" + 
-			"	}\n" + 
-			"	\n" + 
-			"	@Override\n" + 
-			"	public boolean equals(Object object){\n" + 
-			"		if (object instanceof SampleSimple) {\n" + 
-			"			SampleSimple that = (SampleSimple) object;\n" + 
-			"			return Objects.equal(this.intValue, that.intValue)\n" + 
-			"				&& Objects.equal(this.strValue, that.strValue);\n" + 
-			"		}\n" + 
-			"		return false;\n" + 
-			"	}\n";
-
-	@SuppressWarnings({ "deprecation", "rawtypes" })
-	@Test
-	public void test() {
-
-		Map options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
-		final CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(
-options);
-		TextEdit format = codeFormatter.format(CodeFormatter.K_UNKNOWN,
-				expectedText, 
-				0,
-				expectedText.length(),
- 1,
- null);
-		IDocument document = new Document(expectedText);
-		try {
-			format.apply(document);
-		} catch (MalformedTreeException e) {
-			e.printStackTrace();
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-
-		// display the formatted string on the System out
-		System.out.println(document.get());
 	}
 
 	@Test
