@@ -27,9 +27,9 @@ import com.builder.Activator;
 public class UserPreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 
-	public static final String SUPERCALL_STRATEGY_PREFERENCE = "guavaPreference";
+	public static final String SUPERCALL_STRATEGY_PREFERENCE = "guavaPreference"; //$NON-NLS-1$
 
-	public static final String INSTANCEOF_CLASSEQUALS_PREFERENCE = "guavaEclipseEqualsPreference";
+	public static final String INSTANCEOF_CLASSEQUALS_PREFERENCE = "guavaEclipseEqualsPreference"; //$NON-NLS-1$
 
 	public UserPreferencePage() {
 		super(1);
