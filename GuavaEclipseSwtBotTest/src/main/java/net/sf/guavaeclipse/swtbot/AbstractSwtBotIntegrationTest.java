@@ -28,6 +28,10 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -65,6 +69,63 @@ public abstract class AbstractSwtBotIntegrationTest {
 		}
 	}
 
+	protected static void selectUseAlwaysSuper() {
+		SWTBotMenu menu = bot.menu("Window").click();
+		menu.menu("Preferences").click();
+
+		SWTBotShell shell = bot.shell("Preferences");
+		shell.activate();
+		sleep();
+		bot.tree().getTreeItem("Guava Preference").select();
+		sleep();
+
+		SWTBotRadio radio = bot
+				.radio("Use super class Methods (toString(), equals() and hashCode())");
+		radio.setFocus();
+		radio.click();
+		sleep();
+		bot.button("OK").click();
+		bot.waitUntil(Conditions.shellCloses(shell));
+	}
+
+	protected static void selectNoSuper() {
+		SWTBotMenu menu = bot.menu("Window").click();
+		menu.menu("Preferences").click();
+
+		SWTBotShell shell = bot.shell("Preferences");
+		shell.activate();
+		sleep();
+		bot.tree().getTreeItem("Guava Preference").select();
+		sleep();
+
+		SWTBotRadio radio = bot
+				.radio("Don't use super class Methods (toString(), equals() and hashCode())");
+		radio.setFocus();
+		radio.click();
+		sleep();
+		bot.button("OK").click();
+		bot.waitUntil(Conditions.shellCloses(shell));
+	}
+
+	protected static void selectSmartSuper() {
+		SWTBotMenu menu = bot.menu("Window").click();
+		menu.menu("Preferences").click();
+
+		SWTBotShell shell = bot.shell("Preferences");
+		shell.activate();
+		sleep();
+		bot.tree().getTreeItem("Guava Preference").select();
+		sleep();
+
+		SWTBotRadio radio = bot
+				.radio("Use super class Methods (Only if superclass is not \"java.lang.Object\")");
+		radio.setFocus();
+		radio.click();
+		sleep();
+		bot.button("OK").click();
+		bot.waitUntil(Conditions.shellCloses(shell));
+	}
+
 	public void createJavaProjectIfNotExists(String projectName) {
 		try {
 			bot.menu("Window").menu("Open Perspective").menu("Java").click();
@@ -79,6 +140,19 @@ public abstract class AbstractSwtBotIntegrationTest {
 				bot.menu("File").menu("New").menu("Java Project").click();
 				bot.textWithLabel("&Project name:").setText(projectName);
 				bot.button("Next >").click();
+				try {
+					bot.tabItem("&Libraries").activate();
+					bot.button("Add Variable...").click();
+					bot.button("Extend...").click();
+					bot.tree().getTreeItem("plugins").expand()
+							.getNode("com.google.guava_15.0.0.v201403281430.jar")
+							.select();
+					bot.button("OK").click();
+				} catch (WidgetNotFoundException e2) {
+					// ignore
+					bot.button("Cancel").click();
+					bot.button("Cancel").click();
+				}
 				bot.button("Finish").click();
 				sleep();
 				bot.tree().getTreeItem(projectName).select();
@@ -88,7 +162,7 @@ public abstract class AbstractSwtBotIntegrationTest {
 		}
 	}
 
-	public String readExpectedFile(String fileName) throws IOException,
+	public String readFile(String fileName) throws IOException,
 			URISyntaxException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(this
 				.getClass().getClassLoader().getResourceAsStream(fileName)));
@@ -104,6 +178,30 @@ public abstract class AbstractSwtBotIntegrationTest {
 			return sb.toString();
 		} finally {
 			br.close();
+		}
+	}
+
+	public void deleteClassIfExists(String className) {
+		try {
+			bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+			SWTBotTreeItem select = bot.tree().getTreeItem("SampleJavaProject").getNode("src")
+					.getNode("net.sf.guavaeclipse.test")
+					.getNode(className + ".java").select();
+			select.contextMenu("Delete").click();
+			bot.waitUntil(Conditions.shellIsActive("Delete"));
+			bot.button("OK").click();
+			bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+			SWTBotTreeItem select2 = bot.tree().getTreeItem("SampleJavaProject").getNode("src")
+					.getNode("net.sf.guavaeclipse.test").select();
+			if (select2.isSelected()) {
+				return;
+			} else {
+				select2.select();
+				return;
+			}
+			// bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+		} catch (WidgetNotFoundException e) {
+			// do nothing java perspective is already open
 		}
 	}
 

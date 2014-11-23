@@ -1,0 +1,8 @@
+package net.sf.guavaeclipse.test;
+
+public class ExtendedSimpleClass extends SampleSimple {
+
+
+	private Object objectValue;
+
+}

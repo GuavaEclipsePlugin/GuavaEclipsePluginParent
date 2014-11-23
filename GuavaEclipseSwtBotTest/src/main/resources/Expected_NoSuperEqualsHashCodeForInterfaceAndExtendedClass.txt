@@ -13,14 +13,12 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), stringValue);
+		return Objects.hashCode(stringValue);
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof SampleExtendedAndInterface) {
-			if (!super.equals(object))
-				return false;
 			SampleExtendedAndInterface that = (SampleExtendedAndInterface) object;
 			return Objects.equal(this.stringValue, that.stringValue);
 		}

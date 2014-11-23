@@ -2,7 +2,7 @@ package net.sf.guavaeclipse.test;
 
 import com.google.common.base.Objects;
 
-public class SampleExtendedAndInterface extends SampleSimple implements InterfaceSample {
+public class SampleImplementsInterface implements InterfaceSample {
 
 	private String stringValue;
 
@@ -18,10 +18,10 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof SampleExtendedAndInterface) {
+		if (object instanceof SampleImplementsInterface) {
 			if (!super.equals(object))
 				return false;
-			SampleExtendedAndInterface that = (SampleExtendedAndInterface) object;
+			SampleImplementsInterface that = (SampleImplementsInterface) object;
 			return Objects.equal(this.stringValue, that.stringValue);
 		}
 		return false;

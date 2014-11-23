@@ -9,14 +9,12 @@ public class ExtendedSimpleClass extends SampleSimple {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), objectValue);
+		return Objects.hashCode(objectValue);
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof ExtendedSimpleClass) {
-			if (!super.equals(object))
-				return false;
 			ExtendedSimpleClass that = (ExtendedSimpleClass) object;
 			return Objects.equal(this.objectValue, that.objectValue);
 		}

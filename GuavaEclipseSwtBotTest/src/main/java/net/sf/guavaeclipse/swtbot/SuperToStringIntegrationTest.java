@@ -1,24 +1,10 @@
-/* Copyright 2014
- * 
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package net.sf.guavaeclipse.swtbot;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
@@ -32,17 +18,15 @@ import org.junit.runners.MethodSorters;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EqualsHashCodeIntegrationTest extends
-		AbstractSwtBotIntegrationTest {
+public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
 	@BeforeClass
 	public static void changePreferences() throws Exception {
-		selectSmartSuper();
+		selectUseAlwaysSuper();
 	}
-
+	
 	@Test
-	public void createEqualsHashCode() throws Exception {
-
+	public void createToStringMethod() throws IOException, URISyntaxException {
 		createJavaProjectIfNotExists("SampleJavaProject");
 		deleteClassIfExists("SampleSimple");
 		bot.menu("New").menu("Class").click();
@@ -50,25 +34,26 @@ public class EqualsHashCodeIntegrationTest extends
 		bot.textWithLabel("Na&me:").setText("SampleSimple");
 		bot.button("Finish").click();
 		sleep();
-        SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+		SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
 		cutEditor.setText(readFile("Input_SampleSimple.txt"));
-        cutEditor.save();
+		cutEditor.save();
 		cutEditor.selectLine(9);
+
 		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
 		contextMenu.setFocus();
-		contextMenu.menu("Generate hashCode() and equals()").click();
+		contextMenu.menu("Generate toString()").click();
 		bot.button("Select All").click();
 		bot.button("OK").click();
 		sleep();
 		cutEditor.save();
 
 		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_EqualsHashCode.txt");
+		String expectedText = readFile("Expected_SuperToString.txt");
 		assertThat(editorText, is(expectedText));
 	}
 
 	@Test
-	public void createEqualsHashCodeForExtendedClass() throws Exception {
+	public void createtoStringForExtendedClass() throws Exception {
 
 		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
         bot.tree().getTreeItem("SampleJavaProject").select();
@@ -86,19 +71,19 @@ public class EqualsHashCodeIntegrationTest extends
 		cutEditor.selectLine(7);
         SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
         contextMenu.setFocus();
-        contextMenu.menu("Generate hashCode() and equals()").click();
+        contextMenu.menu("Generate toString()").click();
         bot.button("Select All").click();
         bot.button("OK").click();
 		sleep();
         cutEditor.save();
 
         String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_EqualsHashCodeForExtendedClass.txt");
+		String expectedText = readFile("Expected_ToStringForExtendedClass.txt");
 		assertThat(editorText, is(expectedText));
 	}
 	
 	@Test
-	public void createEqualsHashCodeForInterfaceClass() throws Exception {
+	public void createtoStringForInterfaceClass() throws Exception {
 
 		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
 		bot.tree().getTreeItem("SampleJavaProject").select();
@@ -130,19 +115,19 @@ public class EqualsHashCodeIntegrationTest extends
 		cutEditor.selectLine(11);
 		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
 		contextMenu.setFocus();
-		contextMenu.menu("Generate hashCode() and equals()").click();
+		contextMenu.menu("Generate toString()").click();
 		bot.button("Select All").click();
 		bot.button("OK").click();
 		sleep();
 		cutEditor.save();
 
 		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_EqualsHashCodeForInterfaceClass.txt");
+		String expectedText = readFile("Expected_SuperToStringForInterfaceClass.txt");
 		assertThat(editorText, is(expectedText));
 	}
 
 	@Test
-	public void createEqualsHashCodeForInterfaceClassAndExtendedClass()
+	public void createtoStringForInterfaceClassAndExtendedClass()
 			throws Exception {
 		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
 		bot.tree().getTreeItem("SampleJavaProject").select();
@@ -165,14 +150,14 @@ public class EqualsHashCodeIntegrationTest extends
 		cutEditor.selectLine(11);
 		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
 		contextMenu.setFocus();
-		contextMenu.menu("Generate hashCode() and equals()").click();
+		contextMenu.menu("Generate toString()").click();
 		bot.button("Select All").click();
 		bot.button("OK").click();
 		sleep();
 		cutEditor.save();
 
 		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt");
+		String expectedText = readFile("Expected_ToStringForInterfaceAndExtendedClass.txt");
 		assertThat(editorText, is(expectedText));
 	}
 
