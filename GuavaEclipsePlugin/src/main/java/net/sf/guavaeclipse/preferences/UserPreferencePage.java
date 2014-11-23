@@ -32,9 +32,7 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 	public static final String INSTANCEOF_CLASSEQUALS_PREFERENCE = "guavaEclipseEqualsPreference"; //$NON-NLS-1$
 
 	public UserPreferencePage() {
-		super(1);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Method generation preferences");
+		super(FieldEditorPreferencePage.GRID);
 	}
 
 	@Override
@@ -53,17 +51,19 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 						new String[] {
 								"Use super class Methods (Only if superclass is not \"java.lang.Object\")",
 								MethodGenerationStratergy.SMART_OPTION.name() } },
-				getFieldEditorParent()));
+				getFieldEditorParent(), true));
 		addField(new RadioGroupFieldEditor(INSTANCEOF_CLASSEQUALS_PREFERENCE,
 				"instanceOf or class equality in equals", 1, new String[][] {
 						new String[] { "Use instanceof in equals()",
 								EqualsEqualityType.INSTANCEOF.name() },
 						new String[] { "use class equality",
 								EqualsEqualityType.CLASS_EQUALITY.name() } },
-				getFieldEditorParent()));
+				getFieldEditorParent(), true));
 	}
 
 	@Override
 	public void init(IWorkbench iworkbench) {
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setDescription("Method generation preferences");
 	}
 }
