@@ -8,5 +8,5 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>GuavaEclipseUpdateSite</artifactId>
-  <packaging>eclipse-update-site</packaging>
+  <packaging>eclipse-repository</packaging>
 </project>

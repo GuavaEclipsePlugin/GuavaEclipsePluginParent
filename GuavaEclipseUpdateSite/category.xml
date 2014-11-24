@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite">
+      &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
+following methods using Google guava utilty classes
+toString()
+equals(Object object)
+hashCode()
+compareTo(...)
+   </description>
+   <feature url="features/GuavaEclipseFeature_0.0.0.jar" id="GuavaEclipseFeature" version="0.0.0">
+    <category name="GuavaEclipse"/>
+   </feature>
+   <category-def name="GuavaEclipse" label="Guava Eclipse Plugin"/>
+</site>
