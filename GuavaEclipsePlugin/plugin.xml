@@ -6,29 +6,29 @@
          point="org.eclipse.ui.popupMenus">
      
       <viewerContribution
-            id="com.builder.actions.TextEditorActions"
+            id="net.sf.guavaeclipse.actions.TextEditorActions"
             targetID="#CompilationUnitEditorContext">
          <menu
                id="googleGuavaEditor"
                label="Google Guava Helper"
                path="additions"/>
          <action
-               class="com.builder.actions.ToStringAction"
-               id="com.builder.actions.toString"
+               class="net.sf.guavaeclipse.actions.ToStringAction"
+               id="net.sf.guavaeclipse.actions.toString"
                label="Generate toString()"
                menubarPath="googleGuavaEditor/additions"
                tooltip="Generate toString()"
                />
          <action
-               class="com.builder.actions.EqualsAction"
-               id="com.builder.actions.equals"
+               class="net.sf.guavaeclipse.actions.EqualsAction"
+               id="net.sf.guavaeclipse.actions.equals"
                label="Generate hashCode() and equals()"
                menubarPath="googleGuavaEditor/additions"
                tooltip="Generate equals() and hashCode()"
                />
 	   <action
-               class="com.builder.actions.CompareAction"
-               id="com.builder.actions.equals"
+               class="net.sf.guavaeclipse.actions.CompareAction"
+               id="net.sf.guavaeclipse.actions.equals"
                label="Generate compareTo()"
                menubarPath="googleGuavaEditor/additions"
                tooltip="Generate compareTo()"/>
@@ -38,7 +38,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="net.sf.guavaeclipse.preferences.UserPreferencePage"
-            id="com.builder.preferences.UserPreferencePage"
+            id="net.sf.guavaeclipse.preferences.UserPreferencePage"
             name="Guava Preference ">
       </page>
    </extension>

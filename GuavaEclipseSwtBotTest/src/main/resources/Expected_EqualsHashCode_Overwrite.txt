@@ -1,0 +1,29 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.Objects;
+
+public class SampleSimple {
+
+	private int intValue;
+
+	private String strValue;
+
+	private String strValue2;
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(intValue, strValue, strValue2);
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SampleSimple) {
+			SampleSimple that = (SampleSimple) object;
+			return Objects.equal(this.intValue, that.intValue)
+					&& Objects.equal(this.strValue, that.strValue)
+					&& Objects.equal(this.strValue2, that.strValue2);
+		}
+		return false;
+	}
+
+}

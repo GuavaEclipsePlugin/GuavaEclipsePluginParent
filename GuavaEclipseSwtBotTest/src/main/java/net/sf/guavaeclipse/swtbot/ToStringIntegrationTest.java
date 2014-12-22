@@ -1,6 +1,7 @@
 package net.sf.guavaeclipse.swtbot;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
@@ -20,145 +21,174 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
-	@BeforeClass
-	public static void changePreferences() throws Exception {
-		selectSmartSuper();
-	}
-	
-	@Test
-	public void createToStringMethod() throws IOException, URISyntaxException {
-		createJavaProjectIfNotExists("SampleJavaProject");
-		deleteClassIfExists("SampleSimple");
-		bot.menu("New").menu("Class").click();
-		bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-		bot.textWithLabel("Na&me:").setText("SampleSimple");
-		bot.button("Finish").click();
-		sleep();
-		SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-		cutEditor.setText(readFile("Input_SampleSimple.txt"));
-		cutEditor.save();
-		cutEditor.selectLine(9);
+  @BeforeClass
+  public static void changePreferences() throws Exception {
+    selectSmartSuper();
+  }
 
-		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-		contextMenu.setFocus();
-		contextMenu.menu("Generate toString()").click();
-		bot.button("Select All").click();
-		bot.button("OK").click();
-		sleep();
-		cutEditor.save();
+  @Test
+  public void createToStringMethod() throws IOException, URISyntaxException {
+    createJavaProjectIfNotExists("SampleJavaProject");
+    deleteClassIfExists("SampleSimple");
+    bot.menu("New").menu("Class").click();
+    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
+    bot.textWithLabel("Na&me:").setText("SampleSimple");
+    bot.button("Finish").click();
+    sleep();
+    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_SampleSimple.txt"));
+    cutEditor.save();
+    cutEditor.selectLine(9);
 
-		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_ToString.txt");
-		assertThat(editorText, is(expectedText));
-	}
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate toString()").click();
+    bot.button("Select All").click();
+    bot.button("OK").click();
+    sleep();
+    cutEditor.save();
 
-	@Test
-	public void createtoStringForExtendedClass() throws Exception {
+    String editorText = cutEditor.getText();
+    String expectedText = readFile("Expected_ToString.txt");
+    assertThat(editorText, is(expectedText));
+  }
 
-		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-        bot.tree().getTreeItem("SampleJavaProject").select();
-		deleteClassIfExists("ExtendedSimpleClass");
-        bot.menu("New").menu("Class").click();
-        bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-        bot.textWithLabel("Na&me:").setText("ExtendedSimpleClass");
-        bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
-        bot.button("Finish").click();
-		sleep();
-        
-        SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-		cutEditor.setText(readFile("Input_ExtendedSimpleClass.txt"));
-        cutEditor.save();
-		cutEditor.selectLine(7);
-        SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-        contextMenu.setFocus();
-        contextMenu.menu("Generate toString()").click();
-        bot.button("Select All").click();
-        bot.button("OK").click();
-		sleep();
-        cutEditor.save();
+  @Test
+  public void createtoStringForExtendedClass() throws Exception {
 
-        String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_ToStringForExtendedClass.txt");
-		assertThat(editorText, is(expectedText));
-	}
-	
-	@Test
-	public void createtoStringForInterfaceClass() throws Exception {
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("ExtendedSimpleClass");
+    bot.menu("New").menu("Class").click();
+    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
+    bot.textWithLabel("Na&me:").setText("ExtendedSimpleClass");
+    bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
+    bot.button("Finish").click();
+    sleep();
 
-		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-		bot.tree().getTreeItem("SampleJavaProject").select();
-		deleteClassIfExists("InterfaceSample");
-		bot.menu("New").menu("Interface").click();
-		bot.textWithLabel("Na&me:").setText("InterfaceSample");
-		bot.button("Finish").click();
-		sleep();
-		SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-		cutEditor.setText(readFile("Input_InterfaceSample.txt"));
-		cutEditor.save();
+    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_ExtendedSimpleClass.txt"));
+    cutEditor.save();
+    cutEditor.selectLine(7);
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate toString()").click();
+    bot.button("Select All").click();
+    bot.button("OK").click();
+    sleep();
+    cutEditor.save();
 
-		bot.tree().getTreeItem("SampleJavaProject").select();
-		deleteClassIfExists("SampleImplementsInterface");
-		bot.menu("New").menu("Class").click();
-		bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-		bot.textWithLabel("Na&me:").setText("SampleImplementsInterface");
-		bot.button("Add...").click();
-		bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
-		sleep();
-		bot.button("OK").click();
-		// sleep();
-		bot.button("Finish").click();
-		sleep();
+    String editorText = cutEditor.getText();
+    String expectedText = readFile("Expected_ToStringForExtendedClass.txt");
+    assertThat(editorText, is(expectedText));
+  }
 
-		cutEditor = bot.activeEditor().toTextEditor();
-		cutEditor.setText(readFile("Input_SampleImplementsInterface.txt"));
-		cutEditor.save();
-		cutEditor.selectLine(11);
-		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-		contextMenu.setFocus();
-		contextMenu.menu("Generate toString()").click();
-		bot.button("Select All").click();
-		bot.button("OK").click();
-		sleep();
-		cutEditor.save();
+  @Test
+  public void createtoStringForInterfaceClass() throws Exception {
 
-		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_ToStringForInterfaceClass.txt");
-		assertThat(editorText, is(expectedText));
-	}
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("InterfaceSample");
+    bot.menu("New").menu("Interface").click();
+    bot.textWithLabel("Na&me:").setText("InterfaceSample");
+    bot.button("Finish").click();
+    sleep();
+    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_InterfaceSample.txt"));
+    cutEditor.save();
 
-	@Test
-	public void createtoStringForInterfaceClassAndExtendedClass()
-			throws Exception {
-		bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-		bot.tree().getTreeItem("SampleJavaProject").select();
-		deleteClassIfExists("SampleExtendedAndInterface");
-		bot.menu("New").menu("Class").click();
-		bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-		bot.textWithLabel("Na&me:").setText("SampleExtendedAndInterface");
-		bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
-		bot.button("Add...").click();
-		bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
-		sleep();
-		bot.button("OK").click();
-		// sleep();
-		bot.button("Finish").click();
-		sleep();
-		
-		SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-		cutEditor.setText(readFile("Input_SampleExtendedAndInterface.txt"));
-		cutEditor.save();
-		cutEditor.selectLine(11);
-		SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-		contextMenu.setFocus();
-		contextMenu.menu("Generate toString()").click();
-		bot.button("Select All").click();
-		bot.button("OK").click();
-		sleep();
-		cutEditor.save();
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("SampleImplementsInterface");
+    bot.menu("New").menu("Class").click();
+    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
+    bot.textWithLabel("Na&me:").setText("SampleImplementsInterface");
+    bot.button("Add...").click();
+    bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
+    sleep();
+    bot.button("OK").click();
+    // sleep();
+    bot.button("Finish").click();
+    sleep();
 
-		String editorText = cutEditor.getText();
-		String expectedText = readFile("Expected_ToStringForInterfaceAndExtendedClass.txt");
-		assertThat(editorText, is(expectedText));
-	}
+    cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_SampleImplementsInterface.txt"));
+    cutEditor.save();
+    cutEditor.selectLine(11);
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate toString()").click();
+    bot.button("Select All").click();
+    bot.button("OK").click();
+    sleep();
+    cutEditor.save();
+
+    String editorText = cutEditor.getText();
+    String expectedText = readFile("Expected_ToStringForInterfaceClass.txt");
+    assertThat(editorText, is(expectedText));
+  }
+
+  @Test
+  public void createtoStringForInterfaceClassAndExtendedClass() throws Exception {
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("SampleExtendedAndInterface");
+    bot.menu("New").menu("Class").click();
+    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
+    bot.textWithLabel("Na&me:").setText("SampleExtendedAndInterface");
+    bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
+    bot.button("Add...").click();
+    bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
+    sleep();
+    bot.button("OK").click();
+    // sleep();
+    bot.button("Finish").click();
+    sleep();
+
+    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_SampleExtendedAndInterface.txt"));
+    cutEditor.save();
+    cutEditor.selectLine(11);
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate toString()").click();
+    bot.button("Select All").click();
+    bot.button("OK").click();
+    sleep();
+    cutEditor.save();
+
+    String editorText = cutEditor.getText();
+    String expectedText = readFile("Expected_ToStringForInterfaceAndExtendedClass.txt");
+    assertThat(editorText, is(expectedText));
+  }
+
+  @Test
+  public void replaceToString() throws Exception {
+
+    SWTBotMenu menu = bot.menu("Navigate").click();
+    menu.menu("Open Type...").click();
+    bot.text().setText("SampleSimple");
+    bot.button("OK").click();
+    sleep();
+    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
+    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_ToString.txt"));
+    cutEditor.save();
+    cutEditor.selectLine(9);
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate toString()").click();
+
+    assertNotNull(bot.label("toString() method already present. Replace it?"));
+    bot.button("Yes").click();
+    sleep();
+    bot.button("Select All").click();
+    bot.button("OK").click();
+    sleep();
+    cutEditor.save();
+
+    String editorText = cutEditor.getText();
+    String expectedText = readFile("Expected_ToString_Overwrite.txt");
+    assertThat(editorText, is(expectedText));
+  }
+
 
 }
