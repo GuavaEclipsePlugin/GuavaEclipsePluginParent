@@ -1,4 +1,20 @@
-package net.sf.guavaeclipse.swtbot;
+/*
+ * Copyright 2014
+ * 
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package net.sf.guavaeclipse.swtbot.tostring;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -6,6 +22,8 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
@@ -30,26 +48,12 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
   public void createToStringMethod() throws IOException, URISyntaxException {
     createJavaProjectIfNotExists("SampleJavaProject");
     deleteClassIfExists("SampleSimple");
-    bot.menu("New").menu("Class").click();
-    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-    bot.textWithLabel("Na&me:").setText("SampleSimple");
-    bot.button("Finish").click();
-    sleep();
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
-
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate toString()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    createClass("SampleSimple");
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
+    executePluginMethod(cutEditor, "Generate toString()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_ToString.txt");
+    String expectedText = readFile("toStringResults/Expected_ToString.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -66,20 +70,11 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     bot.button("Finish").click();
     sleep();
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_ExtendedSimpleClass.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(7);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate toString()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
+    executePluginMethod(cutEditor, "Generate toString()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_ToStringForExtendedClass.txt");
+    String expectedText = readFile("toStringResults/Expected_ToStringForExtendedClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -94,7 +89,7 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     bot.button("Finish").click();
     sleep();
     SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_InterfaceSample.txt"));
+    cutEditor.setText(readFile("input/Input_InterfaceSample.txt"));
     cutEditor.save();
 
     bot.tree().getTreeItem("SampleJavaProject").select();
@@ -110,20 +105,11 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     bot.button("Finish").click();
     sleep();
 
-    cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleImplementsInterface.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(11);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate toString()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    cutEditor = setClassContent("SampleImplementsInterface", 11);
+    executePluginMethod(cutEditor, "Generate toString()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_ToStringForInterfaceClass.txt");
+    String expectedText = readFile("toStringResults/Expected_ToStringForInterfaceClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -144,20 +130,12 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     bot.button("Finish").click();
     sleep();
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleExtendedAndInterface.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(11);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate toString()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleExtendedAndInterface", 11);
+    executePluginMethod(cutEditor, "Generate toString()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_ToStringForInterfaceAndExtendedClass.txt");
+    String expectedText =
+        readFile("toStringResults/Expected_ToStringForInterfaceAndExtendedClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -169,10 +147,8 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     bot.text().setText("SampleSimple");
     bot.button("OK").click();
     sleep();
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_ToString.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
+
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_ToString", 9);
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
     contextMenu.menu("Generate toString()").click();
@@ -186,7 +162,7 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     cutEditor.save();
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_ToString_Overwrite.txt");
+    String expectedText = readFile("toStringResults/Expected_ToString_Overwrite.txt");
     assertThat(editorText, is(expectedText));
   }
 

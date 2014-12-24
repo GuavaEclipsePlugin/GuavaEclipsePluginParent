@@ -14,11 +14,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.sf.guavaeclipse.swtbot;
+package net.sf.guavaeclipse.swtbot.equalshashcode;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
@@ -44,25 +45,12 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
 
     createJavaProjectIfNotExists("SampleJavaProject");
     deleteClassIfExists("SampleSimple");
-    bot.menu("New").menu("Class").click();
-    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-    bot.textWithLabel("Na&me:").setText("SampleSimple");
-    bot.button("Finish").click();
-    sleep();
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate hashCode() and equals()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    createClass("SampleSimple");
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
+    executePluginMethod(cutEditor, "Generate hashCode() and equals()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCode.txt");
+    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -79,20 +67,12 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("Finish").click();
     sleep();
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_ExtendedSimpleClass.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(7);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate hashCode() and equals()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
+    executePluginMethod(cutEditor, "Generate hashCode() and equals()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCodeForExtendedClass.txt");
+    String expectedText =
+        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -107,7 +87,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("Finish").click();
     sleep();
     SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_InterfaceSample.txt"));
+    cutEditor.setText(readFile("input/Input_InterfaceSample.txt"));
     cutEditor.save();
 
     bot.tree().getTreeItem("SampleJavaProject").select();
@@ -123,20 +103,12 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("Finish").click();
     sleep();
 
-    cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleImplementsInterface.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(11);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate hashCode() and equals()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    cutEditor = setClassContent("SampleImplementsInterface", 11);
+    executePluginMethod(cutEditor, "Generate hashCode() and equals()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCodeForInterfaceClass.txt");
+    String expectedText =
+        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -157,20 +129,12 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("Finish").click();
     sleep();
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleExtendedAndInterface.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(11);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate hashCode() and equals()").click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleExtendedAndInterface", 11);
+    executePluginMethod(cutEditor, "Generate hashCode() and equals()");
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt");
+    String expectedText =
+        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt");
     assertThat(editorText, is(expectedText));
   }
 
@@ -182,10 +146,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.text().setText("SampleSimple");
     bot.button("OK").click();
     sleep();
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_EqualsHashCode.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
     contextMenu.menu("Generate hashCode() and equals()").click();
@@ -198,17 +159,14 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     cutEditor.save();
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCode_Overwrite.txt");
+    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt");
     assertThat(editorText, is(expectedText));
   }
 
   @Test
   public void replaceEqualsAndHashCodeAgain() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_EqualsHashCode.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
     contextMenu.menu("Generate hashCode() and equals()").click();
@@ -225,17 +183,14 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     cutEditor.save();
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCode_Overwrite.txt");
+    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt");
     assertThat(editorText, is(expectedText));
   }
 
   @Test
   public void replaceOnlyEquals() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_EqualsHashCode.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
     contextMenu.menu("Generate hashCode() and equals()").click();
@@ -252,17 +207,15 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     cutEditor.save();
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCode_OverwriteOnlyEquals.txt");
+    String expectedText =
+        readFile("equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyEquals.txt");
     assertThat(editorText, is(expectedText));
   }
 
   @Test
   public void replaceOnlyHashCode() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("Input_SampleSimple_Overwrite_EqualsHashCode.txt"));
-    cutEditor.save();
-    cutEditor.selectLine(9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
     contextMenu.menu("Generate hashCode() and equals()").click();
@@ -279,7 +232,8 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     cutEditor.save();
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("Expected_EqualsHashCode_OverwriteOnlyHashCode.txt");
+    String expectedText =
+        readFile("equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyHashCode.txt");
     assertThat(editorText, is(expectedText));
   }
 
