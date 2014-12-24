@@ -40,36 +40,43 @@ import org.eclipse.text.edits.TextEdit;
 
 import com.builder.dto.MethodInsertionPoint;
 
-
 public abstract class AbstractMethodCreator {
 
-  protected MethodInsertionPoint insertionPoint;
-  protected List<String> fields;
-  protected MethodGenerationStratergy methodGenerationStratergy;
+  protected final MethodInsertionPoint insertionPoint;
+  protected final List<String> fields;
+  protected final MethodGenerationStratergy methodGenerationStratergy;
 
   public AbstractMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     this.insertionPoint = insertionPoint;
     this.fields = fields;
-    methodGenerationStratergy = UserPreferenceUtil.getMethodGenerationStratergy();
+    this.methodGenerationStratergy = getMethodGenerationStratergy();
+  }
+
+  private MethodGenerationStratergy getMethodGenerationStratergy() throws JavaModelException {
+    MethodGenerationStratergy methodGenerationStratergy =
+        UserPreferenceUtil.getMethodGenerationStratergy();
     if (methodGenerationStratergy == MethodGenerationStratergy.SMART_OPTION) {
       ITypeHierarchy a =
           this.insertionPoint.getInsertionType().newSupertypeHierarchy(new NullProgressMonitor());
       IType superTypes[] = a.getAllSuperclasses(this.insertionPoint.getInsertionType());
-      if (superTypes.length == 1 && superTypes[0].getKey().equals("Ljava/lang/Object;"))
-        methodGenerationStratergy = MethodGenerationStratergy.DONT_USE_SUPER;
-      else
-        methodGenerationStratergy = MethodGenerationStratergy.USE_SUPER;
+      if (superTypes.length == 1 && superTypes[0].getKey().equals("Ljava/lang/Object;")) {
+        return MethodGenerationStratergy.DONT_USE_SUPER;
+      } else {
+        return MethodGenerationStratergy.USE_SUPER;
+      }
     }
+    return methodGenerationStratergy;
   }
 
   public void generate() throws JavaModelException {
     String content = getMethodContent();
     IMethod method = getExistingMethod(getMethodToDelete());
     boolean methodDeleted = deleteExistingMethod(method);
-    insertionPoint.getInsertionType()
-        .createMethod(formatCode(content),
-            methodDeleted ? null : insertionPoint.getInsertionMember(), true,
+    insertionPoint.getInsertionType().createMethod(
+            formatCode(content),
+            methodDeleted ? null : insertionPoint.getInsertionMember(),
+            true,
             new NullProgressMonitor());
     generateImport(getPackageToImport());
   }
@@ -78,6 +85,10 @@ public abstract class AbstractMethodCreator {
 
   protected abstract String getMethodToDelete();
 
+  /**
+   * @return the package which is to add as import statement, overwrite if something else as
+   *         <code>com.google.common.base.Objects</code> is necessary
+   */
   protected String getPackageToImport() {
     return "com.google.common.base.Objects";
   }
@@ -95,10 +106,12 @@ public abstract class AbstractMethodCreator {
 
   protected ICompilationUnit getCompilationUnit() {
     IJavaElement parentElement = insertionPoint.getInsertionType().getParent();
-    if (parentElement == null)
+    if (parentElement == null) {
       return null;
-    if (parentElement.getElementType() == 5)
+    }
+    if (parentElement.getElementType() == 5) {
       return (ICompilationUnit) parentElement;
+    }
     return null;
   }
 
@@ -134,4 +147,3 @@ public abstract class AbstractMethodCreator {
   }
 
 }
-
