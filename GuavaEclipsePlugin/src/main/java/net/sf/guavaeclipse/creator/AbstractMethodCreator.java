@@ -14,13 +14,14 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.builder.creator;
+package net.sf.guavaeclipse.creator;
 
 import java.util.List;
 import java.util.Map;
 
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -39,14 +40,14 @@ import org.eclipse.text.edits.TextEdit;
 
 import com.builder.dto.MethodInsertionPoint;
 
-@SuppressWarnings({"rawtypes"})
-public abstract class AbstractCreator {
+
+public abstract class AbstractMethodCreator {
 
   protected MethodInsertionPoint insertionPoint;
-  protected List fields;
+  protected List<String> fields;
   protected MethodGenerationStratergy methodGenerationStratergy;
 
-  public AbstractCreator(MethodInsertionPoint insertionPoint, List fields)
+  public AbstractMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     this.insertionPoint = insertionPoint;
     this.fields = fields;
@@ -62,21 +63,34 @@ public abstract class AbstractCreator {
     }
   }
 
-  public abstract void generate() throws JavaModelException;
+  public void generate() throws JavaModelException {
+    String content = getMethodContent();
+    IMethod method = getExistingMethod(getMethodToDelete());
+    boolean methodDeleted = deleteExistingMethod(method);
+    insertionPoint.getInsertionType()
+        .createMethod(formatCode(content),
+            methodDeleted ? null : insertionPoint.getInsertionMember(), true,
+            new NullProgressMonitor());
+    generateImport(getPackageToImport());
+  }
+
+  protected abstract String getMethodContent();
+
+  protected abstract String getMethodToDelete();
+
+  protected String getPackageToImport() {
+    return "com.google.common.base.Objects";
+  }
 
   protected void generateImport(String importStatement) throws JavaModelException {
-    // ICompilationUnit compilationUnit = null;
-    // do {
-    // IJavaElement parentElement = insertionPoint.getInsertionType().getParent();
-    // if (parentElement == null)
-    // break;
-    // if (parentElement.getElementType() == 5)
-    // compilationUnit = (ICompilationUnit) parentElement;
-    // } while (compilationUnit == null);
     ICompilationUnit compilationUnit = getCompilationUnit();
-    if (compilationUnit != null)
+    if (compilationUnit != null) {
       compilationUnit.createImport(importStatement, null, new NullProgressMonitor());
+    }
+  }
 
+  protected IMethod getExistingMethod(String methodName) throws JavaModelException {
+    return Utils.getMethod(insertionPoint.getInsertionType(), methodName);
   }
 
   protected ICompilationUnit getCompilationUnit() {
@@ -88,6 +102,7 @@ public abstract class AbstractCreator {
     return null;
   }
 
+  @SuppressWarnings("rawtypes")
   protected String formatCode(String newCode) {
     try {
       Map options = getCompilationUnit().getJavaProject().getOptions(true);
@@ -119,3 +134,4 @@ public abstract class AbstractCreator {
   }
 
 }
+

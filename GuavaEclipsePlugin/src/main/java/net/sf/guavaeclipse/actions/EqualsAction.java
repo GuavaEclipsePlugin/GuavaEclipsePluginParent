@@ -16,8 +16,13 @@
  */
 package net.sf.guavaeclipse.actions;
 
+import static net.sf.guavaeclipse.creator.MethodCreatorType.EQUALS_CREATOR;
+import static net.sf.guavaeclipse.creator.MethodCreatorType.HASH_CODE_CREATOR;
+
 import java.util.List;
 
+import net.sf.guavaeclipse.creator.AbstractMethodCreator;
+import net.sf.guavaeclipse.creator.MethodCreatorFactory;
 import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.IMethod;
@@ -31,8 +36,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import com.builder.creator.AbstractCreator;
-import com.builder.creator.EqualsCreator;
 import com.builder.dialog.GenericDialogBox;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.exception.MehodGenerationFailedException;
@@ -118,11 +121,22 @@ public class EqualsAction implements IEditorActionDelegate {
                   .append(insertionPoint.getInsertionType().getElementName()).append("' class")
                   .toString());
       dialog.open();
+
       if (!dialog.isCancelPressed()) {
-        AbstractCreator builder =
-            new EqualsCreator(dialog.getInsertionPoint(), dialog.getResultAsList(), createEquals,
-                createHashCode);
-        builder.generate();
+        AbstractMethodCreator creator = null;
+        if (createHashCode) {
+          creator =
+              MethodCreatorFactory.constructMethodCreator(HASH_CODE_CREATOR, insertionPoint,
+                  dialog.getResultAsList());
+          creator.generate();
+        }
+
+        if (createEquals) {
+          creator =
+              MethodCreatorFactory.constructMethodCreator(EQUALS_CREATOR, insertionPoint,
+                  dialog.getResultAsList());
+          creator.generate();
+        }
       }
 
     } catch (MehodGenerationFailedException e) {

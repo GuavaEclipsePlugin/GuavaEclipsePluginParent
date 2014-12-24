@@ -16,6 +16,9 @@
  */
 package net.sf.guavaeclipse.actions;
 
+import static net.sf.guavaeclipse.creator.MethodCreatorType.TO_STRING_CREATOR;
+import net.sf.guavaeclipse.creator.AbstractMethodCreator;
+import net.sf.guavaeclipse.creator.MethodCreatorFactory;
 import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.IMethod;
@@ -29,7 +32,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import com.builder.creator.ToStringCreator;
 import com.builder.dialog.GenericDialogBox;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.exception.MehodGenerationFailedException;
@@ -85,9 +87,10 @@ public class ToStringAction implements IEditorActionDelegate {
                   .toString());
       dialog.open();
       if (!dialog.isCancelPressed()) {
-        ToStringCreator builder =
-            new ToStringCreator(dialog.getInsertionPoint(), dialog.getResultAsList());
-        builder.generate();
+        AbstractMethodCreator creator =
+            MethodCreatorFactory.constructMethodCreator(TO_STRING_CREATOR, insertionPoint,
+                dialog.getResultAsList());
+        creator.generate();
       }
     } catch (MehodGenerationFailedException e) {
       MessageDialog.openError(shell, "Unable to generate toString()", e.getReason());

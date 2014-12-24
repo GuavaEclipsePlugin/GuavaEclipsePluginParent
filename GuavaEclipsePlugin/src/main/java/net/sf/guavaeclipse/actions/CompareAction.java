@@ -16,8 +16,12 @@
  */
 package net.sf.guavaeclipse.actions;
 
+import static net.sf.guavaeclipse.creator.MethodCreatorType.COMPARE_CREATOR;
+
 import java.util.List;
 
+import net.sf.guavaeclipse.creator.AbstractMethodCreator;
+import net.sf.guavaeclipse.creator.MethodCreatorFactory;
 import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.IMethod;
@@ -31,8 +35,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import com.builder.creator.AbstractCreator;
-import com.builder.creator.CompareCreator;
 import com.builder.dialog.GenericDialogBox;
 import com.builder.dto.MethodInsertionPoint;
 import com.builder.exception.MehodGenerationFailedException;
@@ -93,9 +95,10 @@ public class CompareAction implements IEditorActionDelegate {
                   .toString());
       dialog.open();
       if (!dialog.isCancelPressed()) {
-        AbstractCreator builder =
-            new CompareCreator(dialog.getInsertionPoint(), dialog.getResultAsList());
-        builder.generate();
+        AbstractMethodCreator creator =
+            MethodCreatorFactory.constructMethodCreator(COMPARE_CREATOR, insertionPoint,
+                dialog.getResultAsList());
+        creator.generate();
       }
     } catch (MehodGenerationFailedException e) {
       MessageDialog.openError(shell, "Unable to generate compare()", e.getReason());
