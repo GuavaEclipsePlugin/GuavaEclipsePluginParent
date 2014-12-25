@@ -16,6 +16,7 @@
  */
 package net.sf.guavaeclipse.swtbot.tostring;
 
+import static net.sf.guavaeclipse.swtbot.MenuSelection.TO_STRING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -24,7 +25,6 @@ import java.net.URISyntaxException;
 
 import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
-import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.BeforeClass;
@@ -44,11 +44,7 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
 
   @Test
   public void createToStringMethod() throws IOException, URISyntaxException {
-    createJavaProjectIfNotExists("SampleJavaProject");
-    deleteClassIfExists("SampleSimple");
-    createClass("SampleSimple");
-    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
-    executePluginMethod(cutEditor, "Generate toString()");
+    SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
     String expectedText = readFile("toStringResults/Expected_SuperToString.txt");
@@ -58,18 +54,7 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
   @Test
   public void createtoStringForExtendedClass() throws Exception {
 
-    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-    bot.tree().getTreeItem("SampleJavaProject").select();
-    deleteClassIfExists("ExtendedSimpleClass");
-    bot.menu("New").menu("Class").click();
-    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-    bot.textWithLabel("Na&me:").setText("ExtendedSimpleClass");
-    bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
-    bot.button("Finish").click();
-    sleep();
-
-    SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
-    executePluginMethod(cutEditor, "Generate toString()");
+    SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(TO_STRING);
 
     String editorText = cutEditor.getText();
     String expectedText = readFile("toStringResults/Expected_ToStringForExtendedClass.txt");
@@ -79,32 +64,7 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
   @Test
   public void createtoStringForInterfaceClass() throws Exception {
 
-    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-    bot.tree().getTreeItem("SampleJavaProject").select();
-    deleteClassIfExists("InterfaceSample");
-    bot.menu("New").menu("Interface").click();
-    bot.textWithLabel("Na&me:").setText("InterfaceSample");
-    bot.button("Finish").click();
-    sleep();
-    SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
-    cutEditor.setText(readFile("input/Input_InterfaceSample.txt"));
-    cutEditor.save();
-
-    bot.tree().getTreeItem("SampleJavaProject").select();
-    deleteClassIfExists("SampleImplementsInterface");
-    bot.menu("New").menu("Class").click();
-    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-    bot.textWithLabel("Na&me:").setText("SampleImplementsInterface");
-    bot.button("Add...").click();
-    bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
-    sleep();
-    bot.button("OK").click();
-    // sleep();
-    bot.button("Finish").click();
-    sleep();
-
-    cutEditor = setClassContent("SampleImplementsInterface", 11);
-    executePluginMethod(cutEditor, "Generate toString()");
+    SWTBotEclipseEditor cutEditor = executeTestForInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
     String expectedText = readFile("toStringResults/Expected_SuperToStringForInterfaceClass.txt");
@@ -113,23 +73,7 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
 
   @Test
   public void createtoStringForInterfaceClassAndExtendedClass() throws Exception {
-    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
-    bot.tree().getTreeItem("SampleJavaProject").select();
-    deleteClassIfExists("SampleExtendedAndInterface");
-    bot.menu("New").menu("Class").click();
-    bot.textWithLabel("Pac&kage:").setText("net.sf.guavaeclipse.test");
-    bot.textWithLabel("Na&me:").setText("SampleExtendedAndInterface");
-    bot.textWithLabel("&Superclass:").setText("net.sf.guavaeclipse.test.SampleSimple");
-    bot.button("Add...").click();
-    bot.text().setText("net.sf.guavaeclipse.test.InterfaceSample");
-    sleep();
-    bot.button("OK").click();
-    // sleep();
-    bot.button("Finish").click();
-    sleep();
-
-    SWTBotEclipseEditor cutEditor = setClassContent("SampleExtendedAndInterface", 11);
-    executePluginMethod(cutEditor, "Generate toString()");
+    SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
     String expectedText =

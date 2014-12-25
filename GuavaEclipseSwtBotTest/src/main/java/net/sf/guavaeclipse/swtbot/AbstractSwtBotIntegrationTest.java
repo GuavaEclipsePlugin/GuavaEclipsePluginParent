@@ -227,10 +227,104 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   public void createClass(String packageName, String className) {
+    this.createClass(packageName, className, null, null);
+  }
+
+  public void createClassWithSuperClass(String className, String superClass) {
+    this.createClass("net.sf.guavaeclipse.test", className, superClass, null);
+  }
+
+  public void createClassWithInterface(String className, String interfaceName) {
+    this.createClass("net.sf.guavaeclipse.test", className, null, interfaceName);
+  }
+
+  public void createClassWithSuperClassAndInterface(String className, String superClass,
+      String interfaceName) {
+    this.createClass("net.sf.guavaeclipse.test", className, superClass, interfaceName);
+  }
+  public void createClass(String packageName, String className, String superClass,
+      String interfaceName) {
     bot.menu("New").menu("Class").click();
     bot.textWithLabel("Pac&kage:").setText(packageName);
     bot.textWithLabel("Na&me:").setText(className);
+    if (superClass != null && !superClass.isEmpty()) {
+      bot.textWithLabel("&Superclass:").setText(superClass);
+    }
+    if (interfaceName != null && !interfaceName.isEmpty()) {
+      bot.button("Add...").click();
+      bot.text().setText(interfaceName);
+      sleep();
+      bot.button("OK").click();
+    }
     bot.button("Finish").click();
     sleep();
   }
+
+  public void createInterface(String interfaceName) {
+    this.createInterface("net.sf.guavaeclipse.test", interfaceName);
+  }
+
+  public void createInterface(String packageName, String interfaceName) {
+    bot.menu("New").menu("Interface").click();
+    bot.textWithLabel("Pac&kage:").setText(packageName);
+    bot.textWithLabel("Na&me:").setText(interfaceName);
+    bot.button("Finish").click();
+    sleep();
+  }
+
+  protected SWTBotEclipseEditor executeTestForSampleSimple(MenuSelection menuSelection)
+      throws IOException, URISyntaxException {
+    createJavaProjectIfNotExists("SampleJavaProject");
+    deleteClassIfExists("SampleSimple");
+    createClass("SampleSimple");
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
+    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    return cutEditor;
+  }
+
+  protected SWTBotEclipseEditor executeTestForExtendedClass(MenuSelection menuSelection)
+      throws IOException, URISyntaxException {
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("ExtendedSimpleClass");
+    createClassWithSuperClass("ExtendedSimpleClass", "net.sf.guavaeclipse.test.SampleSimple");
+
+    SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
+    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    return cutEditor;
+  }
+
+  protected SWTBotEclipseEditor executeTestForInterface(MenuSelection menuSelection)
+      throws IOException, URISyntaxException {
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("InterfaceSample");
+    createInterface("InterfaceSample");
+    SWTBotEclipseEditor cutEditor = setClassContent("InterfaceSample", 1);
+
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("SampleImplementsInterface");
+    createClassWithInterface("SampleImplementsInterface",
+        "net.sf.guavaeclipse.test.InterfaceSample");
+
+    cutEditor = setClassContent("SampleImplementsInterface", 11);
+    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    return cutEditor;
+  }
+
+  protected SWTBotEclipseEditor executeTestForSuperClassAndInterface(MenuSelection menuSelection)
+      throws IOException, URISyntaxException {
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("SampleExtendedAndInterface");
+    createClassWithSuperClassAndInterface("SampleExtendedAndInterface",
+        "net.sf.guavaeclipse.test.SampleSimple", "net.sf.guavaeclipse.test.InterfaceSample");
+
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleExtendedAndInterface", 11);
+    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    return cutEditor;
+  }
+
+
+
 }
