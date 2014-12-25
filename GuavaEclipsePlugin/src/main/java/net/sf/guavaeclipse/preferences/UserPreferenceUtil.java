@@ -17,9 +17,9 @@
  */
 package net.sf.guavaeclipse.preferences;
 
-import org.eclipse.jface.preference.IPreferenceStore;
+import net.sf.guavaeclipse.Activator;
 
-import com.builder.Activator;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 public final class UserPreferenceUtil {
 

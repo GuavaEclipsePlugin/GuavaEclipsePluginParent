@@ -14,11 +14,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.builder.dialog;
+package net.sf.guavaeclipse.dialog;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
@@ -42,8 +44,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.internal.WorkbenchMessages;
-
-import com.builder.dto.MethodInsertionPoint;
 
 @SuppressWarnings({"restriction", "rawtypes", "unchecked"})
 public class GenericDialogBox extends SelectionDialog {

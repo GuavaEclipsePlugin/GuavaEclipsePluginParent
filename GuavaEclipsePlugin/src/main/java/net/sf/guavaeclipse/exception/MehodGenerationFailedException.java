@@ -14,24 +14,20 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.sf.guavaeclipse.creator;
+package net.sf.guavaeclipse.exception;
 
-import java.util.List;
+public class MehodGenerationFailedException extends RuntimeException {
 
-import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.preferences.EqualsEqualityType;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+  private static final long serialVersionUID = -8979205100156352545L;
 
-import org.eclipse.jdt.core.JavaModelException;
+  private final String cause;
 
-public abstract class AbstractEqualsHashCodeMethodCreator extends AbstractMethodCreator {
+	public MehodGenerationFailedException(String cause) {
+		this.cause = cause;
+	}
 
-  protected final EqualsEqualityType eet;
-
-  public AbstractEqualsHashCodeMethodCreator(MethodInsertionPoint insertionPoint,
-      List<String> fields) throws JavaModelException {
-    super(insertionPoint, fields);
-    eet = UserPreferenceUtil.getEqualsEqualityType();
-  }
+	public String getReason() {
+		return cause;
+	}
 
 }

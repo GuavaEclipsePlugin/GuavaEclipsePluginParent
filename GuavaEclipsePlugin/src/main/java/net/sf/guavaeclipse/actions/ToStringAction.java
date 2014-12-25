@@ -19,6 +19,9 @@ package net.sf.guavaeclipse.actions;
 import static net.sf.guavaeclipse.creator.MethodCreatorType.TO_STRING_CREATOR;
 import net.sf.guavaeclipse.creator.AbstractMethodCreator;
 import net.sf.guavaeclipse.creator.MethodCreatorFactory;
+import net.sf.guavaeclipse.dialog.GenericDialogBox;
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.IMethod;
@@ -31,10 +34,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
-
-import com.builder.dialog.GenericDialogBox;
-import com.builder.dto.MethodInsertionPoint;
-import com.builder.exception.MehodGenerationFailedException;
 
 @SuppressWarnings({"restriction"})
 public class ToStringAction implements IEditorActionDelegate {

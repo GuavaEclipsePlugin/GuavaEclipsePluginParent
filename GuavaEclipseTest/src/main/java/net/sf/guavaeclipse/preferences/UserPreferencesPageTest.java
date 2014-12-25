@@ -20,12 +20,11 @@ package net.sf.guavaeclipse.preferences;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import net.sf.guavaeclipse.AbstractTest;
+import net.sf.guavaeclipse.Activator;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import com.builder.Activator;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserPreferencesPageTest extends AbstractTest {

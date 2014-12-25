@@ -19,6 +19,7 @@ package net.sf.guavaeclipse.creator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
@@ -37,8 +38,6 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
-
-import com.builder.dto.MethodInsertionPoint;
 
 public abstract class AbstractMethodCreator {
 

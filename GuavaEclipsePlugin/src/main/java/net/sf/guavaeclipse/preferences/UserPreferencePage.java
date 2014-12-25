@@ -17,12 +17,12 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import net.sf.guavaeclipse.Activator;
+
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
-import com.builder.Activator;
 
 public class UserPreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {

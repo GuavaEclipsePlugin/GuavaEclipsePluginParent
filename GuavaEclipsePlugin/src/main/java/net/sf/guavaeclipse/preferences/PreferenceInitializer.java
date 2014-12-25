@@ -17,10 +17,10 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import net.sf.guavaeclipse.Activator;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-
-import com.builder.Activator;
 
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 

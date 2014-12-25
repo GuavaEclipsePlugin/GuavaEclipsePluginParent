@@ -18,10 +18,10 @@ package net.sf.guavaeclipse.creator;
 
 import java.util.List;
 
-import org.eclipse.jdt.core.JavaModelException;
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 
-import com.builder.dto.MethodInsertionPoint;
-import com.builder.exception.MehodGenerationFailedException;
+import org.eclipse.jdt.core.JavaModelException;
 
 public class MethodCreatorFactory {
 

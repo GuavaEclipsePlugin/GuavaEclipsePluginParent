@@ -20,11 +20,10 @@ package net.sf.guavaeclipse.creator;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 
 import org.eclipse.jdt.core.JavaModelException;
-
-import com.builder.dto.MethodInsertionPoint;
 
 public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 

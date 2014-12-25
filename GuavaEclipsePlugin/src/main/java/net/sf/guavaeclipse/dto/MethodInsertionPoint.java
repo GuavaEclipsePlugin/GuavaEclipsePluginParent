@@ -14,7 +14,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.builder.dto;
+package net.sf.guavaeclipse.dto;
 
 import net.sf.guavaeclipse.utils.Utils;
 

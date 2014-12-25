@@ -20,14 +20,14 @@ package net.sf.guavaeclipse.creator;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
-
-import com.builder.dto.MethodInsertionPoint;
 
 public class CompareMethodCreator extends AbstractMethodCreator {
 

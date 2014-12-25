@@ -14,24 +14,37 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.sf.guavaeclipse.creator;
+package net.sf.guavaeclipse;
 
-import java.util.List;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
-import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.preferences.EqualsEqualityType;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+public class Activator extends AbstractUIPlugin {
 
-import org.eclipse.jdt.core.JavaModelException;
+	public static final String PLUGIN_ID = "GuavaEclipsePlugin";
+	private static Activator plugin;
 
-public abstract class AbstractEqualsHashCodeMethodCreator extends AbstractMethodCreator {
+	public Activator() {
+	}
 
-  protected final EqualsEqualityType eet;
+	@Override
+    public void start(BundleContext context) throws Exception {
+		super.start(context);
+		plugin = this;
+	}
 
-  public AbstractEqualsHashCodeMethodCreator(MethodInsertionPoint insertionPoint,
-      List<String> fields) throws JavaModelException {
-    super(insertionPoint, fields);
-    eet = UserPreferenceUtil.getEqualsEqualityType();
-  }
+	@Override
+    public void stop(BundleContext context) throws Exception {
+		plugin = null;
+		super.stop(context);
+	}
 
+	public static Activator getDefault() {
+		return plugin;
+	}
+
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return imageDescriptorFromPlugin("GuavaEclipsePlugin", path);
+	}
 }
