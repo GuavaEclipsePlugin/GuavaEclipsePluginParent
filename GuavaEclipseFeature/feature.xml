@@ -13,18 +13,8 @@ toString()
 equals(Object object)
 hashCode()
 compareTo(...)
+ReleaseNotes: https://sourceforge.net/projects/guavaeclipse/files/readme.txt/view
    </description>
-
-   <copyright>
-      Guava eclipse allows you to generate the following methods
-toString()
-equals(Object object)
-hashCode()
-compareTo(...)
-
-This plugin is based on technology from the Eclipse Project.
-Visit http://www.eclipse.org
-   </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0.html">
       Apache License
