@@ -8,17 +8,23 @@ New features:
     Snapshot Release UpdateSite (https://sourceforge.net/projects/guavaeclipse/files/SNAPSHOTS/UpdateSite/LATEST/)
 - FR#5: Maven and Tycho to build the plugin (https://sourceforge.net/p/guavaeclipse/feature-requests/5/)
 - FR#6: Provide unit tests (https://sourceforge.net/p/guavaeclipse/feature-requests/6/)
-- Refactored Code for Preference Page
+- Refactored Code for PreferencePage and Creators
+- moved all classes to new package (net.sf.guavaeclipse)
 - FR#9: PreFormat generated Methods (https://sourceforge.net/p/guavaeclipse/feature-requests/9/)
 - Plugin is now available via Update Site
 - added Branding 
 
 Fixed Bugs:
 - Bug#3: NullPointerException when multiple Editors are open (https://sourceforge.net/p/guavaeclipse/bugs/3/)
+- fixed issue when equals and hashcode methods exists
 
 Known Issues:
 - FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
 - Bug #2 CompareTo Method generation includes variables which are not comparable (https://sourceforge.net/p/guavaeclipse/bugs/2/)
+
+
+Every Help is welcome
+
 
 ---------------------------------------------------------------------------------------------------
 
