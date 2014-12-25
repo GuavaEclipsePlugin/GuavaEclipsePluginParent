@@ -121,7 +121,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("No").click();
     assertNotNull(bot.label("equals() already present. Replace it?"));
     bot.button("Yes").click();
-    assertNotNull(bot.label("hashCode() already present. Replace both mehtods?"));
+    assertNotNull(bot.label("hashCode() already present. Replace it?"));
     bot.button("Yes").click();
     bot.button("Select All").click();
     bot.button("OK").click();
@@ -145,7 +145,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("No").click();
     assertNotNull(bot.label("equals() already present. Replace it?"));
     bot.button("Yes").click();
-    assertNotNull(bot.label("hashCode() already present. Replace both mehtods?"));
+    assertNotNull(bot.label("hashCode() already present. Replace it?"));
     bot.button("No").click();
     bot.button("Select All").click();
     bot.button("OK").click();
@@ -170,7 +170,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     bot.button("No").click();
     assertNotNull(bot.label("equals() already present. Replace it?"));
     bot.button("No").click();
-    assertNotNull(bot.label("hashCode() already present. Replace both mehtods?"));
+    assertNotNull(bot.label("hashCode() already present. Replace it?"));
     bot.button("Yes").click();
     bot.button("Select All").click();
     bot.button("OK").click();

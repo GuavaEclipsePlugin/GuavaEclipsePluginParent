@@ -101,7 +101,7 @@ public class EqualsAction implements IEditorActionDelegate {
         if (hashCodeMethod != null) {
           replaceHashCode =
               MessageDialog.openQuestion(shell, "Duplicate Method",
-                  "hashCode() already present. Replace both mehtods?");
+                  "hashCode() already present. Replace it?");
         }
         // when the user don't want to replace both methods return
         if (!replaceEquals && !replaceHashCode) {
