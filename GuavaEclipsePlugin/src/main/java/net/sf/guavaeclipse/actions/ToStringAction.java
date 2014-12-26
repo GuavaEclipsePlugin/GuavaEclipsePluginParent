@@ -17,88 +17,44 @@
 package net.sf.guavaeclipse.actions;
 
 import static net.sf.guavaeclipse.creator.MethodCreatorType.TO_STRING_CREATOR;
-import net.sf.guavaeclipse.creator.AbstractMethodCreator;
-import net.sf.guavaeclipse.creator.MethodCreatorFactory;
-import net.sf.guavaeclipse.dialog.GenericDialogBox;
+
+import java.util.List;
+
+import net.sf.guavaeclipse.creator.MethodCreatorType;
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
-import net.sf.guavaeclipse.utils.Utils;
 
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorActionDelegate;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 
-@SuppressWarnings({"restriction"})
-public class ToStringAction implements IEditorActionDelegate {
+public class ToStringAction extends AbstractAction {
 
-  private CompilationUnitEditor currentEditor;
-  private Shell shell;
 
   public ToStringAction() {}
 
   @Override
-  public final void setActiveEditor(IAction action, IEditorPart targetPart) {
-    if (targetPart == null) {
-      return;
+  public List<String> run(MethodInsertionPoint insertionPoint) throws JavaModelException {
+    IType insertionType = insertionPoint.getInsertionType();
+    if (!validateMethodGeneration(insertionType)) {
+      return null;
     }
-    if (action == null) {
-      return;
+    List<String> fields = validateFields(insertionType);
+    if (fields == null) {
+      return null;
     }
-    currentEditor = (CompilationUnitEditor) targetPart.getAdapter(CompilationUnitEditor.class);
-    shell = targetPart.getSite().getShell();
-  }
+    if (!checkExistingMethod(insertionType)) {
+      return null;
+    }
+    return fields;
+  };
 
   @Override
-  public void run(IAction action) {
-    if (currentEditor == null) {
-      return;
-    }
-    try {
-      MethodInsertionPoint insertionPoint;
-      insertionPoint = new MethodInsertionPoint(currentEditor);
-      String error = Utils.validateMethodGeneration(insertionPoint.getInsertionType());
-      if (error != null) {
-        MessageDialog.openError(shell, "Method Generation Failed", error);
-        return;
-      }
-      IMethod method = Utils.getMethod(insertionPoint.getInsertionType(), "toString");
-      if (method != null) {
-        boolean ans =
-            MessageDialog.openQuestion(shell, "Duplicate Method",
-                "toString() method already present. Replace it?");
-        if (!ans) {
-          return;
-        }
-      }
-
-      GenericDialogBox dialog =
-          new GenericDialogBox(shell, insertionPoint, Utils.getFieldNames(insertionPoint
-              .getInsertionType()), new ArrayContentProvider(), new LabelProvider(),
-              (new StringBuilder("Generate toString() for '"))
-                  .append(insertionPoint.getInsertionType().getElementName()).append("' class")
-                  .toString());
-      dialog.open();
-      if (!dialog.isCancelPressed()) {
-        AbstractMethodCreator creator =
-            MethodCreatorFactory.constructMethodCreator(TO_STRING_CREATOR, insertionPoint,
-                dialog.getResultAsList());
-        creator.generate();
-      }
-    } catch (MehodGenerationFailedException e) {
-      MessageDialog.openError(shell, "Unable to generate toString()", e.getReason());
-    } catch (Exception e) {
-      MessageDialog.openError(shell, "Unable to generate toString()", e.getMessage());
-    }
+  public String getMethodName() {
+    return "toString";
   }
 
-  @Override
-  public void selectionChanged(IAction iaction, ISelection iselection) {}
 
+  @Override
+  public MethodCreatorType getMethodCreatorType() {
+    return TO_STRING_CREATOR;
+  }
 }

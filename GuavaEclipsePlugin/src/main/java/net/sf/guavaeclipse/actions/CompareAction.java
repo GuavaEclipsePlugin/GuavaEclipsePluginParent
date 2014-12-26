@@ -20,93 +20,42 @@ import static net.sf.guavaeclipse.creator.MethodCreatorType.COMPARE_CREATOR;
 
 import java.util.List;
 
-import net.sf.guavaeclipse.creator.AbstractMethodCreator;
-import net.sf.guavaeclipse.creator.MethodCreatorFactory;
-import net.sf.guavaeclipse.dialog.GenericDialogBox;
+import net.sf.guavaeclipse.creator.MethodCreatorType;
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
-import net.sf.guavaeclipse.utils.Utils;
 
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorActionDelegate;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 
-@SuppressWarnings({"restriction"})
-public class CompareAction implements IEditorActionDelegate {
-
-  private CompilationUnitEditor currentEditor;
-  private Shell shell;
+public class CompareAction extends AbstractAction {
 
   public CompareAction() {}
 
+
   @Override
-  public final void setActiveEditor(IAction action, IEditorPart targetPart) {
-    if (targetPart == null) {
-      return;
+  public List<String> run(MethodInsertionPoint insertionPoint) throws JavaModelException {
+    IType insertionType = insertionPoint.getInsertionType();
+    if (!validateMethodGeneration(insertionType)) {
+      return null;
     }
-    if (action == null) {
-      return;
+    List<String> fields = validateNonStaticFields(insertionType);
+    if (fields == null) {
+      return null;
     }
-    currentEditor = (CompilationUnitEditor) targetPart.getAdapter(CompilationUnitEditor.class);
-    shell = targetPart.getSite().getShell();
+    if (!checkExistingMethod(insertionType)) {
+      return null;
+    }
+    return fields;
+  };
+
+  @Override
+  public String getMethodName() {
+    return "compareTo";
   }
 
-  @Override
-  public void run(IAction action) {
-    if (currentEditor == null)
-      return;
 
-    try {
-      MethodInsertionPoint insertionPoint;
-      insertionPoint = new MethodInsertionPoint(currentEditor);
-      String error = Utils.validateMethodGeneration(insertionPoint.getInsertionType());
-      if (error != null) {
-        MessageDialog.openError(shell, "Method Generation Failed", error);
-        return;
-      }
-      List<String> nonStaticFieldNames =
-          Utils.getNonStaticFieldNames(insertionPoint.getInsertionType());
-      if (nonStaticFieldNames.size() == 0) {
-        MessageDialog.openError(shell, "Method Generation Failed",
-            "No non-static field present for method generation.");
-        return;
-      }
-      IMethod equalsMethod = Utils.getMethod(insertionPoint.getInsertionType(), "compareTo");
-      if (equalsMethod != null) {
-        boolean ans =
-            MessageDialog.openQuestion(shell, "Duplicate Method",
-                "compareTo() already present. Replace it?");
-        if (!ans)
-          return;
-      }
-      GenericDialogBox dialog =
-          new GenericDialogBox(shell, insertionPoint, Utils.getNonStaticFieldNames(insertionPoint
-              .getInsertionType()), new ArrayContentProvider(), new LabelProvider(),
-              (new StringBuilder("Generate compareTo() for '"))
-                  .append(insertionPoint.getInsertionType().getElementName()).append("' class")
-                  .toString());
-      dialog.open();
-      if (!dialog.isCancelPressed()) {
-        AbstractMethodCreator creator =
-            MethodCreatorFactory.constructMethodCreator(COMPARE_CREATOR, insertionPoint,
-                dialog.getResultAsList());
-        creator.generate();
-      }
-    } catch (MehodGenerationFailedException e) {
-      MessageDialog.openError(shell, "Unable to generate compare()", e.getReason());
-    } catch (Exception e) {
-      MessageDialog.openError(shell, "Unable to generate compare()", e.getMessage());
-    }
+  @Override
+  public MethodCreatorType getMethodCreatorType() {
+    return COMPARE_CREATOR;
   }
-
-  @Override
-  public void selectionChanged(IAction iaction, ISelection iselection) {}
 
 }
