@@ -1,3 +1,22 @@
+Guava Eclipse Plugin 1.2.0 RELEASE NOTES
+
+We are pleased to announce the Guava Eclipse Plugin 1.1.0 release!
+
+New features:
+- FR#1: provide setting to optionally use getters (https://sourceforge.net/p/guavaeclipse/feature-requests/1/)
+
+Fixed Bugs:
+
+Known Issues:
+- FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
+- Bug #2 CompareTo Method generation includes variables which are not comparable (https://sourceforge.net/p/guavaeclipse/bugs/2/)
+
+
+Every Help is welcome
+
+
+---------------------------------------------------------------------------------------------------
+
 Guava Eclipse Plugin 1.1.0 RELEASE NOTES
 
 We are pleased to announce the Guava Eclipse Plugin 1.1.0 release!
