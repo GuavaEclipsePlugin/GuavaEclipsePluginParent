@@ -124,6 +124,42 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectUseGetter() {
+    SWTBotMenu menu = bot.menu("Window").click();
+    menu.menu("Preferences").click();
+
+    SWTBotShell shell = bot.shell("Preferences");
+    shell.activate();
+    sleep();
+    bot.tree().getTreeItem("Guava Preference").select();
+    sleep();
+
+    SWTBotRadio radio = bot.radio("use getter methods");
+    radio.setFocus();
+    radio.click();
+    sleep();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectUseField() {
+    SWTBotMenu menu = bot.menu("Window").click();
+    menu.menu("Preferences").click();
+
+    SWTBotShell shell = bot.shell("Preferences");
+    shell.activate();
+    sleep();
+    bot.tree().getTreeItem("Guava Preference").select();
+    sleep();
+
+    SWTBotRadio radio = bot.radio("use fields");
+    radio.setFocus();
+    radio.click();
+    sleep();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   public void createJavaProjectIfNotExists(String projectName) {
     try {
       bot.menu("Window").menu("Open Perspective").menu("Java").click();
@@ -325,6 +361,33 @@ public abstract class AbstractSwtBotIntegrationTest {
     return cutEditor;
   }
 
+  protected void generateGetter(SWTBotEclipseEditor cutEditor, int lineNrwithGetter,
+      String fieldName) {
+    cutEditor.selectLine(lineNrwithGetter);
+    SWTBotMenu contextMenu = cutEditor.contextMenu("Source");
+    contextMenu.setFocus();
+    contextMenu.menu("Generate Getters and Setters...").click();
+    SWTBotShell shell = bot.shell("Generate Getters and Setters");
+    shell.activate();
+    sleep();
+    bot.tree().setFocus();
+    bot.tree().getTreeItem(fieldName).select();
+    bot.tree().getTreeItem(fieldName).expand();
+    SWTBotTreeItem select =
+        bot.tree().getTreeItem(fieldName).getNode(getGetterMethodName(fieldName)).select();
+    select.check();
+    bot.comboBox().setSelection("After '" + fieldName + "'");
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+    sleep();
+  }
 
+  private String getGetterMethodName(String field) {
+    StringBuilder bu = new StringBuilder("get");
+    bu.append(field.substring(0, 1).toUpperCase());
+    bu.append(field.substring(1, field.length()));
+    bu.append("()");
+    return bu.toString();
+  }
 
 }

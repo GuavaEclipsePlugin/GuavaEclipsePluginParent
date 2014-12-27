@@ -57,7 +57,8 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
       String field = fieldsIterator.next();
-      content.append("Objects.equal(this.").append(field).append(", that.").append(field)
+      content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
+          .append(getGetterOrField(field))
           .append(")");
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append("\n         && ");

@@ -44,7 +44,7 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     }
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
       String field = fieldsIterator.next();
-      content.append(field);
+      content.append(getGetterOrField(field));
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append(", ");
       }
