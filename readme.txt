@@ -4,6 +4,7 @@ We are pleased to announce the Guava Eclipse Plugin 1.1.0 release!
 
 New features:
 - FR#1: provide setting to optionally use getters (https://sourceforge.net/p/guavaeclipse/feature-requests/1/)
+- FR#7: Arrays.deepHashCode vs Objects.hashCode (https://sourceforge.net/p/guavaeclipse/feature-requests/7/)
 
 Fixed Bugs:
 

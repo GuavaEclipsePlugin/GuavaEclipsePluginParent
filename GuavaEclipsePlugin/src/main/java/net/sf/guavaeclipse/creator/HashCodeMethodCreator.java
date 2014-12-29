@@ -17,19 +17,26 @@
  */
 package net.sf.guavaeclipse.creator;
 
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 
 import org.eclipse.jdt.core.JavaModelException;
 
 public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
+  private final HashCodeStrategyType hcst;
+
   public HashCodeMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
+    hcst = UserPreferenceUtil.getHashCodeStrategyType();
   }
 
   @Override
@@ -38,7 +45,11 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
     content.append("@Override\n");
     content.append("public int hashCode(){\n");
-    content.append("   return Objects.hashCode(");
+    if (hcst == ARRAYS_DEEP_HASH_CODE) {
+      content.append("   return Arrays.deepHashCode(new Object[] {");
+    } else {
+      content.append("   return Objects.hashCode(");
+    }
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
       content.append("super.hashCode(), ");
     }
@@ -49,6 +60,9 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         content.append(", ");
       }
     }
+    if (hcst == ARRAYS_DEEP_HASH_CODE) {
+      content.append("}");
+    }
     content.append(");\n");
     content.append("}\n");
     content.append("\n");
@@ -58,6 +72,14 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   @Override
   protected String getMethodToDelete() {
     return "hashCode";
+  }
+
+  @Override
+  protected String getPackageToImport() {
+    if (hcst == ARRAYS_DEEP_HASH_CODE) {
+      return "java.util.Arrays";
+    }
+    return super.getPackageToImport();
   }
 
 }

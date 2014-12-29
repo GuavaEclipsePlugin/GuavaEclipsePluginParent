@@ -160,6 +160,42 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectArraysDeepHashCode() {
+    SWTBotMenu menu = bot.menu("Window").click();
+    menu.menu("Preferences").click();
+
+    SWTBotShell shell = bot.shell("Preferences");
+    shell.activate();
+    sleep();
+    bot.tree().getTreeItem("Guava Preference").select();
+    sleep();
+
+    SWTBotRadio radio = bot.radio("use java.util.Arrays.deepHashCode()");
+    radio.setFocus();
+    radio.click();
+    sleep();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectObjectsHashCode() {
+    SWTBotMenu menu = bot.menu("Window").click();
+    menu.menu("Preferences").click();
+
+    SWTBotShell shell = bot.shell("Preferences");
+    shell.activate();
+    sleep();
+    bot.tree().getTreeItem("Guava Preference").select();
+    sleep();
+
+    SWTBotRadio radio = bot.radio("use com.google.common.base.Objects.hashCode()");
+    radio.setFocus();
+    radio.click();
+    sleep();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   public void createJavaProjectIfNotExists(String projectName) {
     try {
       bot.menu("Window").menu("Open Perspective").menu("Java").click();

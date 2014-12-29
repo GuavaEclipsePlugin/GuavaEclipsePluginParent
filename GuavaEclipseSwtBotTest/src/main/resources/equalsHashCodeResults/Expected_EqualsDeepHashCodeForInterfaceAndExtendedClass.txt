@@ -1,0 +1,32 @@
+package net.sf.guavaeclipse.test;
+
+import java.util.Arrays;
+import com.google.common.base.Objects;
+
+public class SampleExtendedAndInterface extends SampleSimple implements InterfaceSample {
+
+	private String stringValue;
+
+	@Override
+	public String getStringValue() {
+		return this.stringValue;
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays
+				.deepHashCode(new Object[] { super.hashCode(), stringValue });
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SampleExtendedAndInterface) {
+			if (!super.equals(object))
+				return false;
+			SampleExtendedAndInterface that = (SampleExtendedAndInterface) object;
+			return Objects.equal(this.stringValue, that.stringValue);
+		}
+		return false;
+	}
+
+}

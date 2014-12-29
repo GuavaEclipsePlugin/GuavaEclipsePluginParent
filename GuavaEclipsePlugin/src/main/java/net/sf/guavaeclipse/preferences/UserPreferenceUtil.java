@@ -16,6 +16,10 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
 import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -28,19 +32,26 @@ public final class UserPreferenceUtil {
 
   public static MethodGenerationStratergy getMethodGenerationStratergy() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-    String a = store.getString(UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE);
+    String a = store.getString(SUPERCALL_STRATEGY_PREFERENCE);
     return MethodGenerationStratergy.valueOf(a);
   }
 
   public static EqualsEqualityType getEqualsEqualityType() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-    String a = store.getString(UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE);
+    String a = store.getString(INSTANCEOF_CLASSEQUALS_PREFERENCE);
     return EqualsEqualityType.valueOf(a);
   }
 
   public static FieldsGetterType getFieldsOrGetterType() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-    String a = store.getString(UserPreferencePage.FIELDS_GETTER_PREFERENCE);
+    String a = store.getString(FIELDS_GETTER_PREFERENCE);
     return FieldsGetterType.valueOf(a);
   }
+
+  public static HashCodeStrategyType getHashCodeStrategyType() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(HASH_CODE_STRATEGY_PREFERENCE);
+    return HashCodeStrategyType.valueOf(a);
+  }
+
 }

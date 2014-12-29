@@ -16,6 +16,15 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import static net.sf.guavaeclipse.preferences.EqualsEqualityType.CLASS_EQUALITY;
+import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
+import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
+import static net.sf.guavaeclipse.preferences.FieldsGetterType.GETTER;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.DONT_USE_SUPER;
+import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
+import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.USE_SUPER;
 import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -32,6 +41,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String FIELDS_GETTER_PREFERENCE = "guavaEclipseFieldsGetterPreference"; //$NON-NLS-1$
 
+  public static final String HASH_CODE_STRATEGY_PREFERENCE = "guavaEclipsePlugin.HashCodeStrategy"; //$NON-NLS-1$
+
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
@@ -41,21 +52,28 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     addField(new RadioGroupFieldEditor(SUPERCALL_STRATEGY_PREFERENCE, "super method behavior", 1,
         new String[][] {
             new String[] {"Use super class Methods (toString(), equals() and hashCode())",
-                MethodGenerationStratergy.USE_SUPER.name()},
+                USE_SUPER.name()},
             new String[] {"Don't use super class Methods (toString(), equals() and hashCode())",
-                MethodGenerationStratergy.DONT_USE_SUPER.name()},
+                DONT_USE_SUPER.name()},
             new String[] {
                 "Use super class Methods (Only if superclass is not \"java.lang.Object\")",
-                MethodGenerationStratergy.SMART_OPTION.name()}}, getFieldEditorParent(), true));
+                SMART_OPTION.name()}}, getFieldEditorParent(), true));
     addField(new RadioGroupFieldEditor(INSTANCEOF_CLASSEQUALS_PREFERENCE,
         "instanceOf or class equality in equals", 1, new String[][] {
-            new String[] {"Use instanceof in equals()", EqualsEqualityType.INSTANCEOF.name()},
-            new String[] {"use class equality", EqualsEqualityType.CLASS_EQUALITY.name()}},
+            new String[] {"Use instanceof in equals()", INSTANCEOF.name()},
+            new String[] {"use class equality", CLASS_EQUALITY.name()}},
         getFieldEditorParent(), true));
     addField(new RadioGroupFieldEditor(FIELDS_GETTER_PREFERENCE,
         "use fields directly or use getter methods in equals and hashCode", 1, new String[][] {
-            new String[] {"use fields", FieldsGetterType.FIELDS.name()},
-            new String[] {"use getter methods", FieldsGetterType.GETTER.name()}},
+            new String[] {"use fields", FIELDS.name()},
+            new String[] {"use getter methods", GETTER.name()}}, getFieldEditorParent(), true));
+    addField(new RadioGroupFieldEditor(
+        HASH_CODE_STRATEGY_PREFERENCE,
+        "Use com.google.common.base.Objects.hashCode() or java.util.Arrays.deepHashCode()",
+        1,
+        new String[][] {
+            new String[] {"use com.google.common.base.Objects.hashCode()", OBJECTS_HASH_CODE.name()},
+            new String[] {"use java.util.Arrays.deepHashCode()", ARRAYS_DEEP_HASH_CODE.name()}},
         getFieldEditorParent(), true));
   }
 

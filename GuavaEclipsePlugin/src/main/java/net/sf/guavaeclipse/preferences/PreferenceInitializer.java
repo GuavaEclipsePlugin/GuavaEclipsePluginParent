@@ -16,6 +16,14 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
+import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
 import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -26,10 +34,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
   @Override
   public void initializeDefaultPreferences() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-    store.setDefault(UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE,
-        MethodGenerationStratergy.SMART_OPTION.name());
-    store.setDefault(UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE,
-        EqualsEqualityType.INSTANCEOF.name());
-    store.setDefault(UserPreferencePage.FIELDS_GETTER_PREFERENCE, FieldsGetterType.FIELDS.name());
+    store.setDefault(SUPERCALL_STRATEGY_PREFERENCE, SMART_OPTION.name());
+    store.setDefault(INSTANCEOF_CLASSEQUALS_PREFERENCE, INSTANCEOF.name());
+    store.setDefault(FIELDS_GETTER_PREFERENCE, FIELDS.name());
+    store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, OBJECTS_HASH_CODE.name());
   }
 }
