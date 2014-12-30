@@ -18,7 +18,7 @@ package net.sf.guavaeclipse.preferences;
 
 import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
-import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
@@ -37,6 +37,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(SUPERCALL_STRATEGY_PREFERENCE, SMART_OPTION.name());
     store.setDefault(INSTANCEOF_CLASSEQUALS_PREFERENCE, INSTANCEOF.name());
     store.setDefault(FIELDS_GETTER_PREFERENCE, FIELDS.name());
-    store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, OBJECTS_HASH_CODE.name());
+    store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, SMART_HASH_CODE.name());
   }
 }

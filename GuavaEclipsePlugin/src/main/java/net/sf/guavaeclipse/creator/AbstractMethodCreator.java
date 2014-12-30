@@ -80,7 +80,7 @@ public abstract class AbstractMethodCreator {
     generateImport(getPackageToImport());
   }
 
-  protected abstract String getMethodContent();
+  protected abstract String getMethodContent() throws JavaModelException;
 
   protected abstract String getMethodToDelete();
 

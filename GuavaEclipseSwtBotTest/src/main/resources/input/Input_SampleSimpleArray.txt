@@ -1,0 +1,11 @@
+package net.sf.guavaeclipse.test;
+
+public class SampleSimple {
+
+	private int intValue[][];
+
+	private String strValue;
+
+	private String strValue2[];
+
+}

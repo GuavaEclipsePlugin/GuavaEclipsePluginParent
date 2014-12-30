@@ -1,7 +1,6 @@
 package net.sf.guavaeclipse.test;
 
 import java.util.Arrays;
-import com.google.common.base.Objects;
 
 public class SampleExtendedAndInterface extends SampleSimple implements InterfaceSample {
 
@@ -24,7 +23,8 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 			if (!super.equals(object))
 				return false;
 			SampleExtendedAndInterface that = (SampleExtendedAndInterface) object;
-			return Objects.equal(this.stringValue, that.stringValue);
+			return Arrays.deepEquals(new Object[] { this.stringValue },
+					new Object[] { that.stringValue });
 		}
 		return false;
 	}

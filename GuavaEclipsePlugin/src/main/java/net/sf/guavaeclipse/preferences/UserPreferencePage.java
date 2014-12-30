@@ -22,6 +22,7 @@ import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.GETTER;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.DONT_USE_SUPER;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.USE_SUPER;
@@ -61,20 +62,21 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     addField(new RadioGroupFieldEditor(INSTANCEOF_CLASSEQUALS_PREFERENCE,
         "instanceOf or class equality in equals", 1, new String[][] {
             new String[] {"Use instanceof in equals()", INSTANCEOF.name()},
-            new String[] {"use class equality", CLASS_EQUALITY.name()}},
-        getFieldEditorParent(), true));
+            new String[] {"use class equality", CLASS_EQUALITY.name()}}, getFieldEditorParent(),
+        true));
     addField(new RadioGroupFieldEditor(FIELDS_GETTER_PREFERENCE,
         "use fields directly or use getter methods in equals and hashCode", 1, new String[][] {
             new String[] {"use fields", FIELDS.name()},
             new String[] {"use getter methods", GETTER.name()}}, getFieldEditorParent(), true));
-    addField(new RadioGroupFieldEditor(
-        HASH_CODE_STRATEGY_PREFERENCE,
-        "Use com.google.common.base.Objects.hashCode() or java.util.Arrays.deepHashCode()",
-        1,
+    addField(new RadioGroupFieldEditor(HASH_CODE_STRATEGY_PREFERENCE,
+        "Use com.google.common.base.Objects.hashCode() or java.util.Arrays.deepHashCode()", 1,
         new String[][] {
-            new String[] {"use com.google.common.base.Objects.hashCode()", OBJECTS_HASH_CODE.name()},
-            new String[] {"use java.util.Arrays.deepHashCode()", ARRAYS_DEEP_HASH_CODE.name()}},
-        getFieldEditorParent(), true));
+            new String[] {"use always com.google.common.base.Objects.hashCode()",
+                OBJECTS_HASH_CODE.name()},
+            new String[] {"use always java.util.Arrays.deepHashCode()",
+                ARRAYS_DEEP_HASH_CODE.name()},
+            new String[] {"Use java.util.Arrays.deepHashCode() only when necessary",
+                SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
   }
 
   @Override

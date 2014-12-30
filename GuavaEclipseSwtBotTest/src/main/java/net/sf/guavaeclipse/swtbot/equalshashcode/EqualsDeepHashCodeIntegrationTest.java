@@ -25,8 +25,8 @@ public class EqualsDeepHashCodeIntegrationTest extends AbstractSwtBotIntegration
   }
 
   @AfterClass
-  public static void changePreferencesSelectUseField() throws Exception {
-    selectObjectsHashCode();
+  public static void changePreferencesSelectSmartHashCode() throws Exception {
+    selectSmartHashCode();
   }
 
   @Test

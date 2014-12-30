@@ -23,20 +23,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 
 import org.eclipse.jdt.core.JavaModelException;
 
 public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
-  private final HashCodeStrategyType hcst;
+
 
   public HashCodeMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
-    hcst = UserPreferenceUtil.getHashCodeStrategyType();
+
   }
 
   @Override

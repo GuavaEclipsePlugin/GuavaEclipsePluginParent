@@ -16,33 +16,42 @@
  */
 package net.sf.guavaeclipse.creator;
 
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
+import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.JavaModelException;
 
 public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
+  private final HashCodeStrategyType tmpHcst;
+
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
+    tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
   }
 
   @Override
-  protected String getMethodContent() {
+  protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
     content.append("public boolean equals(Object object){\n");
 
+    String className = insertionPoint.getInsertionType().getElementName();
     if (eet == EqualsEqualityType.CLASS_EQUALITY) {
       content.append("   if (object != null && getClass() == object.getClass()) {\n");
     } else {
-      content.append("   if (object instanceof ")
-          .append(insertionPoint.getInsertionType().getElementName()).append(") {\n");
+      content.append("   if (object instanceof ").append(className).append(") {\n");
     }
 
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
@@ -50,16 +59,19 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       content.append("         return false;\n");
     }
 
-    content.append("      ").append(insertionPoint.getInsertionType().getElementName())
-        .append(" that = (").append(insertionPoint.getInsertionType().getElementName())
+    content.append("      ").append(className).append(" that = (").append(className)
         .append(") object;\n");
     content.append("      return ");
 
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
       String field = fieldsIterator.next();
-      content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
-          .append(getGetterOrField(field))
-          .append(")");
+      if (useDeepEquals(field)) {
+        content.append("Arrays.deepEquals(new Object[] {this.").append(getGetterOrField(field))
+            .append("}, new Object[] {that.").append(getGetterOrField(field)).append("})");
+      } else {
+        content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
+            .append(getGetterOrField(field)).append(")");
+      }
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append("\n         && ");
       }
@@ -76,4 +88,27 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     return "equals";
   }
 
+  @Override
+  protected String getPackageToImport() {
+    if (tmpHcst == SMART_HASH_CODE) {
+      return super.getPackageToImport();
+    }
+    if (hcst == ARRAYS_DEEP_HASH_CODE) {
+      return "java.util.Arrays";
+    }
+    return super.getPackageToImport();
+  }
+
+  private boolean useDeepEquals(String fieldName) throws JavaModelException {
+    {
+      if (tmpHcst == SMART_HASH_CODE
+          && Utils.fieldIsArray(insertionPoint.getInsertionType(), fieldName)) {
+        return true;
+      } else if (hcst == ARRAYS_DEEP_HASH_CODE && tmpHcst != SMART_HASH_CODE) {
+        return true;
+      }
+      return false;
+    }
+
+  }
 }

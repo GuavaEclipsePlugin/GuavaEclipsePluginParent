@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 
 public final class Utils {
 
@@ -58,12 +59,14 @@ public final class Utils {
 
 
   public static List<IField> getFields(IType type) throws JavaModelException {
+
     IField fields[] = type.getFields();
     List<IField> list = new ArrayList<IField>();
     IField aifield[];
     int j = (aifield = fields).length;
     for (int i = 0; i < j; i++) {
       IField field = aifield[i];
+
       list.add(field);
     }
 
@@ -123,4 +126,36 @@ public final class Utils {
     int flag = field.getFlags();
     return Flags.isStatic(flag);
   }
+
+  public static boolean atLeastOneSelectedFieldIsArray(IType type, List<String> selectedFields)
+      throws JavaModelException {
+    IField fields[] = type.getFields();
+    for (int i = 0; i < fields.length; i++) {
+      for (String selectedField : selectedFields) {
+        if (selectedField.equals(fields[i].getElementName())) {
+          String typeSignature = fields[i].getTypeSignature();
+          int typeSignatureKind = Signature.getTypeSignatureKind(typeSignature);
+          if (Signature.ARRAY_TYPE_SIGNATURE == typeSignatureKind) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public static boolean fieldIsArray(IType type, String field) throws JavaModelException {
+    IField fields[] = type.getFields();
+    for (int i = 0; i < fields.length; i++) {
+      if (field.equals(fields[i].getElementName())) {
+        String typeSignature = fields[i].getTypeSignature();
+        int typeSignatureKind = Signature.getTypeSignatureKind(typeSignature);
+        if (Signature.ARRAY_TYPE_SIGNATURE == typeSignatureKind) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 }

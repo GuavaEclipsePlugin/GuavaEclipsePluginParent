@@ -1,16 +1,20 @@
 package net.sf.guavaeclipse.test;
 
 import java.util.Arrays;
+import com.google.common.base.Objects;
 
 public class SampleSimple {
 
-	private int intValue;
+	private int intValue[][];
 
 	private String strValue;
 
+	private String strValue2[];
+
 	@Override
 	public int hashCode() {
-		return Arrays.deepHashCode(new Object[] { intValue, strValue });
+		return Arrays
+				.deepHashCode(new Object[] { intValue, strValue, strValue2 });
 	}
 
 	@Override
@@ -19,8 +23,9 @@ public class SampleSimple {
 			SampleSimple that = (SampleSimple) object;
 			return Arrays.deepEquals(new Object[] { this.intValue },
 					new Object[] { that.intValue })
-					&& Arrays.deepEquals(new Object[] { this.strValue },
-							new Object[] { that.strValue });
+					&& Objects.equal(this.strValue, that.strValue)
+					&& Arrays.deepEquals(new Object[] { this.strValue2 },
+							new Object[] { that.strValue2 });
 		}
 		return false;
 	}

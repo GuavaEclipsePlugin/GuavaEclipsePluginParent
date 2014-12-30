@@ -1,7 +1,6 @@
 package net.sf.guavaeclipse.test;
 
 import java.util.Arrays;
-import com.google.common.base.Objects;
 
 public class ExtendedSimpleClass extends SampleSimple {
 
@@ -20,7 +19,8 @@ public class ExtendedSimpleClass extends SampleSimple {
 			if (!super.equals(object))
 				return false;
 			ExtendedSimpleClass that = (ExtendedSimpleClass) object;
-			return Objects.equal(this.objectValue, that.objectValue);
+			return Arrays.deepEquals(new Object[] { this.objectValue },
+					new Object[] { that.objectValue });
 		}
 		return false;
 	}
