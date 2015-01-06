@@ -196,7 +196,7 @@ ReleaseNotes: https://sourceforge.net/projects/guavaeclipse/files/readme.txt/vie
    </license>
 
    <url>
-      <update label="Guava Eclipse Plugin Update Site" url="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite"/>
+      <update label="Guava Eclipse Plugin Update Site" url="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite/LATEST/"/>
    </url>
 
    <plugin
