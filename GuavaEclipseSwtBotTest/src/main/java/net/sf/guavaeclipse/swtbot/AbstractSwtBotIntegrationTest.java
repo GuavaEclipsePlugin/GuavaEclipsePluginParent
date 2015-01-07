@@ -170,7 +170,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.tree().getTreeItem("Guava Preference").select();
     sleep();
 
-    SWTBotRadio radio = bot.radio("use always java.util.Arrays.deepHashCode()");
+    SWTBotRadio radio = bot.radio("use always java.util.Arrays.deep Utility Methods");
     radio.setFocus();
     radio.click();
     sleep();
@@ -188,7 +188,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.tree().getTreeItem("Guava Preference").select();
     sleep();
 
-    SWTBotRadio radio = bot.radio("use always com.google.common.base.Objects.hashCode()");
+    SWTBotRadio radio = bot.radio("use always com.google.common.base.Objects Utility Methods");
     radio.setFocus();
     radio.click();
     sleep();
@@ -206,7 +206,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.tree().getTreeItem("Guava Preference").select();
     sleep();
 
-    SWTBotRadio radio = bot.radio("Use java.util.Arrays.deepHashCode() only when necessary");
+    SWTBotRadio radio = bot.radio("Use java.util.Arrays.deep Utility methods only when necessary");
     radio.setFocus();
     radio.click();
     sleep();

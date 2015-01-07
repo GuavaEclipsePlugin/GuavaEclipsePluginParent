@@ -16,17 +16,12 @@
  */
 package net.sf.guavaeclipse.creator;
 
-import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
-import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
-import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
-
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
 import net.sf.guavaeclipse.preferences.FieldsGetterType;
-import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
 
@@ -36,26 +31,12 @@ public abstract class AbstractEqualsHashCodeMethodCreator extends AbstractMethod
 
   protected final EqualsEqualityType eet;
   protected final FieldsGetterType fgt;
-  protected final HashCodeStrategyType hcst;
 
   public AbstractEqualsHashCodeMethodCreator(MethodInsertionPoint insertionPoint,
       List<String> fields) throws JavaModelException {
     super(insertionPoint, fields);
-    eet = UserPreferenceUtil.getEqualsEqualityType();
-    fgt = UserPreferenceUtil.getFieldsOrGetterType();
-    hcst = getHashCodeStrategyType();
-  }
-
-  private HashCodeStrategyType getHashCodeStrategyType() throws JavaModelException {
-    HashCodeStrategyType hashCodeStrategyType = UserPreferenceUtil.getHashCodeStrategyType();
-    if (hashCodeStrategyType == SMART_HASH_CODE) {
-      if (Utils.atLeastOneSelectedFieldIsArray(insertionPoint.getInsertionType(), fields)) {
-        hashCodeStrategyType = ARRAYS_DEEP_HASH_CODE;
-      } else {
-        hashCodeStrategyType = OBJECTS_HASH_CODE;
-      }
-    }
-    return hashCodeStrategyType;
+    this.eet = UserPreferenceUtil.getEqualsEqualityType();
+    this.fgt = UserPreferenceUtil.getFieldsOrGetterType();
   }
 
   protected String getGetterOrField(String fieldName) {

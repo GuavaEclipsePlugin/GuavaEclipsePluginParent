@@ -16,23 +16,33 @@
  */
 package net.sf.guavaeclipse.creator;
 
-import java.util.Iterator;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.JavaModelException;
 
 public class ToStringMethodCreator extends AbstractMethodCreator {
 
+  private final HashCodeStrategyType tmpHcst;
+
+  private boolean useArrays = false;
+
   public ToStringMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
+    this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
   }
 
   @Override
-  protected String getMethodContent() {
+  protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
     content.append("public String toString() {\n");
@@ -42,9 +52,14 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
       content.append("    .add(\"super\", super.toString())\n");
     }
 
-    for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
-      String field = iterator.next();
-      content.append("    .add(\"").append(field).append("\", ").append(field).append(")\n");
+    for (String field : fields) {
+      if (useArraysToString(field)) {
+        content.append("    .add(\"").append(field).append("\", Arrays.deepToString(")
+            .append(field).append("))\n");
+        useArrays = true;
+      } else {
+        content.append("    .add(\"").append(field).append("\", ").append(field).append(")\n");
+      }
     }
 
     content.append("    .toString();\n");
@@ -56,4 +71,25 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
   protected String getMethodToDelete() {
     return "toString";
   }
+
+  @Override
+  protected String getPackageToImport() {
+    if (useArrays) {
+      return super.getPackageToImport() + "," + IMPORT_DECL_ARRAYS;
+    } else {
+      return super.getPackageToImport();
+    }
+  }
+
+  private boolean useArraysToString(String fieldName) throws JavaModelException {
+    if (tmpHcst == SMART_HASH_CODE
+        && Utils.fieldIsArray(insertionPoint.getInsertionType(), fieldName)) {
+      return true;
+    } else if (hcst == ARRAYS_DEEP_HASH_CODE && tmpHcst != SMART_HASH_CODE) {
+      return true;
+    }
+    return false;
+  }
+
+
 }

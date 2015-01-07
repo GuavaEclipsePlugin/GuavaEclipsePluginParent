@@ -69,13 +69,13 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
             new String[] {"use fields", FIELDS.name()},
             new String[] {"use getter methods", GETTER.name()}}, getFieldEditorParent(), true));
     addField(new RadioGroupFieldEditor(HASH_CODE_STRATEGY_PREFERENCE,
-        "Use com.google.common.base.Objects.hashCode() or java.util.Arrays.deepHashCode()", 1,
+        "Use java.util.Arrays.deep Utility Methods or com.google.common.base.Objects Methods", 1,
         new String[][] {
-            new String[] {"use always com.google.common.base.Objects.hashCode()",
+            new String[] {"use always com.google.common.base.Objects Utility Methods",
                 OBJECTS_HASH_CODE.name()},
-            new String[] {"use always java.util.Arrays.deepHashCode()",
+            new String[] {"use always java.util.Arrays.deep Utility Methods",
                 ARRAYS_DEEP_HASH_CODE.name()},
-            new String[] {"Use java.util.Arrays.deepHashCode() only when necessary",
+            new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
   }
 

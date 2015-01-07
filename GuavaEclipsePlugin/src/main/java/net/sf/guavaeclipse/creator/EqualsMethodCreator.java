@@ -34,11 +34,12 @@ import org.eclipse.jdt.core.JavaModelException;
 public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   private final HashCodeStrategyType tmpHcst;
+  private boolean useArrays = false;
 
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
-    tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
+    this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
   }
 
   @Override
@@ -68,6 +69,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       if (useDeepEquals(field)) {
         content.append("Arrays.deepEquals(new Object[] {this.").append(getGetterOrField(field))
             .append("}, new Object[] {that.").append(getGetterOrField(field)).append("})");
+        useArrays = true;
       } else {
         content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
             .append(getGetterOrField(field)).append(")");
@@ -91,24 +93,27 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   @Override
   protected String getPackageToImport() {
     if (tmpHcst == SMART_HASH_CODE) {
-      return super.getPackageToImport();
+      if (useArrays) {
+        return super.getPackageToImport() + "," + IMPORT_DECL_ARRAYS;
+      } else {
+        return super.getPackageToImport();
+      }
     }
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      return "java.util.Arrays";
+      return IMPORT_DECL_ARRAYS;
     }
     return super.getPackageToImport();
   }
 
-  private boolean useDeepEquals(String fieldName) throws JavaModelException {
-    {
-      if (tmpHcst == SMART_HASH_CODE
-          && Utils.fieldIsArray(insertionPoint.getInsertionType(), fieldName)) {
-        return true;
-      } else if (hcst == ARRAYS_DEEP_HASH_CODE && tmpHcst != SMART_HASH_CODE) {
-        return true;
-      }
-      return false;
-    }
 
+  private boolean useDeepEquals(String fieldName) throws JavaModelException {
+    if (tmpHcst == SMART_HASH_CODE
+        && Utils.fieldIsArray(insertionPoint.getInsertionType(), fieldName)) {
+      return true;
+    } else if (hcst == ARRAYS_DEEP_HASH_CODE && tmpHcst != SMART_HASH_CODE) {
+      return true;
+    }
+    return false;
   }
+
 }

@@ -16,10 +16,15 @@
  */
 package net.sf.guavaeclipse.creator;
 
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+
 import java.util.List;
 import java.util.Map;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
@@ -41,15 +46,21 @@ import org.eclipse.text.edits.TextEdit;
 
 public abstract class AbstractMethodCreator {
 
+  protected static final String IMPORT_DECL_OBJECTS = "com.google.common.base.Objects";
+  protected static final String IMPORT_DECL_ARRAYS = "java.util.Arrays";
+
   protected final MethodInsertionPoint insertionPoint;
   protected final List<String> fields;
   protected final MethodGenerationStratergy methodGenerationStratergy;
+  protected final HashCodeStrategyType hcst;
+
 
   public AbstractMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     this.insertionPoint = insertionPoint;
     this.fields = fields;
     this.methodGenerationStratergy = getMethodGenerationStratergy();
+    this.hcst = getHashCodeStrategyType();
   }
 
   private MethodGenerationStratergy getMethodGenerationStratergy() throws JavaModelException {
@@ -66,6 +77,18 @@ public abstract class AbstractMethodCreator {
       }
     }
     return methodGenerationStratergy;
+  }
+
+  private HashCodeStrategyType getHashCodeStrategyType() throws JavaModelException {
+    HashCodeStrategyType hashCodeStrategyType = UserPreferenceUtil.getHashCodeStrategyType();
+    if (hashCodeStrategyType == SMART_HASH_CODE) {
+      if (Utils.atLeastOneSelectedFieldIsArray(insertionPoint.getInsertionType(), fields)) {
+        hashCodeStrategyType = ARRAYS_DEEP_HASH_CODE;
+      } else {
+        hashCodeStrategyType = OBJECTS_HASH_CODE;
+      }
+    }
+    return hashCodeStrategyType;
   }
 
   public void generate() throws JavaModelException {
@@ -89,13 +112,16 @@ public abstract class AbstractMethodCreator {
    *         <code>com.google.common.base.Objects</code> is necessary
    */
   protected String getPackageToImport() {
-    return "com.google.common.base.Objects";
+    return IMPORT_DECL_OBJECTS;
   }
 
   protected void generateImport(String importStatement) throws JavaModelException {
+    String[] importStatements = importStatement.split(",");
     ICompilationUnit compilationUnit = getCompilationUnit();
     if (compilationUnit != null) {
-      compilationUnit.createImport(importStatement, null, new NullProgressMonitor());
+      for (String importDecl : importStatements) {
+        compilationUnit.createImport(importDecl, null, new NullProgressMonitor());
+      }
     }
   }
 

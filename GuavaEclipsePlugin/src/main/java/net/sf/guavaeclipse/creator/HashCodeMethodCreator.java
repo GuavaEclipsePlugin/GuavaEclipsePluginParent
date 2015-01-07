@@ -75,7 +75,7 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   @Override
   protected String getPackageToImport() {
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      return "java.util.Arrays";
+      return IMPORT_DECL_ARRAYS;
     }
     return super.getPackageToImport();
   }
