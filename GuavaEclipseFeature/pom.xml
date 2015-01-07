@@ -5,7 +5,7 @@
   <parent>
     <groupId>net.sf.guavaeclipseplugin</groupId>
     <artifactId>GuavaEclipseHelper</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
   </parent>
   <artifactId>GuavaEclipseFeature</artifactId>
   <packaging>eclipse-feature</packaging>
