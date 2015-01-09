@@ -17,7 +17,6 @@
 package net.sf.guavaeclipse.dialog;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
@@ -50,7 +49,7 @@ public class GenericDialogBox extends SelectionDialog {
 
   private static String SELECT_ALL_TITLE = WorkbenchMessages.SelectionDialog_selectLabel;
   private static String DESELECT_ALL_TITLE = WorkbenchMessages.SelectionDialog_deselectLabel;
-  private Object inputElement;
+  private List<String> inputElement;
   private ILabelProvider labelProvider;
   private IStructuredContentProvider contentProvider;
   private CheckboxTableViewer listViewer;
@@ -67,7 +66,7 @@ public class GenericDialogBox extends SelectionDialog {
     cancelPressed = true;
     setTitle(message);
     this.insertionPoint = insertionPoint;
-    inputElement = fieldNames;
+    this.inputElement = fieldNames;
     this.contentProvider = contentProvider;
     this.labelProvider = labelProvider;
     if (message != null) {
@@ -108,8 +107,9 @@ public class GenericDialogBox extends SelectionDialog {
   }
 
   private void checkInitialSelections() {
-    for (Iterator itemsToCheck = getInitialElementSelections().iterator(); itemsToCheck.hasNext(); listViewer
-        .setChecked(itemsToCheck.next(), true));
+    for (String itemToCheck : this.inputElement) {
+      listViewer.setChecked(itemToCheck, true);
+    }
   }
 
   @Override
@@ -135,8 +135,9 @@ public class GenericDialogBox extends SelectionDialog {
       addTypeCombo(composite);
       addSelectionButtons(composite);
       initializeViewer();
-      if (!getInitialElementSelections().isEmpty())
+      if (getInitialElementSelections().isEmpty()) {
         checkInitialSelections();
+      }
       applyDialogFont(composite);
       return composite;
     } catch (JavaModelException e) {
