@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
@@ -37,6 +38,8 @@ import org.junit.BeforeClass;
 
 public abstract class AbstractSwtBotIntegrationTest {
 
+  private final Logger logger = Logger.getLogger(AbstractSwtBotIntegrationTest.class);
+  
   protected static SWTWorkbenchBot bot;
 
   @BeforeClass
@@ -442,6 +445,13 @@ public abstract class AbstractSwtBotIntegrationTest {
     bu.append(field.substring(1, field.length()));
     bu.append("()");
     return bu.toString();
+  }
+  
+  @SuppressWarnings("rawtypes")
+  protected void logEditorResults(Class clazz, String methodName, String editorText) {
+    if (logger.isInfoEnabled()) {
+      logger.info(clazz.getName() + "#" + methodName + " Editor Result:\n" + editorText);
+    }
   }
 
 }

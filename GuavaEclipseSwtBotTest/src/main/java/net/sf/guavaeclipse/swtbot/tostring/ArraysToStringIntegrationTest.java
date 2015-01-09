@@ -41,6 +41,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
+    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
     String expectedText = readFile("toStringResults/Expected_SmartToString.txt");
     assertThat(editorText, is(expectedText));
   }
@@ -56,6 +57,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
+    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
     String expectedText = readFile("toStringResults/Expected_ObjectsToString.txt");
     assertThat(editorText, is(expectedText));
   }
@@ -71,6 +73,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
+    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
     String expectedText = readFile("toStringResults/Expected_ArraysToString.txt");
     assertThat(editorText, is(expectedText));
   }
