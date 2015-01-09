@@ -67,8 +67,17 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
       String field = fieldsIterator.next();
       if (useDeepEquals(field)) {
-        content.append("Arrays.deepEquals(new Object[] {this.").append(getGetterOrField(field))
-            .append("}, new Object[] {that.").append(getGetterOrField(field)).append("})");
+
+        content.append("Arrays.deepEquals(");
+        if (Utils.fieldIsArrayPrimitiv(insertionPoint.getInsertionType(), field)
+            || !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+          content.append("new Object[] {this.").append(getGetterOrField(field))
+              .append("}, new Object[] {that.").append(getGetterOrField(field)).append("}");
+        } else {
+          content.append("this.").append(getGetterOrField(field)).append(", that.")
+              .append(getGetterOrField(field)).append("");
+        }
+        content.append(")");
         useArrays = true;
       } else {
         content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
