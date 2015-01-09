@@ -13,9 +13,10 @@ public class SampleSimple {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this)
-				.add("intValue", Arrays.deepToString(intValue))
-				.add("strValue", Arrays.deepToString(strValue))
+		return Objects
+				.toStringHelper(this)
+				.add("intValue", Arrays.deepToString(new Object[] { intValue }))
+				.add("strValue", Arrays.deepToString(new Object[] { strValue }))
 				.add("strValue2", Arrays.deepToString(strValue2)).toString();
 	}
 
