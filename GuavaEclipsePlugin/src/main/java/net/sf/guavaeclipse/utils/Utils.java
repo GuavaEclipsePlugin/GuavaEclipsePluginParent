@@ -127,6 +127,14 @@ public final class Utils {
     return Flags.isStatic(flag);
   }
 
+  /**
+   * Checks if one of the selectedFields is from type array
+   * 
+   * @param type
+   * @param selectedFields
+   * @return true if at least one field is an array
+   * @throws JavaModelException
+   */
   public static boolean atLeastOneSelectedFieldIsArray(IType type, List<String> selectedFields)
       throws JavaModelException {
     IField fields[] = type.getFields();
@@ -144,13 +152,50 @@ public final class Utils {
     return false;
   }
 
-  public static boolean fieldIsArray(IType type, String field) throws JavaModelException {
+  /**
+   * Checks if the given fieldName is an array
+   * 
+   * @param type
+   * @param fieldName
+   * @return true if the field is an array
+   * @throws JavaModelException
+   */
+  public static boolean fieldIsArray(IType type, String fieldName) throws JavaModelException {
     IField fields[] = type.getFields();
     for (int i = 0; i < fields.length; i++) {
-      if (field.equals(fields[i].getElementName())) {
+      if (fieldName.equals(fields[i].getElementName())) {
         String typeSignature = fields[i].getTypeSignature();
         int typeSignatureKind = Signature.getTypeSignatureKind(typeSignature);
         if (Signature.ARRAY_TYPE_SIGNATURE == typeSignatureKind) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the given fieldName is from primitive type
+   * 
+   * @param type
+   * @param fieldName
+   * @return true if the field is primitive
+   * @throws JavaModelException
+   */
+  public static boolean fieldIsArrayPrimitiv(IType type, String fieldName)
+      throws JavaModelException {
+    IField fields[] = type.getFields();
+    for (int i = 0; i < fields.length; i++) {
+      if (fieldName.equals(fields[i].getElementName())) {
+        String typeSignature = fields[i].getTypeSignature();
+        if (typeSignature.endsWith(Signature.SIG_BOOLEAN)
+            || typeSignature.endsWith(Signature.SIG_BYTE)
+            || typeSignature.endsWith(Signature.SIG_CHAR)
+            || typeSignature.endsWith(Signature.SIG_DOUBLE)
+            || typeSignature.endsWith(Signature.SIG_FLOAT)
+            || typeSignature.endsWith(Signature.SIG_INT)
+            || typeSignature.endsWith(Signature.SIG_LONG)
+            || typeSignature.endsWith(Signature.SIG_SHORT)) {
           return true;
         }
       }
