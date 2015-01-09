@@ -31,6 +31,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
   @Test
   public void createToString() throws Exception {
+
     selectSmartHashCode();
     createJavaProjectIfNotExists("SampleJavaProject");
     deleteClassIfExists("SampleSimple");
@@ -40,7 +41,6 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    System.out.println(editorText);
     String expectedText = readFile("toStringResults/Expected_SmartToString.txt");
     assertThat(editorText, is(expectedText));
   }
@@ -56,7 +56,6 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    System.out.println(editorText);
     String expectedText = readFile("toStringResults/Expected_ObjectsToString.txt");
     assertThat(editorText, is(expectedText));
   }
@@ -72,7 +71,6 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    System.out.println(editorText);
     String expectedText = readFile("toStringResults/Expected_ArraysToString.txt");
     assertThat(editorText, is(expectedText));
   }
