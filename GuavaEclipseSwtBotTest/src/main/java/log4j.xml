@@ -11,7 +11,7 @@
   </appender>
 
   <logger name="org.eclipse.swtbot" additivity="false" >
-    <level value="INFO" />
+    <level value="ERROR" />
     <appender-ref ref="consoleAppender" />
   </logger>
   

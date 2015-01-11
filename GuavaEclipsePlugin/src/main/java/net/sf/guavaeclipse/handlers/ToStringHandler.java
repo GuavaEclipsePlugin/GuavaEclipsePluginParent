@@ -14,7 +14,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.sf.guavaeclipse.actions;
+package net.sf.guavaeclipse.handlers;
 
 import static net.sf.guavaeclipse.creator.MethodCreatorType.TO_STRING_CREATOR;
 
@@ -26,10 +26,7 @@ import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 
-public class ToStringAction extends AbstractAction {
-
-
-  public ToStringAction() {}
+public class ToStringHandler extends AbstractHandler {
 
   @Override
   public List<String> run(MethodInsertionPoint insertionPoint) throws JavaModelException {
@@ -52,9 +49,10 @@ public class ToStringAction extends AbstractAction {
     return "toString";
   }
 
-
   @Override
   public MethodCreatorType getMethodCreatorType() {
     return TO_STRING_CREATOR;
   }
+
+
 }

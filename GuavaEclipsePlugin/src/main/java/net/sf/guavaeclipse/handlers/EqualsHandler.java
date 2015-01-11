@@ -1,20 +1,4 @@
-/*
- * Copyright 2014
- * 
- * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
- * agreements. See the NOTICE file distributed with this work for additional information regarding
- * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-package net.sf.guavaeclipse.actions;
+package net.sf.guavaeclipse.handlers;
 
 import static net.sf.guavaeclipse.creator.MethodCreatorType.EQUALS_CREATOR;
 import static net.sf.guavaeclipse.creator.MethodCreatorType.HASH_CODE_CREATOR;
@@ -29,31 +13,31 @@ import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 import net.sf.guavaeclipse.utils.Utils;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 
-public class EqualsAction extends AbstractAction {
-
-  public EqualsAction() {}
+public class EqualsHandler extends AbstractHandler {
 
   @Override
-  public void run(IAction action) {
+  public Object execute(ExecutionEvent event) throws ExecutionException {
+    setActiveEditor(event);
     if (getCurrentEditor() == null) {
-      return;
+      return null;
     }
     try {
       MethodInsertionPoint insertionPoint = new MethodInsertionPoint(getCurrentEditor());
       IType insertionType = insertionPoint.getInsertionType();
       if (!validateMethodGeneration(insertionType)) {
-        return;
+        return null;
       }
       List<String> fields = validateNonStaticFields(insertionType);
       if (fields == null) {
-        return;
+        return null;
       }
       IMethod equalsMethod = Utils.getMethod(insertionPoint.getInsertionType(), "equals");
       IMethod hashCodeMethod = Utils.getMethod(insertionPoint.getInsertionType(), "hashCode");
@@ -81,7 +65,7 @@ public class EqualsAction extends AbstractAction {
         }
         // when the user don't want to replace both methods return
         if (!replaceEquals && !replaceHashCode) {
-          return;
+          return null;
         }
         if (!replaceEquals) {
           createEquals = false;
@@ -91,9 +75,8 @@ public class EqualsAction extends AbstractAction {
         }
       }
       GenericDialogBox dialog =
-          new GenericDialogBox(getShell(), insertionPoint, fields,
-              new ArrayContentProvider(), new LabelProvider(), (new StringBuilder(
-                  "Generate hashCode() and equals() for '"))
+          new GenericDialogBox(getShell(), insertionPoint, fields, new ArrayContentProvider(),
+              new LabelProvider(), (new StringBuilder("Generate hashCode() and equals() for '"))
                   .append(insertionPoint.getInsertionType().getElementName()).append("' class")
                   .toString());
       dialog.open();
@@ -122,6 +105,7 @@ public class EqualsAction extends AbstractAction {
       MessageDialog.openError(getShell(), "Unable to generate equals() and hashCode() methods",
           e.getMessage());
     }
+    return null;
   }
 
   @Override
@@ -134,5 +118,4 @@ public class EqualsAction extends AbstractAction {
   public MethodCreatorType getMethodCreatorType() {
     return EQUALS_CREATOR;
   }
-
 }

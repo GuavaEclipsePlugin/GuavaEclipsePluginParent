@@ -30,7 +30,7 @@ public class SmartEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimpleArray", 10);
-    executePluginMethod(cutEditor, EQUALS_HASHCODE.getMenuString());
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
 
     String editorText = cutEditor.getText();
@@ -46,7 +46,7 @@ public class SmartEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimpleArray", 10);
-    executePluginMethod(cutEditor, EQUALS_HASHCODE.getMenuString());
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
 
     String editorText = cutEditor.getText();

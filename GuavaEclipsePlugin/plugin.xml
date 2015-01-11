@@ -3,38 +3,6 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.popupMenus">
-     
-      <viewerContribution
-            id="net.sf.guavaeclipse.actions.TextEditorActions"
-            targetID="#CompilationUnitEditorContext">
-         <menu
-               id="googleGuavaEditor"
-               label="Google Guava Helper"
-               path="additions"/>
-         <action
-               class="net.sf.guavaeclipse.actions.ToStringAction"
-               id="net.sf.guavaeclipse.actions.toString"
-               label="Generate toString()"
-               menubarPath="googleGuavaEditor/additions"
-               tooltip="Generate toString()"
-               />
-         <action
-               class="net.sf.guavaeclipse.actions.EqualsAction"
-               id="net.sf.guavaeclipse.actions.equals"
-               label="Generate hashCode() and equals()"
-               menubarPath="googleGuavaEditor/additions"
-               tooltip="Generate equals() and hashCode()"
-               />
-	   <action
-               class="net.sf.guavaeclipse.actions.CompareAction"
-               id="net.sf.guavaeclipse.actions.equals"
-               label="Generate compareTo()"
-               menubarPath="googleGuavaEditor/additions"
-               tooltip="Generate compareTo()"/>
-      </viewerContribution>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="net.sf.guavaeclipse.preferences.UserPreferencePage"
@@ -47,6 +15,107 @@
       <initializer
             class="net.sf.guavaeclipse.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.jdt.ui.category.source"
+            defaultHandler="net.sf.guavaeclipse.handlers.ToStringHandler"
+            id="net.sf.guavaeclipse.actions.toString.command"
+            name="Generate Guava toString()">
+      </command>
+      <command
+            categoryId="org.eclipse.jdt.ui.category.source"
+            defaultHandler="net.sf.guavaeclipse.handlers.EqualsHandler"
+            id="net.sf.guavaeclipse.actions.equalsHashCode.command"
+            name="Generate Guava hashCode() and equals()">
+      </command>
+      <command
+            categoryId="org.eclipse.jdt.ui.category.source"
+            defaultHandler="net.sf.guavaeclipse.handlers.CompareHandler"
+            id="net.sf.guavaeclipse.actions.compareTo.command"
+            name="Generate Guava compareTo()">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="net.sf.guavaeclipse.actions.toString.command"
+            contextId="org.eclipse.jdt.ui.javaEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+4">
+      </key>
+      <key
+            commandId="net.sf.guavaeclipse.actions.equalsHashCode.command"
+            contextId="org.eclipse.jdt.ui.javaEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+5">
+      </key>
+      <key
+            commandId="net.sf.guavaeclipse.actions.compareTo.command"
+            contextId="org.eclipse.jdt.ui.javaEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+6">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <menu id="net.sf.guavaeclipse.menu"
+               label="Google Guava Helper">
+            <visibleWhen checkEnabled="true">
+              <with variable="activePartId">
+                <equals value="org.eclipse.jdt.ui.CompilationUnitEditor" />
+              </with>
+            </visibleWhen>
+           <command
+                 commandId="net.sf.guavaeclipse.actions.toString.command"
+                 label="Generate toString()"
+                 style="push"
+                 tooltip="Generate toString()">
+           </command>
+           <command
+                 commandId="net.sf.guavaeclipse.actions.equalsHashCode.command"
+                 label="Generate hashCode() and equals()"
+                 style="push"
+                 tooltip="Generate hashCode() and equals()">
+           </command>
+           <command
+                 commandId="net.sf.guavaeclipse.actions.compareTo.command"
+                 label="Generate compareTo()"
+                 style="push"
+                 tooltip="Generate compareTo()">
+           </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.jdt.ui.source.menu?after=additions">
+         <separator
+               name="net.sf.guavaeclipse.jdt.ui.popup.seperator"
+               visible="true">
+         </separator>
+         <command
+               commandId="net.sf.guavaeclipse.actions.toString.command"
+               label="Generate Guava toString()"
+               style="push"
+               tooltip="Generate toString() with Guava Eclipse Plugin">
+         </command>
+           <command
+                 commandId="net.sf.guavaeclipse.actions.equalsHashCode.command"
+                 label="Generate Guava hashCode() and equals()"
+                 style="push"
+                 tooltip="Generate hashCode() and equals()">
+           </command>
+           <command
+                 commandId="net.sf.guavaeclipse.actions.compareTo.command"
+                 label="Generate Guava compareTo()"
+                 style="push"
+                 tooltip="Generate compareTo()">
+           </command>
+      </menuContribution>
    </extension>
 
 

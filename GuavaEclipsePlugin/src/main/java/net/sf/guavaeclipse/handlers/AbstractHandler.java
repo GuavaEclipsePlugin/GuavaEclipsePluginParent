@@ -1,4 +1,20 @@
-package net.sf.guavaeclipse.actions;
+/*
+ * Copyright 2014
+ * 
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package net.sf.guavaeclipse.handlers;
 
 import java.util.List;
 
@@ -10,28 +26,25 @@ import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 import net.sf.guavaeclipse.utils.Utils;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
-@SuppressWarnings({"restriction"})
-public abstract class AbstractAction implements IEditorActionDelegate {
+
+@SuppressWarnings("restriction")
+public abstract class AbstractHandler extends org.eclipse.core.commands.AbstractHandler {
 
   private CompilationUnitEditor currentEditor;
   private Shell shell;
-
-  public AbstractAction() {
-
-  }
 
   protected CompilationUnitEditor getCurrentEditor() {
     return currentEditor;
@@ -41,40 +54,35 @@ public abstract class AbstractAction implements IEditorActionDelegate {
     return shell;
   }
 
-  @Override
-  public final void setActiveEditor(IAction action, IEditorPart targetPart) {
-    if (targetPart == null) {
-      return;
-    }
-    if (action == null) {
-      return;
-    }
-    currentEditor = (CompilationUnitEditor) targetPart.getAdapter(CompilationUnitEditor.class);
-    shell = targetPart.getSite().getShell();
+  public final void setActiveEditor(final ExecutionEvent event) {
+    IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
+    currentEditor = (CompilationUnitEditor) activeEditor.getAdapter(CompilationUnitEditor.class);
+    shell = HandlerUtil.getActiveShell(event);
   }
 
   @Override
-  public void selectionChanged(IAction iaction, ISelection iselection) {}
-
-  @Override
-  public void run(IAction action) {
-    if (getCurrentEditor() == null)
-      return;
+  public Object execute(ExecutionEvent event) throws ExecutionException {
+    setActiveEditor(event);
+    if (getCurrentEditor() == null) {
+      return null;
+    }
 
     try {
-      MethodInsertionPoint insertionPoint = new MethodInsertionPoint(getCurrentEditor());
+      MethodInsertionPoint insertionPoint = new MethodInsertionPoint(this.currentEditor);
       List<String> fields = run(insertionPoint);
       if (fields == null) {
-        return;
+        return null;
       }
       openFieldsDialogAndGenerateFields(insertionPoint, fields);
     } catch (MehodGenerationFailedException e) {
-      MessageDialog.openError(getShell(), "Unable to generate " + getMethodName() + "()",
+      MessageDialog.openError(this.shell, "Unable to generate " + getMethodName() + "()",
           e.getReason());
     } catch (Exception e) {
-      MessageDialog.openError(getShell(), "Unable to generate " + getMethodName() + "()",
+      MessageDialog.openError(this.shell, "Unable to generate " + getMethodName() + "()",
           e.getMessage());
     }
+
+    return null;
   }
 
   public List<String> run(MethodInsertionPoint insertionPoint) throws JavaModelException {
@@ -126,8 +134,7 @@ public abstract class AbstractAction implements IEditorActionDelegate {
   }
 
   public void openFieldsDialogAndGenerateFields(MethodInsertionPoint insertionPoint,
-      List<String> fields)
-      throws JavaModelException {
+      List<String> fields) throws JavaModelException {
     IType insertionType = insertionPoint.getInsertionType();
     GenericDialogBox dialog =
         new GenericDialogBox(getShell(), insertionPoint, fields, new ArrayContentProvider(),
@@ -145,4 +152,5 @@ public abstract class AbstractAction implements IEditorActionDelegate {
   public StringBuilder getStringBuilderForDialogTitle() {
     return new StringBuilder("Generate ").append(getMethodName()).append("() for '");
   }
+
 }

@@ -88,13 +88,11 @@ public final class Utils {
   }
 
   public static List<String> getMethodNames(IType type) throws JavaModelException {
-    IMethod fields[] = type.getMethods();
-    List<String> list = new ArrayList<String>();
-    IMethod aimethod[];
-    int j = (aimethod = fields).length;
-    for (int i = 0; i < j; i++) {
-      IMethod field = aimethod[i];
-      list.add(field.getElementName());
+    IMethod methods[] = type.getMethods();
+    List<String> list = new ArrayList<String>(methods.length);
+    for (int i = 0; i < methods.length; i++) {
+      IMethod method = methods[i];
+      list.add(method.getElementName());
     }
 
     return list;

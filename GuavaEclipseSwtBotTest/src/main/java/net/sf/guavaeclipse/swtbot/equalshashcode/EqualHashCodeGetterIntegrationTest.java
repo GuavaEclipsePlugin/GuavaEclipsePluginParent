@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegrationTest {
@@ -39,10 +40,11 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
 
     generateGetter(cutEditor, 7, "strValue");
-
-    executePluginMethod(cutEditor, EQUALS_HASHCODE.getMenuString());
+    sleep(1000);
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
+    logEditorResults(EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCode()", editorText);
     String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Getter.txt");
     assertThat(editorText, is(expectedText));
   }
@@ -58,8 +60,9 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
 
     generateGetter(cutEditor, 6, "objectValue");
-
-    executePluginMethod(cutEditor, EQUALS_HASHCODE.getMenuString());
+    sleep(1000);
+    cutEditor.selectLine(10);
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
     String expectedText =

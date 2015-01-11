@@ -37,7 +37,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimpleArray", 10);
-    executePluginMethod(cutEditor, TO_STRING.getMenuString());
+    executePluginMethod(cutEditor, TO_STRING);
 
 
     String editorText = cutEditor.getText();
@@ -53,7 +53,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimpleArray", 10);
-    executePluginMethod(cutEditor, TO_STRING.getMenuString());
+    executePluginMethod(cutEditor, TO_STRING);
 
 
     String editorText = cutEditor.getText();
@@ -69,7 +69,7 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimpleArray", 10);
-    executePluginMethod(cutEditor, TO_STRING.getMenuString());
+    executePluginMethod(cutEditor, TO_STRING);
 
 
     String editorText = cutEditor.getText();

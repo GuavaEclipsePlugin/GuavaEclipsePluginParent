@@ -28,7 +28,11 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -39,7 +43,7 @@ import org.junit.BeforeClass;
 public abstract class AbstractSwtBotIntegrationTest {
 
   private final Logger logger = Logger.getLogger(AbstractSwtBotIntegrationTest.class);
-  
+
   protected static SWTWorkbenchBot bot;
 
   @BeforeClass
@@ -71,148 +75,108 @@ public abstract class AbstractSwtBotIntegrationTest {
     }
   }
 
-  protected static void selectUseAlwaysSuper() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
+  private static void waitForPreferencesShell() {
+    bot.waitUntil(Conditions.shellIsActive("Preferences"));
+  }
 
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+  protected static void selectUseAlwaysSuper() {
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("Use super class Methods (toString(), equals() and hashCode())");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
-  protected static void selectNoSuper() {
+  private static SWTBotShell openGuavaPreferences() {
     SWTBotMenu menu = bot.menu("Window").click();
     menu.menu("Preferences").click();
 
     SWTBotShell shell = bot.shell("Preferences");
     shell.activate();
-    sleep();
+    waitForPreferencesShell();
     bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    waitForPreferencesShell();
+    return shell;
+  }
+
+  protected static void selectNoSuper() {
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio =
         bot.radio("Don't use super class Methods (toString(), equals() and hashCode())");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectSmartSuper() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio =
         bot.radio("Use super class Methods (Only if superclass is not \"java.lang.Object\")");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
+
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectUseGetter() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("use getter methods");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectUseField() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("use fields");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectArraysDeepHashCode() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("use always java.util.Arrays.deep Utility Methods");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectObjectsHashCode() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
+    SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("use always com.google.common.base.Objects Utility Methods");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   protected static void selectSmartHashCode() {
-    SWTBotMenu menu = bot.menu("Window").click();
-    menu.menu("Preferences").click();
-
-    SWTBotShell shell = bot.shell("Preferences");
-    shell.activate();
-    sleep();
-    bot.tree().getTreeItem("Guava Preference").select();
-    sleep();
-
+    SWTBotShell shell = openGuavaPreferences();
     SWTBotRadio radio = bot.radio("Use java.util.Arrays.deep Utility methods only when necessary");
     radio.setFocus();
     radio.click();
-    sleep();
+    waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
@@ -227,6 +191,7 @@ public abstract class AbstractSwtBotIntegrationTest {
       bot.tree().getTreeItem(projectName).select();
     } catch (WidgetNotFoundException e) {
       try {
+
         bot.tree().setFocus();
         bot.menu("File").menu("New").menu("Java Project").click();
         bot.textWithLabel("&Project name:").setText(projectName);
@@ -296,18 +261,59 @@ public abstract class AbstractSwtBotIntegrationTest {
     }
   }
 
-  public void executePluginMethod(SWTBotEclipseEditor cutEditor, String menuName) {
+  public void executePluginMethod(final SWTBotEclipseEditor cutEditor,
+      final MenuSelection menuSelection) {
     SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
     contextMenu.setFocus();
-    contextMenu.menu(menuName).click();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
+    contextMenu.menu(menuSelection.getMenuString()).click();
+
+    // final SWTBotShell shell =
+    // bot.shell("Generate hashCode() and equals() for '" + getClassName(cutEditor)
+    // + "' class");
+    // shell.activate();
+    processDialog(cutEditor, menuSelection);
+  }
+
+  protected void processDialog(final SWTBotEclipseEditor cutEditor,
+      final MenuSelection menuSelection) {
+    bot.waitUntil(Conditions.shellIsActive("Generate " + getMenuSelectionShellName(menuSelection)
+        + " for '" + getClassName(cutEditor) + "' class"));
+
+    UIThreadRunnable.syncExec(new VoidResult() {
+      @Override
+      public void run() {
+        SWTBotShell shell =
+            bot.shell("Generate " + getMenuSelectionShellName(menuSelection) + " for '"
+                + getClassName(cutEditor) + "' class");
+        SWTBot currentBot = shell.bot();
+        currentBot.button("Select All").click();
+        currentBot.button("OK").click();
+        shell.close();
+        bot.waitUntil(Conditions.shellCloses(shell));
+      }
+    });
     cutEditor.save();
   }
 
-  public SWTBotEclipseEditor setClassContent(String inputFileName, int lineToSetCursor)
+  public String getMenuSelectionShellName(MenuSelection menuSelection) {
+    if (MenuSelection.TO_STRING == menuSelection) {
+      return "toString()";
+    } else if (MenuSelection.COMPARE_TO == menuSelection) {
+      return "compareTo()";
+    } else if (MenuSelection.EQUALS_HASHCODE == menuSelection) {
+      return "hashCode() and equals()";
+    } else {
+      logger.error("Unknown MENU_SELECTION - this is an ERROR");
+      return "unknown - this is an ERROR";
+    }
+  }
+  private String getClassName(SWTBotEclipseEditor cutEditor) {
+    return cutEditor.getTitle().substring(0, cutEditor.getTitle().length() - 5);
+  }
+
+  public SWTBotEclipseEditor setClassContent(final String inputFileName, final int lineToSetCursor)
       throws IOException, URISyntaxException {
+
     SWTBotEclipseEditor cutEditor = bot.activeEditor().toTextEditor();
     cutEditor.setText(readFile("input/Input_" + inputFileName + ".txt"));
     cutEditor.save();
@@ -335,6 +341,7 @@ public abstract class AbstractSwtBotIntegrationTest {
       String interfaceName) {
     this.createClass("net.sf.guavaeclipse.test", className, superClass, interfaceName);
   }
+
   public void createClass(String packageName, String className, String superClass,
       String interfaceName) {
     bot.menu("New").menu("Class").click();
@@ -371,7 +378,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
-    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    executePluginMethod(cutEditor, menuSelection);
     return cutEditor;
   }
 
@@ -383,7 +390,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     createClassWithSuperClass("ExtendedSimpleClass", "net.sf.guavaeclipse.test.SampleSimple");
 
     SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
-    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    executePluginMethod(cutEditor, menuSelection);
     return cutEditor;
   }
 
@@ -401,7 +408,7 @@ public abstract class AbstractSwtBotIntegrationTest {
         "net.sf.guavaeclipse.test.InterfaceSample");
 
     cutEditor = setClassContent("SampleImplementsInterface", 11);
-    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    executePluginMethod(cutEditor, menuSelection);
     return cutEditor;
   }
 
@@ -414,29 +421,41 @@ public abstract class AbstractSwtBotIntegrationTest {
         "net.sf.guavaeclipse.test.SampleSimple", "net.sf.guavaeclipse.test.InterfaceSample");
 
     SWTBotEclipseEditor cutEditor = setClassContent("SampleExtendedAndInterface", 11);
-    executePluginMethod(cutEditor, menuSelection.getMenuString());
+    executePluginMethod(cutEditor, menuSelection);
     return cutEditor;
   }
 
-  protected void generateGetter(SWTBotEclipseEditor cutEditor, int lineNrwithGetter,
-      String fieldName) {
+  protected void generateGetter(final SWTBotEclipseEditor cutEditor, final int lineNrwithGetter,
+      final String fieldName) {
     cutEditor.selectLine(lineNrwithGetter);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Source");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate Getters and Setters...").click();
-    SWTBotShell shell = bot.shell("Generate Getters and Setters");
-    shell.activate();
-    sleep();
-    bot.tree().setFocus();
-    bot.tree().getTreeItem(fieldName).select();
-    bot.tree().getTreeItem(fieldName).expand();
-    SWTBotTreeItem select =
-        bot.tree().getTreeItem(fieldName).getNode(getGetterMethodName(fieldName)).select();
-    select.check();
-    bot.comboBox().setSelection("After '" + fieldName + "'");
-    bot.button("OK").click();
-    bot.waitUntil(Conditions.shellCloses(shell));
-    sleep();
+    // SWTBotMenu contextMenu = cutEditor.contextMenu("Source");
+    // contextMenu.setFocus();
+    // contextMenu.menu("Generate Getters and Setters...").click();
+
+    new SWTBotMenu(ContextMenuHelper.contextMenu(bot.tree(), "Source",
+        "Generate Getters and Setters...")).click();
+    bot.waitUntil(Conditions.shellIsActive("Generate Getters and Setters"));
+
+    UIThreadRunnable.syncExec(new VoidResult() {
+      @Override
+      public void run() {
+        SWTBotShell shell = bot.shell("Generate Getters and Setters");
+        // shell.activate();
+        SWTBot currentBot = shell.bot();
+        currentBot.tree().setFocus();
+        currentBot.tree().getTreeItem(fieldName).select();
+        currentBot.tree().getTreeItem(fieldName).expand();
+        SWTBotTreeItem select =
+            currentBot.tree().getTreeItem(fieldName).getNode(getGetterMethodName(fieldName))
+                .select();
+        select.check();
+        currentBot.comboBox().setSelection("After '" + fieldName + "'");
+        currentBot.button("OK").click();
+        shell.close();
+        bot.waitUntil(Conditions.shellCloses(shell));
+      }
+    });
+
   }
 
   private String getGetterMethodName(String field) {
@@ -446,7 +465,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bu.append("()");
     return bu.toString();
   }
-  
+
   @SuppressWarnings("rawtypes")
   protected void logEditorResults(Class clazz, String methodName, String editorText) {
     if (logger.isInfoEnabled()) {

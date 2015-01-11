@@ -26,6 +26,8 @@ import java.net.URISyntaxException;
 
 import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
@@ -88,22 +90,18 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
     SWTBotMenu menu = bot.menu("Navigate").click();
     menu.menu("Open Type...").click();
+    bot.waitUntil(Conditions.shellIsActive("Open Type"));
     bot.text().setText("SampleSimple");
     bot.button("OK").click();
     sleep();
 
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_ToString", 9);
-    SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
-    contextMenu.setFocus();
-    contextMenu.menu("Generate toString()").click();
+    cutEditor.pressShortcut(SWT.CTRL | SWT.SHIFT, '4');
 
     assertNotNull(bot.label("toString() method already present. Replace it?"));
     bot.button("Yes").click();
     sleep();
-    bot.button("Select All").click();
-    bot.button("OK").click();
-    sleep();
-    cutEditor.save();
+    processDialog(cutEditor, TO_STRING);
 
     String editorText = cutEditor.getText();
     String expectedText = readFile("toStringResults/Expected_ToString_Overwrite.txt");
