@@ -38,5 +38,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(INSTANCEOF_CLASSEQUALS_PREFERENCE, INSTANCEOF.name());
     store.setDefault(FIELDS_GETTER_PREFERENCE, FIELDS.name());
     store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, SMART_HASH_CODE.name());
+    store.setDefault(SUPERCALL_STRATEGY_PREFERENCE, Boolean.FALSE.toString());
   }
 }

@@ -28,6 +28,7 @@ import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OP
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.USE_SUPER;
 import net.sf.guavaeclipse.Activator;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -43,6 +44,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
   public static final String FIELDS_GETTER_PREFERENCE = "guavaEclipseFieldsGetterPreference"; //$NON-NLS-1$
 
   public static final String HASH_CODE_STRATEGY_PREFERENCE = "guavaEclipsePlugin.HashCodeStrategy"; //$NON-NLS-1$
+
+  public static final String HIDE_COMPARE_TO_PREFERENCE = "guavaEclipsePlugin.hideCompareTo"; //$NON-NLS-1$
 
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
@@ -77,6 +80,9 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
                 ARRAYS_DEEP_HASH_CODE.name()},
             new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
+    addField(new BooleanFieldEditor(HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
+        getFieldEditorParent()));
+
   }
 
   @Override
@@ -84,4 +90,5 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     setPreferenceStore(Activator.getDefault().getPreferenceStore());
     setDescription("Method generation preferences");
   }
+
 }

@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.4.2",
  org.eclipse.core.resources;bundle-version="3.4.2",
  org.eclipse.jdt.core;bundle-version="3.4.2",
  org.eclipse.jface.text;bundle-version="3.4.2",
- org.eclipse.jdt.ui;bundle-version="3.4.2"
+ org.eclipse.jdt.ui;bundle-version="3.4.2",
+ org.eclipse.core.expressions;bundle-version="3.4.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: net.sf.guavaeclipse.Activator
