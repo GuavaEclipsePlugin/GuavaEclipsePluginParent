@@ -33,11 +33,14 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public abstract class AbstractSwtBotIntegrationTest {
@@ -52,10 +55,10 @@ public abstract class AbstractSwtBotIntegrationTest {
     closeWelcomeView();
   }
 
-  @AfterClass
-  public static void tearDown() {
-    bot.sleep(2000);
-  }
+  // @AfterClass
+  // public static void tearDown() {
+  // // bot.sleep(2000);
+  // }
 
   public static void sleep() {
     sleep(1500);
@@ -182,38 +185,57 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   public void createJavaProjectIfNotExists(String projectName) {
-    try {
-      bot.menu("Window").menu("Open Perspective").menu("Java").click();
-    } catch (WidgetNotFoundException e) {
-      // do nothing java perspective is already open
+    if (!"Java".equals(bot.activePerspective().getLabel())) {
+      try {
+        bot.menu("Window").menu("Open Perspective").menu("Java").click();
+      } catch (WidgetNotFoundException e) {
+        // do nothing java perspective is already open
+      }
     }
     try {
-      bot.tree().getTreeItem(projectName).select();
-    } catch (WidgetNotFoundException e) {
-      try {
-
-        bot.tree().setFocus();
-        bot.menu("File").menu("New").menu("Java Project").click();
-        bot.textWithLabel("&Project name:").setText(projectName);
-        bot.button("Next >").click();
-        try {
-          bot.tabItem("&Libraries").activate();
-          bot.button("Add Variable...").click();
-          bot.button("Extend...").click();
-          bot.tree().getTreeItem("plugins").expand()
-              .getNode("com.google.guava_15.0.0.v201403281430.jar").select();
-          bot.button("OK").click();
-        } catch (WidgetNotFoundException e2) {
-          // ignore
-          bot.button("Cancel").click();
-          bot.button("Cancel").click();
+      SWTBotTree tree = bot.tree();
+      boolean projectExists = false;
+      if (tree.hasItems()) {
+        SWTBotTreeItem[] allItems = tree.getAllItems();
+        for (int i = 0; i < allItems.length; i++) {
+          SWTBotTreeItem item = allItems[i];
+          if (projectName.equals(item.getText())) {
+            projectExists = true;
+          }
         }
-        bot.button("Finish").click();
-        sleep();
-        bot.tree().getTreeItem(projectName).select();
-      } catch (WidgetNotFoundException e1) {
-        e1.printStackTrace();
       }
+      if (!projectExists) {
+        createProject(projectName);
+      }
+    } catch (WidgetNotFoundException e) {
+      logger.error("Error during creation Project " + projectName, e);
+    }
+  }
+
+  private void createProject(String projectName) {
+    try {
+
+      bot.tree().setFocus();
+      bot.menu("File").menu("New").menu("Java Project").click();
+      bot.textWithLabel("&Project name:").setText(projectName);
+      bot.button("Next >").click();
+      try {
+        bot.tabItem("&Libraries").activate();
+        bot.button("Add Variable...").click();
+        bot.button("Extend...").click();
+        bot.tree().getTreeItem("plugins").expand()
+            .getNode("com.google.guava_15.0.0.v201403281430.jar").select();
+        bot.button("OK").click();
+      } catch (WidgetNotFoundException e2) {
+        // ignore
+        bot.button("Cancel").click();
+        bot.button("Cancel").click();
+      }
+      bot.button("Finish").click();
+      sleep();
+      bot.tree().getTreeItem(projectName).select();
+    } catch (WidgetNotFoundException e1) {
+      logger.error("Error during creation Project " + projectName, e1);
     }
   }
 
@@ -307,6 +329,7 @@ public abstract class AbstractSwtBotIntegrationTest {
       return "unknown - this is an ERROR";
     }
   }
+
   private String getClassName(SWTBotEclipseEditor cutEditor) {
     return cutEditor.getTitle().substring(0, cutEditor.getTitle().length() - 5);
   }
@@ -342,9 +365,13 @@ public abstract class AbstractSwtBotIntegrationTest {
     this.createClass("net.sf.guavaeclipse.test", className, superClass, interfaceName);
   }
 
-  public void createClass(String packageName, String className, String superClass,
-      String interfaceName) {
+  public void createClass(final String packageName, final String className,
+      final String superClass, final String interfaceName) {
     bot.menu("New").menu("Class").click();
+    bot.waitUntil(Conditions.shellIsActive("New Java Class"));
+
+    // SWTBotShell shell = bot.shell("New Java Class");
+    // SWTBot currentBot = shell.bot();
     bot.textWithLabel("Pac&kage:").setText(packageName);
     bot.textWithLabel("Na&me:").setText(className);
     if (superClass != null && !superClass.isEmpty()) {
@@ -352,24 +379,54 @@ public abstract class AbstractSwtBotIntegrationTest {
     }
     if (interfaceName != null && !interfaceName.isEmpty()) {
       bot.button("Add...").click();
+      // bot.waitUntil(Conditions.shellIsActive("Implemented Interfaces Selection"));
+      // Implemented Interface Selection
       bot.text().setText(interfaceName);
-      sleep();
-      bot.button("OK").click();
+      final SWTBotTable tableWithLabel = bot.tableWithLabel("Matching items:");
+      bot.waitUntil(new DefaultCondition() {
+
+        @Override
+        public boolean test() throws Exception {
+          if (tableWithLabel.getTableItem("InterfaceSample - net.sf.guavaeclipse.test").isVisible()) {
+            tableWithLabel.getTableItem("InterfaceSample - net.sf.guavaeclipse.test").select();
+            return true;
+          }
+          return false;
+        }
+
+        @Override
+        public String getFailureMessage() {
+          return interfaceName + " could not be found";
+        }
+      });
+      SWTBotButton button = bot.button("OK");
+      button.click();
     }
     bot.button("Finish").click();
-    sleep();
+    bot.waitUntil(Conditions.shellCloses(bot.shell("New Java Class")));
   }
 
   public void createInterface(String interfaceName) {
     this.createInterface("net.sf.guavaeclipse.test", interfaceName);
   }
 
-  public void createInterface(String packageName, String interfaceName) {
+  public void createInterface(final String packageName, final String interfaceName) {
     bot.menu("New").menu("Interface").click();
-    bot.textWithLabel("Pac&kage:").setText(packageName);
-    bot.textWithLabel("Na&me:").setText(interfaceName);
-    bot.button("Finish").click();
-    sleep();
+    bot.waitUntil(Conditions.shellIsActive("New Java Interface"));
+
+    UIThreadRunnable.syncExec(new VoidResult() {
+      @Override
+      public void run() {
+        SWTBotShell shell = bot.shell("New Java Interface");
+        SWTBot currentBot = shell.bot();
+        currentBot.textWithLabel("Pac&kage:").setText(packageName);
+        currentBot.textWithLabel("Na&me:").setText(interfaceName);
+        currentBot.button("Finish").click();
+        shell.close();
+        bot.waitUntil(Conditions.shellCloses(shell));
+      }
+    });
+    // sleep();
   }
 
   protected SWTBotEclipseEditor executeTestForSampleSimple(MenuSelection menuSelection)

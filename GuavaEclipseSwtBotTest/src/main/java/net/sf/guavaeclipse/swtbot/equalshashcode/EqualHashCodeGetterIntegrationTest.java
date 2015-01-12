@@ -60,7 +60,7 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
 
     generateGetter(cutEditor, 6, "objectValue");
-    sleep(1000);
+    sleep(1500);
     cutEditor.selectLine(10);
     executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
