@@ -1,3 +1,25 @@
+Guava Eclipse Plugin 1.3.0 RELEASE NOTES
+
+We are pleased to announce the Guava Eclipse Plugin 1.3.0 release!
+
+New features:
+- FR#10: possibility to disable the compareTo menu entry (https://sourceforge.net/p/guavaeclipse/feature-requests/10/)
+- FR#11: Preselect all Fields in SelectionDialog (https://sourceforge.net/p/guavaeclipse/feature-requests/11/)
+- FR#12: Possibility to define ShortCut Keys for the MenuActions (https://sourceforge.net/p/guavaeclipse/feature-requests/12/)
+
+Fixed Bugs:
+- Bug#5 toString generation for Arrays with primitiv types doesn't work properly (https://sourceforge.net/p/guavaeclipse/bugs/5/)
+- Bug#6 generated equals method for Object Arrays is to much (https://sourceforge.net/p/guavaeclipse/bugs/6/)
+
+Known Issues:
+- FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
+- Bug#2 CompareTo Method generation includes variables which are not comparable (https://sourceforge.net/p/guavaeclipse/bugs/2/)
+
+
+Every Help is welcome
+
+
+---------------------------------------------------------------------------------------------------
 Guava Eclipse Plugin 1.2.1 RELEASE NOTES
 
 We are pleased to announce the Guava Eclipse Plugin 1.2.1 release!
