@@ -86,7 +86,7 @@
                 <equals value="org.eclipse.jdt.ui.CompilationUnitEditor" />
               </with>
 <!--
-hermanlintvelt.blogspot.de/2009/06/eclipse-rcp-commands-part-3-visiblewhen.html
+http://hermanlintvelt.blogspot.de/2009/06/eclipse-rcp-commands-part-3-visiblewhen.html
 https://wiki.eclipse.org/Command_Core_Expressions
 http://stackoverflow.com/questions/1342532/how-to-add-items-in-popup-menu
 -->
@@ -155,6 +155,8 @@ http://codeandme.blogspot.fr/2012/04/source-provider-property-tester-and.html
            </command>
       </menuContribution>
    </extension>
+   
+   
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
       <propertyTester
@@ -175,5 +177,4 @@ http://codeandme.blogspot.fr/2012/04/source-provider-property-tester-and.html
          </variable>
       </sourceProvider>
    </extension>
-
 </plugin>
