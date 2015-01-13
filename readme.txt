@@ -14,6 +14,7 @@ Fixed Bugs:
 Known Issues:
 - FR#8: Maven Release Mechanism does not work (https://sourceforge.net/p/guavaeclipse/feature-requests/8/)
 - Bug#2 CompareTo Method generation includes variables which are not comparable (https://sourceforge.net/p/guavaeclipse/bugs/2/)
+- Bug#7 MenuEntries does not appear when pressing ShortCut Alt+Shift+S (https://sourceforge.net/p/guavaeclipse/bugs/7/)
 
 
 Every Help is welcome
