@@ -1,6 +1,0 @@
-package net.sf.guavaeclipse.test;
-
-public interface InterfaceSample {
-
-	public String getStringValue();
-}
