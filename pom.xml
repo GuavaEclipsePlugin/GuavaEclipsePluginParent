@@ -12,7 +12,7 @@
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
-		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
+		<luna-repo.url>http://download.eclipse.org/releases/mars</luna-repo.url>
 		<!-- <luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url> -->
 
 		<swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url>

@@ -26,13 +26,14 @@ import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CO
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.DONT_USE_SUPER;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.USE_SUPER;
-import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import net.sf.guavaeclipse.Activator;
 
 public class UserPreferencePage extends FieldEditorPreferencePage implements
     IWorkbenchPreferencePage {
@@ -46,6 +47,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
   public static final String HASH_CODE_STRATEGY_PREFERENCE = "guavaEclipsePlugin.HashCodeStrategy"; //$NON-NLS-1$
 
   public static final String HIDE_COMPARE_TO_PREFERENCE = "guavaEclipsePlugin.hideCompareTo"; //$NON-NLS-1$
+
+  public static final String MORE_OBJECTS_PREFERENCE = "guavaEclipsePlugin.moreObjects"; //$NON-NLS-1$
 
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
@@ -82,6 +85,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
     addField(new BooleanFieldEditor(HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
         getFieldEditorParent()));
+    addField(new BooleanFieldEditor(MORE_OBJECTS_PREFERENCE,
+        "Use MoreObjects in toString Method (requires guava 18.0)", getFieldEditorParent()));
 
   }
 

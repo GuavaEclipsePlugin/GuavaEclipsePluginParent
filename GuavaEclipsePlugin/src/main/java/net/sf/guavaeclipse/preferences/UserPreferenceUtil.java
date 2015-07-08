@@ -20,10 +20,12 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_P
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
-import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import net.sf.guavaeclipse.Activator;
 
 public final class UserPreferenceUtil {
 
@@ -59,6 +61,12 @@ public final class UserPreferenceUtil {
   public static Boolean isHideCompareTo() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(HIDE_COMPARE_TO_PREFERENCE);
+    return Boolean.valueOf(a);
+  }
+
+  public static Boolean useMoreObjects() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(MORE_OBJECTS_PREFERENCE);
     return Boolean.valueOf(a);
   }
 

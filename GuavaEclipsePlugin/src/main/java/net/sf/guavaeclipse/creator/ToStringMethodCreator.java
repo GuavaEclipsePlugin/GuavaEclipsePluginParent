@@ -18,16 +18,17 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 
 import java.util.List;
+
+import org.eclipse.jdt.core.JavaModelException;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
-
-import org.eclipse.jdt.core.JavaModelException;
 
 public class ToStringMethodCreator extends AbstractMethodCreator {
 
@@ -46,7 +47,11 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
     content.append("public String toString() {\n");
-    content.append("  return Objects.toStringHelper(this)\n");
+    if (useMoreObjects()) {
+      content.append("  return MoreObjects.toStringHelper(this)\n");
+    } else {
+      content.append("  return Objects.toStringHelper(this)\n");
+    }
 
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
       content.append("    .add(\"super\", super.toString())\n");
@@ -80,10 +85,14 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
 
   @Override
   protected String getPackageToImport() {
+    String packageToImport = super.getPackageToImport();
+    if (useMoreObjects()) {
+      packageToImport = "com.google.common.base.MoreObjects";
+    }
     if (useArrays) {
-      return super.getPackageToImport() + "," + IMPORT_DECL_ARRAYS;
+      return packageToImport + "," + IMPORT_DECL_ARRAYS;
     } else {
-      return super.getPackageToImport();
+      return packageToImport;
     }
   }
 
