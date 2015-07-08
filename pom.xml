@@ -4,19 +4,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
-	<version>1.3.1-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<tycho.version>0.21.0</tycho.version>
+		<tycho.version>0.23.0</tycho.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
-		<!-- <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url> -->
-		<luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url>
+		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
+		<!-- <luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url> -->
 
-		<!-- <swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url> -->
-		<swtbot.url>file:/D:/Wad/p2repos/swtbot/swtbot</swtbot.url>
+		<swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url>
+		<!-- <swtbot.url>file:/D:/Wad/p2repos/swtbot/swtbot</swtbot.url> -->
 
 
 		<test.vmparams></test.vmparams>
@@ -31,13 +31,13 @@
 		</license>
 	</licenses>
 	<issueManagement>
-		<system>SourceForge Trac Bugs/FeatureRequests</system>
-		<url>https://sourceforge.net/p/guavaeclipse/_list/tickets?source=navbar</url>
+		<system>Github Issue Tracking</system>
+		<url>https://github.com/GuaveEclipseHelperTeam/GuavaEclipseHelper/issues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</connection>
-		<developerConnection>scm:git:https://${username}@git.code.sf.net/p/guavaeclipse/GuavaEclipseHelper</developerConnection>
-		<url>https://sourceforge.net/p/guavaeclipse/GuavaEclipseHelper/ci/master/tree/</url>
+		<connection>scm:git:https://github.com/GuaveEclipseHelperTeam/GuavaEclipseHelper.git</connection>
+		<developerConnection>scm:git:https://github.com/GuaveEclipseHelperTeam/GuavaEclipseHelper.git</developerConnection>
+		<url>https://github.com/GuaveEclipseHelperTeam/GuavaEclipseHelper.git</url>
 	</scm>
 
 	<distributionManagement>
