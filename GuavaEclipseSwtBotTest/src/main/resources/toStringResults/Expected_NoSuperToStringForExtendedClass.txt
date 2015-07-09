@@ -9,8 +9,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("objectValue", objectValue)
-				.toString();
+		return Objects.toStringHelper(this).add("objectValue", objectValue).toString();
 	}
 
 }

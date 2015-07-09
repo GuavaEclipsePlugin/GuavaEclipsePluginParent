@@ -13,8 +13,7 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 
 	@Override
 	public int hashCode() {
-		return Arrays
-				.deepHashCode(new Object[] { super.hashCode(), stringValue });
+		return Arrays.deepHashCode(new Object[] { super.hashCode(), stringValue });
 	}
 
 	@Override
@@ -23,8 +22,7 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 			if (!super.equals(object))
 				return false;
 			SampleExtendedAndInterface that = (SampleExtendedAndInterface) object;
-			return Arrays.deepEquals(new Object[] { this.stringValue },
-					new Object[] { that.stringValue });
+			return Arrays.deepEquals(new Object[] { this.stringValue }, new Object[] { that.stringValue });
 		}
 		return false;
 	}

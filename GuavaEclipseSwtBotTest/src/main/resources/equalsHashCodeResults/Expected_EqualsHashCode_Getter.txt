@@ -21,8 +21,7 @@ public class SampleSimple {
 	public boolean equals(Object object) {
 		if (object instanceof SampleSimple) {
 			SampleSimple that = (SampleSimple) object;
-			return Objects.equal(this.intValue, that.intValue)
-					&& Objects.equal(this.getStrValue(), that.getStrValue());
+			return Objects.equal(this.intValue, that.intValue) && Objects.equal(this.getStrValue(), that.getStrValue());
 		}
 		return false;
 	}

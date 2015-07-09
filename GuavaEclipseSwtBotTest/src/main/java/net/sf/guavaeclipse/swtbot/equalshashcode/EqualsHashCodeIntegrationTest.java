@@ -52,7 +52,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -62,8 +64,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -73,8 +76,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -85,8 +89,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClassAndExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -121,7 +126,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceEqualsAndHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -144,7 +151,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceEqualsAndHashCodeAgain()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -163,8 +172,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyEquals.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyEquals.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceOnlyEquals()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -183,8 +193,9 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyHashCode.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyHashCode.txt";
+    logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceOnlyHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

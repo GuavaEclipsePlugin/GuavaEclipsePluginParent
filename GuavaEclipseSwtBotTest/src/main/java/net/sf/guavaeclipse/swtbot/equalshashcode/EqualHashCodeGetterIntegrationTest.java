@@ -44,8 +44,9 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    logEditorResults(EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCode()", editorText);
-    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCode_Getter.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -65,8 +66,9 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     executePluginMethod(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass_Getter.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -76,8 +78,9 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass_Getter.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForInterfaceClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -88,8 +91,9 @@ public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass_Getter.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForInterfaceClassAndExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

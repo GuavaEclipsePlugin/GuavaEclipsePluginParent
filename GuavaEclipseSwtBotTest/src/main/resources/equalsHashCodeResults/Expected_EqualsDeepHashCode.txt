@@ -17,10 +17,8 @@ public class SampleSimple {
 	public boolean equals(Object object) {
 		if (object instanceof SampleSimple) {
 			SampleSimple that = (SampleSimple) object;
-			return Arrays.deepEquals(new Object[] { this.intValue },
-					new Object[] { that.intValue })
-					&& Arrays.deepEquals(new Object[] { this.strValue },
-							new Object[] { that.strValue });
+			return Arrays.deepEquals(new Object[] { this.intValue }, new Object[] { that.intValue })
+					&& Arrays.deepEquals(new Object[] { this.strValue }, new Object[] { that.strValue });
 		}
 		return false;
 	}

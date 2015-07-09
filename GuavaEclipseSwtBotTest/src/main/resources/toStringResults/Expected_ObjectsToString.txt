@@ -12,9 +12,8 @@ public class SampleSimple {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("intValue", intValue)
-				.add("strValue", strValue).add("strValue2", strValue2)
-				.toString();
+		return Objects.toStringHelper(this).add("intValue", intValue).add("strValue", strValue)
+				.add("strValue2", strValue2).toString();
 	}
 
 }

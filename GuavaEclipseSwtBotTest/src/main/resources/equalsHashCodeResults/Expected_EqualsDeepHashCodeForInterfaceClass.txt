@@ -20,8 +20,7 @@ public class SampleImplementsInterface implements InterfaceSample {
 	public boolean equals(Object object) {
 		if (object instanceof SampleImplementsInterface) {
 			SampleImplementsInterface that = (SampleImplementsInterface) object;
-			return Arrays.deepEquals(new Object[] { this.stringValue },
-					new Object[] { that.stringValue });
+			return Arrays.deepEquals(new Object[] { this.stringValue }, new Object[] { that.stringValue });
 		}
 		return false;
 	}

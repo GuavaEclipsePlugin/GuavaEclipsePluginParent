@@ -21,6 +21,7 @@ import static net.sf.guavaeclipse.swtbot.MenuSelection.COMPARE_TO;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
+import net.sf.guavaeclipse.swtbot.equalshashcode.EqualHashCodeGetterIntegrationTest;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.junit.BeforeClass;
@@ -39,7 +40,9 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(COMPARE_TO);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("compareResults/Expected_CompareTo.txt");
+    String fileName = "compareResults/Expected_CompareTo.txt";
+    logEditorResults(fileName, CompareIntegrationTest.class, "createCompareTo()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

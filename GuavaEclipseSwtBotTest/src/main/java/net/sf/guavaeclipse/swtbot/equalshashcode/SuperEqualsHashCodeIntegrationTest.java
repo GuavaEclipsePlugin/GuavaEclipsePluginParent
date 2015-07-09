@@ -44,7 +44,9 @@ public class SuperEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_SuperEqualsHashCode.txt");
+    String fileName = "equalsHashCodeResults/Expected_SuperEqualsHashCode.txt";
+    logEditorResults(fileName, SuperEqualsHashCodeIntegrationTest.class, "createEqualsHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -54,8 +56,9 @@ public class SuperEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt";
+    logEditorResults(fileName, SuperEqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -65,8 +68,9 @@ public class SuperEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("equalsHashCodeResults/Expected_SuperEqualsHashCodeForInterfaceClass.txt");
+    String fileName = "equalsHashCodeResults/Expected_SuperEqualsHashCodeForInterfaceClass.txt";
+    logEditorResults(fileName, SuperEqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -75,8 +79,10 @@ public class SuperEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt";
+    logEditorResults(fileName, SuperEqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClassAndExtendedClass()", editorText);
     String expectedText =
-        readFile("equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt");
+        readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

@@ -9,8 +9,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 
 	@Override
 	public int hashCode() {
-		return Arrays
-				.deepHashCode(new Object[] { super.hashCode(), objectValue });
+		return Arrays.deepHashCode(new Object[] { super.hashCode(), objectValue });
 	}
 
 	@Override
@@ -19,8 +18,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 			if (!super.equals(object))
 				return false;
 			ExtendedSimpleClass that = (ExtendedSimpleClass) object;
-			return Arrays.deepEquals(new Object[] { this.objectValue },
-					new Object[] { that.objectValue });
+			return Arrays.deepEquals(new Object[] { this.objectValue }, new Object[] { that.objectValue });
 		}
 		return false;
 	}

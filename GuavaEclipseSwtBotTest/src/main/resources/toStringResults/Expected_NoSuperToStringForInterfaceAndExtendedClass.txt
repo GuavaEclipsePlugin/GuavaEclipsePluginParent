@@ -13,8 +13,7 @@ public class SampleExtendedAndInterface extends SampleSimple implements Interfac
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("stringValue", stringValue)
-				.toString();
+		return Objects.toStringHelper(this).add("stringValue", stringValue).toString();
 	}
 
 }

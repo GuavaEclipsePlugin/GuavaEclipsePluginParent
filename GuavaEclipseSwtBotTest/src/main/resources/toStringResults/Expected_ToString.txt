@@ -10,8 +10,7 @@ public class SampleSimple {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("intValue", intValue)
-				.add("strValue", strValue).toString();
+		return Objects.toStringHelper(this).add("intValue", intValue).add("strValue", strValue).toString();
 	}
 
 }

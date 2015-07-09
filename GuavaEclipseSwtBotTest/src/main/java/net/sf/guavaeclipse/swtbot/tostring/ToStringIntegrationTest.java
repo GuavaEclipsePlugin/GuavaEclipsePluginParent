@@ -51,7 +51,9 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("toStringResults/Expected_ToString.txt");
+    String fileName = "toStringResults/Expected_ToString.txt";
+    logEditorResults(fileName, ToStringIntegrationTest.class, "createToStringMethod()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -61,7 +63,9 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("toStringResults/Expected_ToStringForExtendedClass.txt");
+    String fileName = "toStringResults/Expected_ToStringForExtendedClass.txt";
+    logEditorResults(fileName, ToStringIntegrationTest.class, "createtoStringForExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -71,7 +75,9 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     SWTBotEclipseEditor cutEditor = executeTestForInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("toStringResults/Expected_ToStringForInterfaceClass.txt");
+    String fileName = "toStringResults/Expected_ToStringForInterfaceClass.txt";
+    logEditorResults(fileName, ToStringIntegrationTest.class, "createtoStringForInterfaceClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -80,8 +86,9 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String expectedText =
-        readFile("toStringResults/Expected_ToStringForInterfaceAndExtendedClass.txt");
+    String fileName = "toStringResults/Expected_ToStringForInterfaceAndExtendedClass.txt";
+    logEditorResults(fileName, ToStringIntegrationTest.class, "createtoStringForInterfaceClassAndExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -104,7 +111,9 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
     processDialog(cutEditor, TO_STRING);
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("toStringResults/Expected_ToString_Overwrite.txt");
+    String fileName = "toStringResults/Expected_ToString_Overwrite.txt";
+    logEditorResults(fileName, ToStringIntegrationTest.class, "replaceToString()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

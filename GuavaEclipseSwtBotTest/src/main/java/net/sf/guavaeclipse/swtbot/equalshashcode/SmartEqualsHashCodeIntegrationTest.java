@@ -34,7 +34,9 @@ public class SmartEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
 
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_SmartEqualsHashCode.txt");
+    String fileName = "equalsHashCodeResults/Expected_SmartEqualsHashCode.txt";
+    logEditorResults(fileName, SmartEqualsHashCodeIntegrationTest.class, "createEqualsHashCode()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -50,7 +52,9 @@ public class SmartEqualsHashCodeIntegrationTest extends AbstractSwtBotIntegratio
 
 
     String editorText = cutEditor.getText();
-    String expectedText = readFile("equalsHashCodeResults/Expected_EqualsHashCodeArray.txt");
+    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeArray.txt";
+    logEditorResults(fileName, SmartEqualsHashCodeIntegrationTest.class, "createEqualsHashCodeAlwaysGuava()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 

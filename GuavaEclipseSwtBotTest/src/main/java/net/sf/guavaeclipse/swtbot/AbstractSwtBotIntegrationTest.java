@@ -35,6 +35,7 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -53,6 +54,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   public static void beforeClass() throws Exception {
     bot = new SWTWorkbenchBot();
     closeWelcomeView();
+    prepareWorkSpace();
   }
 
   // @AfterClass
@@ -60,6 +62,59 @@ public abstract class AbstractSwtBotIntegrationTest {
   // // bot.sleep(2000);
   // }
 
+  public static void prepareWorkSpace() {
+
+    SWTBotMenu menu = bot.menu("Window").click();
+    menu.menu("Preferences").click();
+
+    
+    SWTBotShell shell = bot.shell("Preferences");
+    shell.activate();
+    waitForPreferencesShell();
+    
+    try {
+    bot.toolbarButtonWithTooltip("Oomph preference recorder enabled - Push to disable").click();
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
+    
+    try {
+//    SWTBot bot = shell.bot();
+    bot.tree(0).getTreeItem("General").expand().select();
+    waitForPreferencesShell();
+    bot.tree().getTreeItem("General").getNode("Error Reporting").select();
+    waitForPreferencesShell();
+    bot.comboBox().setSelection("Never send");
+    waitForPreferencesShell();
+    bot.button("Apply").click();
+    waitForPreferencesShell();
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
+
+
+//    bot.tree().getTreeItem("Java").expand().select();
+//    waitForPreferencesShell();
+//    bot.tree().getTreeItem("Java").getNode("Code Style").expand().select();
+//    waitForPreferencesShell();
+//    bot.tree().getTreeItem("Java").getNode("Code Style").getNode("Formatter").select();
+//    bot.comboBox().setSelection("Eclipse [built-in]");
+//    bot.button("Edit...").click();
+//    waitForPreferencesShell();
+//    bot.textWithLabel("&Profile name:").setText("Eclipse [built-in] 80");
+//    waitForPreferencesShell();
+//    bot.tabItem("Line Wrappin&g").activate();
+//    waitForPreferencesShell();
+//    bot.textWithLabel("Max&imum line width:").setText("80");
+//    waitForPreferencesShell();
+//    
+//    bot.button("OK").click();
+//    bot.button("Apply").click();
+    
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+  
   public static void sleep() {
     sleep(1500);
   }
@@ -94,6 +149,9 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   private static SWTBotShell openGuavaPreferences() {
+    
+//    disableOomph();
+    
     SWTBotMenu menu = bot.menu("Window").click();
     menu.menu("Preferences").click();
 
@@ -524,10 +582,11 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   @SuppressWarnings("rawtypes")
-  protected void logEditorResults(Class clazz, String methodName, String editorText) {
+  protected void logEditorResults(String filename, Class clazz, String methodName, String editorText) {
     if (logger.isInfoEnabled()) {
-      logger.info(clazz.getName() + "#" + methodName + " Editor Result:\n" + editorText);
+      logger.info("ResultFile: "+filename+" TestCase"+clazz.getName() + "#" + methodName + " Editor Result:\n" + editorText);
     }
+//    logger.error(clazz.getName() + "#" + methodName + " Editor Result:\n" + editorText);
   }
 
 }

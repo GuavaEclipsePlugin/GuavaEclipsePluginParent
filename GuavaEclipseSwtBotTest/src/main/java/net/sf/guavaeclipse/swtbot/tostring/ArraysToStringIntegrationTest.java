@@ -41,8 +41,9 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
-    String expectedText = readFile("toStringResults/Expected_SmartToString.txt");
+    String fileName = "toStringResults/Expected_SmartToString.txt";
+    logEditorResults(fileName, ArraysToStringIntegrationTest.class, "createToString()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -57,8 +58,9 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
-    String expectedText = readFile("toStringResults/Expected_ObjectsToString.txt");
+    String fileName = "toStringResults/Expected_ObjectsToString.txt";
+    logEditorResults(fileName, ArraysToStringIntegrationTest.class, "createToStringAlwaysObjects()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
@@ -73,8 +75,9 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
 
 
     String editorText = cutEditor.getText();
-    logEditorResults(ArraysToStringIntegrationTest.class, "createToString()", editorText);
-    String expectedText = readFile("toStringResults/Expected_ArraysToString.txt");
+    String fileName = "toStringResults/Expected_ArraysToString.txt";
+    logEditorResults(fileName, ArraysToStringIntegrationTest.class, "createToStringAlwaysArrays()", editorText);
+    String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
