@@ -188,6 +188,36 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectMoreObjects() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use MoreObjects in toString Method (requires guava 18.0)");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectMoreObjects() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use MoreObjects in toString Method (requires guava 18.0)");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseGetter() {
     SWTBotShell shell = openGuavaPreferences();
 
