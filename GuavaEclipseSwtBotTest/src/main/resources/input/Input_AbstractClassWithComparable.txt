@@ -1,0 +1,16 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.collect.ComparisonChain;
+
+public abstract class AbstractClassWithComparable implements Comparable<AbstractClassWithComparable> {
+
+	private int value2;
+
+	@Override
+	public int compareTo(AbstractClassWithComparable that) {
+		return ComparisonChain.start().compare(this.value2, that.value2)
+				.result();
+	}
+	
+	
+}

@@ -1,0 +1,15 @@
+package net.sf.guavaeclipse.test;
+
+public class ClassWithoutComparable {
+
+	
+	private int sampleInt2;
+
+	public int getSampleInt2() {
+		return sampleInt2;
+	}
+
+	public void setSampleInt2(int sampleInt2) {
+		this.sampleInt2 = sampleInt2;
+	}
+}

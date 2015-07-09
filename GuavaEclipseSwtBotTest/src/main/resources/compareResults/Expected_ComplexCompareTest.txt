@@ -1,0 +1,56 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.collect.ComparisonChain;
+
+public class ComplexCompareTest implements Comparable<ComplexCompareTest> {
+
+	private String[] arraySample1;
+	
+	private ClassWithComparable compEnabled;
+	
+	private ClassWithoutComparable compDisabled;
+
+	private int intValue3;
+	
+	private SampleEnum enumValue1;
+	
+	private String simpleString1;
+	
+	private InterfaceWithComparable iFaceWithComp;
+	
+	private InterfaceWithoutComparable iFaceWithoutComp;
+	
+	private ClassExtendsSomeComparable compEnabled2;
+	
+	private ClassExtendSomeNonComparable compDisabled2;
+	
+	private AbstractClassWithComparable compEnabled3;
+	
+	private AbstractClassWithoutComparable compDisabled3;
+	
+	private Object ob;
+
+	@Override
+	public int compareTo(ComplexCompareTest that) {
+		return ComparisonChain.start()
+				// XXX field 'arraySample1' is an Array! and they are not comparable by default 
+				//.compare(this.arraySample1, that.arraySample1)
+				.compare(this.compEnabled, that.compEnabled)
+				// XXX field 'compDisabled'  does not implements java.lang.Comparable 
+				//.compare(this.compDisabled, that.compDisabled)
+				.compare(this.intValue3, that.intValue3).compare(this.enumValue1, that.enumValue1)
+				.compare(this.simpleString1, that.simpleString1).compare(this.iFaceWithComp, that.iFaceWithComp)
+				// XXX field 'iFaceWithoutComp'  does not implements java.lang.Comparable 
+				//.compare(this.iFaceWithoutComp, that.iFaceWithoutComp)
+				.compare(this.compEnabled2, that.compEnabled2)
+				// XXX field 'compDisabled2'  does not implements java.lang.Comparable 
+				//.compare(this.compDisabled2, that.compDisabled2)
+				.compare(this.compEnabled3, that.compEnabled3)
+				// XXX field 'compDisabled3'  does not implements java.lang.Comparable 
+				//.compare(this.compDisabled3, that.compDisabled3)
+				// XXX field 'ob' java.lang.Object is not comparable 
+				//.compare(this.ob, that.ob)
+				.result();
+	}
+
+}

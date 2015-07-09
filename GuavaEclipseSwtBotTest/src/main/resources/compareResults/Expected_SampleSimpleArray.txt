@@ -1,0 +1,24 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.collect.ComparisonChain;
+
+public class SampleSimple implements Comparable<SampleSimple> {
+
+	private int intValue[][];
+
+	private String strValue;
+
+	private String strValue2[];
+
+	@Override
+	public int compareTo(SampleSimple that) {
+		return ComparisonChain.start()
+				// XXX field 'intValue' is an Array! and they are not comparable by default 
+				//.compare(this.intValue, that.intValue)
+				.compare(this.strValue, that.strValue)
+				// XXX field 'strValue2' is an Array! and they are not comparable by default 
+				//.compare(this.strValue2, that.strValue2)
+				.result();
+	}
+
+}

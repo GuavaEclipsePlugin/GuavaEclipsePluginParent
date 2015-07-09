@@ -1,0 +1,7 @@
+package net.sf.guavaeclipse.test;
+
+public enum SampleEnum {
+
+	TEST1,
+	TEST2;
+}

@@ -1,0 +1,15 @@
+package net.sf.guavaeclipse.test;
+
+public class ClassExtendSomeNonComparable extends ClassWithoutComparable {
+
+	private int intvalue2;
+
+	public int getIntvalue2() {
+		return intvalue2;
+	}
+
+	public void setIntvalue2(int intvalue2) {
+		this.intvalue2 = intvalue2;
+	}
+	
+}

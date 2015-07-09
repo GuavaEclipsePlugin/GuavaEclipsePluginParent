@@ -1,0 +1,11 @@
+package net.sf.guavaeclipse.test;
+
+public class SampleBean {
+
+    private int testInt;
+
+    private String testString;
+
+    private Object testObject;
+
+}

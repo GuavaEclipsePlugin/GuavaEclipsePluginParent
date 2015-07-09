@@ -1,0 +1,24 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.collect.ComparisonChain;
+
+public class ClassWithComparable implements Comparable<ClassWithComparable> {
+
+	private int sampleInt1;
+
+	@Override
+	public int compareTo(ClassWithComparable that) {
+		return ComparisonChain.start().compare(this.sampleInt1, that.sampleInt1)
+				.result();
+	}
+
+	public int getSampleInt1() {
+		return sampleInt1;
+	}
+
+	public void setSampleInt1(int sampleInt1) {
+		this.sampleInt1 = sampleInt1;
+	}
+	
+	
+}

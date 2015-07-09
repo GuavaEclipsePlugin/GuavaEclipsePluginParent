@@ -1,0 +1,5 @@
+package net.sf.guavaeclipse.test;
+
+public class ClassExtendsSomeComparable extends ClassWithComparable {
+
+}

@@ -1,0 +1,31 @@
+package net.sf.guavaeclipse.test;
+
+public class ComplexCompareTest {
+
+	private String[] arraySample1;
+	
+	private ClassWithComparable compEnabled;
+	
+	private ClassWithoutComparable compDisabled;
+
+	private int intValue3;
+	
+	private SampleEnum enumValue1;
+	
+	private String simpleString1;
+	
+	private InterfaceWithComparable iFaceWithComp;
+	
+	private InterfaceWithoutComparable iFaceWithoutComp;
+	
+	private ClassExtendsSomeComparable compEnabled2;
+	
+	private ClassExtendSomeNonComparable compDisabled2;
+	
+	private AbstractClassWithComparable compEnabled3;
+	
+	private AbstractClassWithoutComparable compDisabled3;
+	
+	private Object ob;
+
+}
