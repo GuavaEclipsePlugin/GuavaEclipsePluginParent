@@ -1,33 +1,34 @@
-/* Copyright 2014
+/*
+ * Copyright 2014
  *
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package net.sf.guavaeclipse.creator;
 
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
+
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.utils.Utils;
 
 public class CompareMethodCreator extends AbstractMethodCreator {
 
@@ -43,8 +44,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     addImplementsComparable();
   }
 
+  @SuppressWarnings("rawtypes")
   @Override
-  protected String getMethodContent() {
+  protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
     content.append("public int compareTo(")
@@ -52,36 +54,64 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     content.append("    return ComparisonChain.start()\n");
     for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
       String field = iterator.next();
-
-      // boolean appendField = false;
-      // List<IField> sample = Utils.getFields(insertionPoint.getInsertionType());
-      // for (Iterator s = sample.iterator(); s.hasNext();) {
-      // IField iField = (IField) s.next();
-      // if (iField.getElementName().equals(field)) {
-      // System.out.println();
-      // // String[][]
-      // type=iField.getDeclaringType().resolveType(iField.getTypeSignature().substring(1,iField.getTypeSignature().length()
-      // - 1));
-      // // System.out.println(iField.getJavaProject().findType(type[0][0] + "." +
-      // type[0][1]).isEnum());
-      //
-      // System.out.println(((IType)iField.getAncestor(IJavaElement.TYPE)).getElementName());
-      // // Signature.toString(iField.getType(arg0, arg1)Root()TypeSignature());
-      // System.out.println(Signature.getElementType(iField.getTypeSignature()));
-      // if (doesImplementsComparable(iField.getDeclaringType())) {
-      // appendField = true;
-      //
-      // }
-      // break;
-      // }
-      // }
-      // if (appendField) {
-      // System.out.println(field);
-      // }
-
-
-      content.append("    .compare(this.").append(field).append(", that.").append(field)
-          .append(")\n");
+      String commentMsg = "";
+      boolean appendField = false;
+      List<IField> sample = Utils.getFields(insertionPoint.getInsertionType());
+      for (Iterator s = sample.iterator(); s.hasNext();) {
+        IField iField = (IField) s.next();
+        if (iField.getElementName().equals(field)) {
+//          System.out.println("ElementName="+iField.getElementName());
+          // handling arrays...
+          if (iField.getTypeSignature().startsWith("[")) {
+            commentMsg = "is an Array! and they are not comparable by default"; 
+            appendField = false;
+            break;
+          }
+          // handling primitives
+          if (iField.getTypeSignature().length() == 1) {
+            appendField = true;
+            break;
+          }
+          String[][] type = iField.getDeclaringType().resolveType(
+              iField.getTypeSignature().substring(1, iField.getTypeSignature().length() - 1));
+          if (type != null) {
+            String fullQualifiedClassName = type[0][0] + "." + type[0][1];
+//            System.out.println("Searching for Class = "+fullQualifiedClassName);
+            if ("java.lang.Object".equals(fullQualifiedClassName)) {
+              commentMsg = "java.lang.Object is not comparable"; 
+              appendField = false;
+              break;
+            }
+            IType findType = iField.getJavaProject().findType(fullQualifiedClassName);
+            if (findType != null) {
+              if (doesImplementsComparable(findType)) {
+                appendField = true;
+              } else {
+                commentMsg = " does not implements java.lang.Comparable";
+                appendField = false;
+              }
+            } else {
+              appendField = false;
+            }
+            break;
+          } else {
+            appendField = true;
+          }
+          
+        }
+      }
+      if (appendField) {
+//        System.out.println(field +" isComparable");
+        content.append("    .compare(this.").append(field).append(", that.").append(field).append(")\n");
+      } else {
+//        System.out.println(field +" NOT Comparable");
+        if (commentMsg == null || commentMsg.trim().isEmpty()) {
+          commentMsg = "is not comparable";
+        }
+        content.append("// XXX field '"+field+"' "+commentMsg+" \n");
+        content.append("//.compare(this.").append(field).append(", that.").append(field).append(")\n");
+      }
+//      System.out.println("***************************");
     }
 
     content.append("    .result();\n");
@@ -106,19 +136,19 @@ public class CompareMethodCreator extends AbstractMethodCreator {
 
   }
 
-  @SuppressWarnings("unused")
   private boolean doesImplementsComparable(IType type) throws JavaModelException {
 
 
     // get hierarchy
     ITypeHierarchy hierarchy = type.newTypeHierarchy(null);
-    hierarchy.getRootInterfaces();
+//    hierarchy.getRootInterfaces();
     // get interfaces starting from superclass
     IType[] interfaces = hierarchy.getAllInterfaces();
 
     // does superclass implements comparable?
+//    System.out.println("interfaces for "+type.getElementName()+" = "+interfaces.length);
     for (int j = 0; j < interfaces.length; j++) {
-      System.out.println(interfaces[j].getKey());
+//      System.out.println("  "+interfaces[j].getKey());
       if (interfaces[j].getFullyQualifiedName().equals("java.lang.Comparable")) //$NON-NLS-1$
       {
         return true;
