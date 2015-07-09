@@ -3,7 +3,6 @@ package net.sf.guavaeclipse.swtbot.tostring;
 import static net.sf.guavaeclipse.swtbot.MenuSelection.TO_STRING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
