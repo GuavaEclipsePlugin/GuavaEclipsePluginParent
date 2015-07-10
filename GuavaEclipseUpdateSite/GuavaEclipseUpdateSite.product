@@ -3,8 +3,44 @@
 
 <product uid="net.sf.guavaeclipse.site" version="1.4.0.qualifier" useFeatures="true" includeLaunchers="false">
 
+
+   <configIni>
+   </configIni>
+
+   <launcherArgs>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
+   <plugins>
+   </plugins>
+
    <features>
-      <feature id="GuavaEclipseFeature" />
+      <feature id="GuavaEclipseFeature"/>
    </features>
+
+
+   <repositories>
+      <repository location="http://GuavaEclipseHelperTeam.github.io/updateSite/releases/LATEST/" enabled="true" />
+   </repositories>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
