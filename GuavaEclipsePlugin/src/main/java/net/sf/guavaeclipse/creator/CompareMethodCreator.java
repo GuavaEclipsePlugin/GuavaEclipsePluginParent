@@ -52,6 +52,28 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     content.append("public int compareTo(")
         .append(insertionPoint.getInsertionType().getElementName()).append(" that){\n");
     content.append("    return ComparisonChain.start()\n");
+    //
+    //
+    // ITypeHierarchy a =
+    // this.insertionPoint.getInsertionType().newSupertypeHierarchy(new NullProgressMonitor());
+    // IType[] allSuperClasses = a.getAllSuperclasses(this.insertionPoint.getInsertionType());
+    // for (int i = 0; i < allSuperClasses.length; i++) {
+    // IType superClass = allSuperClasses[i];
+    // if ("java.lang.Object".equals(superClass.getFullyQualifiedName())) {
+    // // reached end
+    // break;
+    // }
+    // IMethod[] methods = superClass.getMethods();
+    // for (int j = 0; j < methods.length; j++) {
+    // IMethod method = methods[i];
+    // System.out.println(method.getElementName());
+    // if ("compareTo".equals(method.getElementName())) {
+    // System.out.println("we would add");
+    // }
+    // }
+    // IMethod method = superClass.getMethod("compareTo", new String[]{"ClassWithComparable"});
+    // System.out.println(method);
+    // }
     for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
       String field = iterator.next();
       String commentMsg = "";
