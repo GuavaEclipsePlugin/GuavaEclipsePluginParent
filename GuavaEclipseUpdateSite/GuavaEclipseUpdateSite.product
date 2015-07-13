@@ -3,8 +3,7 @@
 
 <product uid="net.sf.guavaeclipse.site" version="1.4.0.qualifier" useFeatures="true" includeLaunchers="false">
 
-
-   <configIni>
+   <configIni use="">
    </configIni>
 
    <launcherArgs>
@@ -19,10 +18,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
    </plugins>
@@ -33,7 +30,8 @@
 
 
    <repositories>
-      <repository location="http://GuavaEclipseHelperTeam.github.io/updateSite/releases/LATEST/" enabled="true" />
+      <repository location="https://sourceforge.net/projects/guavaeclipse/files/SNAPSHOTS/UpdateSite/LATEST/" enabled="false" />
+      <repository location="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite/LATEST/" enabled="true" />
    </repositories>
 
    <preferencesInfo>
