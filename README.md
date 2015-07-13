@@ -3,7 +3,7 @@
 We are pleased to announce the Guava Eclipse Plugin 1.4.0 release!
 
 ###New features:
-- moved completly to github -> only the 1.4.0 Release will be also available on sourceforge.
+- moved to github
 - [#20](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/20) Using MoreObjects.toStringHelper
 
 ###Fixed Bugs:
