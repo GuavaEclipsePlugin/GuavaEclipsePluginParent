@@ -19,9 +19,11 @@ package net.sf.guavaeclipse.creator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
@@ -49,43 +51,53 @@ public class CompareMethodCreator extends AbstractMethodCreator {
   protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
-    content.append("public int compareTo(")
-        .append(insertionPoint.getInsertionType().getElementName()).append(" that){\n");
+    content.append("public int compareTo(");
+
+    String variableName = "that";
+    final IType currentClass = insertionPoint.getInsertionType();
+    IType parentCompareToClass = getParentCompareToClass(currentClass);
+    if (parentCompareToClass != null) {
+      content.append(parentCompareToClass.getElementName());
+    } else {
+      content.append(currentClass.getElementName());
+    }
+    content.append(" " + variableName + "){\n");
+
+
+    if (parentCompareToClass != null) {
+      content.append("  if ( !( that instanceof " + currentClass.getElementName() + ")) {\n");
+      content.append("  // XXX check  \n");
+      content.append("    throw new RuntimeException(\"that is not of type "
+          + currentClass.getFullyQualifiedName() + "\");\n");
+      content.append("  } \n");
+      content.append("\n");
+      content.append(currentClass.getElementName() + " obj = (" + currentClass.getElementName()
+          + ") " + variableName + ";");
+      variableName = "obj";
+    }
+
     content.append("    return ComparisonChain.start()\n");
-    //
-    //
-    // ITypeHierarchy a =
-    // this.insertionPoint.getInsertionType().newSupertypeHierarchy(new NullProgressMonitor());
-    // IType[] allSuperClasses = a.getAllSuperclasses(this.insertionPoint.getInsertionType());
-    // for (int i = 0; i < allSuperClasses.length; i++) {
-    // IType superClass = allSuperClasses[i];
-    // if ("java.lang.Object".equals(superClass.getFullyQualifiedName())) {
-    // // reached end
-    // break;
-    // }
-    // IMethod[] methods = superClass.getMethods();
-    // for (int j = 0; j < methods.length; j++) {
-    // IMethod method = methods[i];
-    // System.out.println(method.getElementName());
-    // if ("compareTo".equals(method.getElementName())) {
-    // System.out.println("we would add");
-    // }
-    // }
-    // IMethod method = superClass.getMethod("compareTo", new String[]{"ClassWithComparable"});
-    // System.out.println(method);
-    // }
+    if (parentCompareToClass != null) {
+      content
+          .append("     // XXX implement parent compare by yourself. This code won't work   .compare((")
+          .append(parentCompareToClass.getElementName()).append(") this, (")
+          .append(parentCompareToClass.getElementName()).append(") ").append(variableName)
+          .append(")\n");
+    }
+
+
     for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
       String field = iterator.next();
       String commentMsg = "";
       boolean appendField = false;
-      List<IField> sample = Utils.getFields(insertionPoint.getInsertionType());
+      List<IField> sample = Utils.getFields(currentClass);
       for (Iterator s = sample.iterator(); s.hasNext();) {
         IField iField = (IField) s.next();
         if (iField.getElementName().equals(field)) {
-//          System.out.println("ElementName="+iField.getElementName());
+          // System.out.println("ElementName="+iField.getElementName());
           // handling arrays...
           if (iField.getTypeSignature().startsWith("[")) {
-            commentMsg = "is an Array! and they are not comparable by default"; 
+            commentMsg = "is an Array! and they are not comparable by default";
             appendField = false;
             break;
           }
@@ -98,9 +110,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
               iField.getTypeSignature().substring(1, iField.getTypeSignature().length() - 1));
           if (type != null) {
             String fullQualifiedClassName = type[0][0] + "." + type[0][1];
-//            System.out.println("Searching for Class = "+fullQualifiedClassName);
+            // System.out.println("Searching for Class = "+fullQualifiedClassName);
             if ("java.lang.Object".equals(fullQualifiedClassName)) {
-              commentMsg = "java.lang.Object is not comparable"; 
+              commentMsg = "java.lang.Object is not comparable";
               appendField = false;
               break;
             }
@@ -119,21 +131,23 @@ public class CompareMethodCreator extends AbstractMethodCreator {
           } else {
             appendField = true;
           }
-          
+
         }
       }
       if (appendField) {
-//        System.out.println(field +" isComparable");
-        content.append("    .compare(this.").append(field).append(", that.").append(field).append(")\n");
+        // System.out.println(field +" isComparable");
+        content.append("    .compare(this.").append(field).append(", " + variableName + ".")
+            .append(field).append(")\n");
       } else {
-//        System.out.println(field +" NOT Comparable");
+        // System.out.println(field +" NOT Comparable");
         if (commentMsg == null || commentMsg.trim().isEmpty()) {
           commentMsg = "is not comparable";
         }
-        content.append("// XXX field '"+field+"' "+commentMsg+" \n");
-        content.append("//.compare(this.").append(field).append(", that.").append(field).append(")\n");
+        content.append("// XXX field '" + field + "' " + commentMsg + " \n");
+        content.append("//.compare(this.").append(field).append(", " + variableName + ".")
+            .append(field).append(")\n");
       }
-//      System.out.println("***************************");
+      // System.out.println("***************************");
     }
 
     content.append("    .result();\n");
@@ -151,6 +165,26 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     return "compareTo";
   }
 
+  private IType getParentCompareToClass(final IType currentClass) throws JavaModelException {
+    ITypeHierarchy a = currentClass.newSupertypeHierarchy(new NullProgressMonitor());
+    IType[] allSuperClasses = a.getAllSuperclasses(currentClass);
+    for (int i = 0; i < allSuperClasses.length; i++) {
+      IType superClass = allSuperClasses[i];
+      if ("java.lang.Object".equals(superClass.getFullyQualifiedName())) {
+        // reached end
+        return null;
+      }
+      IMethod[] methods = superClass.getMethods();
+      for (int j = 0; j < methods.length; j++) {
+        IMethod method = methods[i];
+        if ("compareTo".equals(method.getElementName())) {
+          return superClass;
+        }
+      }
+    }
+    return null;
+  }
+
   private void addImplementsComparable() throws JavaModelException {
     ICompilationUnit compilationUnit = getCompilationUnit();
     if (compilationUnit != null)
@@ -163,14 +197,14 @@ public class CompareMethodCreator extends AbstractMethodCreator {
 
     // get hierarchy
     ITypeHierarchy hierarchy = type.newTypeHierarchy(null);
-//    hierarchy.getRootInterfaces();
+    // hierarchy.getRootInterfaces();
     // get interfaces starting from superclass
     IType[] interfaces = hierarchy.getAllInterfaces();
 
     // does superclass implements comparable?
-//    System.out.println("interfaces for "+type.getElementName()+" = "+interfaces.length);
+    // System.out.println("interfaces for "+type.getElementName()+" = "+interfaces.length);
     for (int j = 0; j < interfaces.length; j++) {
-//      System.out.println("  "+interfaces[j].getKey());
+      // System.out.println(" "+interfaces[j].getKey());
       if (interfaces[j].getFullyQualifiedName().equals("java.lang.Comparable")) //$NON-NLS-1$
       {
         return true;
