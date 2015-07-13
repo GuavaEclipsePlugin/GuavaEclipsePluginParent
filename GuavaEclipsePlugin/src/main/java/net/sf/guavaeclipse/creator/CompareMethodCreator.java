@@ -76,10 +76,15 @@ public class CompareMethodCreator extends AbstractMethodCreator {
       variableName = "obj";
     }
 
-    content.append("    return ComparisonChain.start()\n");
+    boolean notComparableComment = false;
+    StringBuilder commentSection = new StringBuilder();
+    StringBuilder comparisonChain = new StringBuilder();
+
+    comparisonChain.append("    return ComparisonChain.start()\n");
     if (parentCompareToClass != null) {
-      content
-          .append("     // XXX implement parent compare by yourself. This code won't work   .compare((")
+      comparisonChain
+          .append(
+              "     // XXX implement parent compare by yourself. This code won't work   .compare((")
           .append(parentCompareToClass.getElementName()).append(") this, (")
           .append(parentCompareToClass.getElementName()).append(") ").append(variableName)
           .append(")\n");
@@ -88,7 +93,6 @@ public class CompareMethodCreator extends AbstractMethodCreator {
 
     for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
       String field = iterator.next();
-      String commentMsg = "";
       boolean appendField = false;
       List<IField> sample = Utils.getFields(currentClass);
       for (Iterator s = sample.iterator(); s.hasNext();) {
@@ -97,7 +101,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
           // System.out.println("ElementName="+iField.getElementName());
           // handling arrays...
           if (iField.getTypeSignature().startsWith("[")) {
-            commentMsg = "is an Array! and they are not comparable by default";
+            if (!notComparableComment) {
+              notComparableComment = true;
+            }
             appendField = false;
             break;
           }
@@ -112,7 +118,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
             String fullQualifiedClassName = type[0][0] + "." + type[0][1];
             // System.out.println("Searching for Class = "+fullQualifiedClassName);
             if ("java.lang.Object".equals(fullQualifiedClassName)) {
-              commentMsg = "java.lang.Object is not comparable";
+              if (!notComparableComment) {
+                notComparableComment = true;
+              }
               appendField = false;
               break;
             }
@@ -121,7 +129,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
               if (doesImplementsComparable(findType)) {
                 appendField = true;
               } else {
-                commentMsg = " does not implements java.lang.Comparable";
+                if (!notComparableComment) {
+                  notComparableComment = true;
+                }
                 appendField = false;
               }
             } else {
@@ -136,21 +146,23 @@ public class CompareMethodCreator extends AbstractMethodCreator {
       }
       if (appendField) {
         // System.out.println(field +" isComparable");
-        content.append("    .compare(this.").append(field).append(", " + variableName + ".")
+        comparisonChain.append("    .compare(this.").append(field).append(", " + variableName + ".")
             .append(field).append(")\n");
       } else {
         // System.out.println(field +" NOT Comparable");
-        if (commentMsg == null || commentMsg.trim().isEmpty()) {
-          commentMsg = "is not comparable";
+        if (commentSection.length() == 0) {
+        commentSection.append("// XXX check the comment lines, because variables do not implement java.lang.Comparable or they are not comparable at all like arrays \n");
         }
-        content.append("// XXX field '" + field + "' " + commentMsg + " \n");
-        content.append("//.compare(this.").append(field).append(", " + variableName + ".")
+        comparisonChain.append("//.compare(this.").append(field).append(", " + variableName + ".")
             .append(field).append(")\n");
       }
       // System.out.println("***************************");
     }
 
-    content.append("    .result();\n");
+    comparisonChain.append("    .result();\n");
+    
+    content.append(commentSection);
+    content.append(comparisonChain);
     content.append("}");
     return content.toString();
   }
