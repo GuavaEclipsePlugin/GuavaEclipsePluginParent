@@ -6,7 +6,7 @@
       provider-name="Guava Eclipse Plugin Team"
       plugin="GuavaEclipsePlugin">
 
-   <description url="https://sourceforge.net/p/guavaeclipse/wiki/Home/">
+   <description url="https://guavaeclipsehelperteam.github.io/">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
 following methods using Google guava utilty classes
 toString()
