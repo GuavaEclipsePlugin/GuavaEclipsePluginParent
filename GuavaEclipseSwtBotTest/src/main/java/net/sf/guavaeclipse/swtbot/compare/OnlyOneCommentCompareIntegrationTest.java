@@ -1,19 +1,3 @@
-/*
- * Copyright 2014
- *
- * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
- * agreements. See the NOTICE file distributed with this work for additional information regarding
- * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package net.sf.guavaeclipse.swtbot.compare;
 
 import static net.sf.guavaeclipse.swtbot.MenuSelection.COMPARE_TO;
@@ -32,11 +16,11 @@ import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
+public class OnlyOneCommentCompareIntegrationTest extends AbstractSwtBotIntegrationTest {
 
   @BeforeClass
   public static void changePreferences() throws Exception {
-    selectMultiCommentsForCompareTo();
+    selectOneCommentForCompareTo();
   }
 
   @Test
@@ -46,7 +30,7 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
 
     String editorText = cutEditor.getText();
     String fileName = "compareResults/Expected_CompareTo.txt";
-    logEditorResults(fileName, CompareIntegrationTest.class, "createCompareTo()", editorText);
+    logEditorResults(fileName, OnlyOneCommentCompareIntegrationTest.class, "createCompareTo()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -61,9 +45,9 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
     executePluginMethod(cutEditor, COMPARE_TO);
 
     String editorText = cutEditor.getText();
-    String fileName = "compareResults/Expected_SampleSimpleArray.txt";
-    logEditorResults(fileName, CompareIntegrationTest.class, "createCompareToWithArrays()",
-        editorText);
+    String fileName = "compareResults/Expected_OneCommentSampleSimpleArray.txt";
+    logEditorResults(fileName, OnlyOneCommentCompareIntegrationTest.class,
+        "createCompareToWithArrays()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
 
@@ -79,14 +63,14 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
     executePluginMethod(cutEditor, COMPARE_TO);
 
     String editorText = cutEditor.getText();
-    String fileName = "compareResults/Expected_ComparableObjectsClass.txt";
-    logEditorResults(fileName, CompareIntegrationTest.class, "createCompareToWithObjects()",
-        editorText);
+    String fileName = "compareResults/Expected_OneCommentComparableObjectsClass.txt";
+    logEditorResults(fileName, OnlyOneCommentCompareIntegrationTest.class,
+        "createCompareToWithObjects()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
 
   }
-  
+
   @Test
   public void createCompareToComplex() throws Exception {
 
@@ -101,7 +85,7 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
     deleteClassIfExists("SampleEnum");
     createClass("SampleEnum");
     setClassContent("SampleEnum", 1);
-    
+
     deleteClassIfExists("InterfaceWithComparable");
     createClass("InterfaceWithComparable");
     setClassContent("InterfaceWithComparable", 1);
@@ -129,14 +113,16 @@ public class CompareIntegrationTest extends AbstractSwtBotIntegrationTest {
     deleteClassIfExists("ComplexCompareTest");
     createClass("ComplexCompareTest");
     SWTBotEclipseEditor cutEditor = setClassContent("ComplexCompareTest", 29);
-    
+
     executePluginMethod(cutEditor, COMPARE_TO);
 
     String editorText = cutEditor.getText();
-    String fileName = "compareResults/Expected_ComplexCompareTest.txt";
+    String fileName = "compareResults/Expected_OneCommentComplexCompareTest.txt";
     logEditorResults(fileName, CompareIntegrationTest.class, "createCompareToComplex()",
         editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
+
+
 }

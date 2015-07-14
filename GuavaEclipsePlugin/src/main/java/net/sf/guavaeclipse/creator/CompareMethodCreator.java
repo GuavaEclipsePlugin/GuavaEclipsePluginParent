@@ -16,6 +16,8 @@
  */
 package net.sf.guavaeclipse.creator;
 
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getCompareToCommentsType;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,13 +32,17 @@ import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.CompareToCommentsType;
 import net.sf.guavaeclipse.utils.Utils;
 
 public class CompareMethodCreator extends AbstractMethodCreator {
 
+  private final CompareToCommentsType compareToCommentsType;
+  
   public CompareMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
+    compareToCommentsType = getCompareToCommentsType();
   }
 
   @Override
@@ -76,8 +82,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
       variableName = "obj";
     }
 
-    boolean notComparableComment = false;
-    StringBuilder commentSection = new StringBuilder();
+    StringBuilder commentSection = null;
     StringBuilder comparisonChain = new StringBuilder();
 
     comparisonChain.append("    return ComparisonChain.start()\n");
@@ -90,9 +95,9 @@ public class CompareMethodCreator extends AbstractMethodCreator {
           .append(")\n");
     }
 
-
     for (Iterator<String> iterator = fields.iterator(); iterator.hasNext();) {
       String field = iterator.next();
+      String commentMsg = "";
       boolean appendField = false;
       List<IField> sample = Utils.getFields(currentClass);
       for (Iterator s = sample.iterator(); s.hasNext();) {
@@ -101,9 +106,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
           // System.out.println("ElementName="+iField.getElementName());
           // handling arrays...
           if (iField.getTypeSignature().startsWith("[")) {
-            if (!notComparableComment) {
-              notComparableComment = true;
-            }
+            commentMsg = "is an Array! and they are not comparable by default";
             appendField = false;
             break;
           }
@@ -118,9 +121,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
             String fullQualifiedClassName = type[0][0] + "." + type[0][1];
             // System.out.println("Searching for Class = "+fullQualifiedClassName);
             if ("java.lang.Object".equals(fullQualifiedClassName)) {
-              if (!notComparableComment) {
-                notComparableComment = true;
-              }
+              commentMsg = "java.lang.Object is not comparable";
               appendField = false;
               break;
             }
@@ -129,9 +130,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
               if (doesImplementsComparable(findType)) {
                 appendField = true;
               } else {
-                if (!notComparableComment) {
-                  notComparableComment = true;
-                }
+                commentMsg = " does not implements java.lang.Comparable";
                 appendField = false;
               }
             } else {
@@ -150,8 +149,23 @@ public class CompareMethodCreator extends AbstractMethodCreator {
             .append(field).append(")\n");
       } else {
         // System.out.println(field +" NOT Comparable");
-        if (commentSection.length() == 0) {
-        commentSection.append("// XXX check the comment lines, because variables do not implement java.lang.Comparable or they are not comparable at all like arrays \n");
+        switch (compareToCommentsType) {
+          case EVERY_FIELD_COMMENT:
+            if (commentMsg == null || commentMsg.trim().isEmpty()) {
+              commentMsg = "is not comparable";
+            }
+            comparisonChain.append("// XXX field '" + field + "' " + commentMsg + " \n");
+            break;
+          case ONLY_ONE_COMMENT:
+            if (commentSection == null) {
+              commentSection = new StringBuilder(); 
+            }
+            if (commentSection.length() == 0) {
+              commentSection.append("// XXX check the comment lines, because variables do not implement java.lang.Comparable or they are not comparable at all like arrays \n");
+            }
+          case NO_COMMENTS:
+            // do nothing because user wants no comment
+            break;
         }
         comparisonChain.append("//.compare(this.").append(field).append(", " + variableName + ".")
             .append(field).append(")\n");
@@ -160,12 +174,15 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     }
 
     comparisonChain.append("    .result();\n");
-    
+
+    if (commentSection != null) {
     content.append(commentSection);
+    }
     content.append(comparisonChain);
     content.append("}");
     return content.toString();
   }
+
 
   @Override
   protected String getPackageToImport() {

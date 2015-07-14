@@ -272,6 +272,36 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectMultiCommentsForCompareTo() {
+    SWTBotShell shell = openGuavaPreferences();
+    SWTBotRadio radio = bot.radio("for every non-comparable field a seperate comment");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectOneCommentForCompareTo() {
+    SWTBotShell shell = openGuavaPreferences();
+    SWTBotRadio radio = bot.radio("only one comment at beginning of method");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectNoCommentForCompareTo() {
+    SWTBotShell shell = openGuavaPreferences();
+    SWTBotRadio radio = bot.radio("no comments at all (not recommended)");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   public void createJavaProjectIfNotExists(String projectName) {
     if (!"Java".equals(bot.activePerspective().getLabel())) {
       try {

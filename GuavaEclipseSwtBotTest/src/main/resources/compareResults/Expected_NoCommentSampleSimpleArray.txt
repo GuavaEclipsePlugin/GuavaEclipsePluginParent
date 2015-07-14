@@ -1,0 +1,22 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.collect.ComparisonChain;
+
+public class SampleSimple implements Comparable<SampleSimple> {
+
+	private int intValue[][];
+
+	private String strValue;
+
+	private String strValue2[];
+
+	@Override
+	public int compareTo(SampleSimple that) {
+		return ComparisonChain.start()
+				//.compare(this.intValue, that.intValue)
+				.compare(this.strValue, that.strValue)
+				//.compare(this.strValue2, that.strValue2)
+				.result();
+	}
+
+}

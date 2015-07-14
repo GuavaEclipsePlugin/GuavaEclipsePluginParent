@@ -16,6 +16,8 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
@@ -68,6 +70,15 @@ public final class UserPreferenceUtil {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(MORE_OBJECTS_PREFERENCE);
     return Boolean.valueOf(a);
+  }
+  
+  public static CompareToCommentsType getCompareToCommentsType() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(COMPARE_COMMENT_PREFERENCE);
+    if (a == null || a.trim().isEmpty()) {
+      return EVERY_FIELD_COMMENT;
+    }
+    return CompareToCommentsType.valueOf(a);
   }
 
 }
