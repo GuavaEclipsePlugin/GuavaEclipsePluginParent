@@ -42,6 +42,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public abstract class AbstractSwtBotIntegrationTest {
@@ -57,10 +58,14 @@ public abstract class AbstractSwtBotIntegrationTest {
     prepareWorkSpace();
   }
 
-  // @AfterClass
-  // public static void tearDown() {
-  // // bot.sleep(2000);
-  // }
+   @AfterClass
+   public static void tearDown() {
+       SWTBotMenu menu = bot.menu("File").click();
+       SWTBotMenu saveAll = menu.menu("Save All");
+       if (saveAll.isEnabled()) {
+         saveAll.click();
+       }
+   }
 
   public static void prepareWorkSpace() {
 
