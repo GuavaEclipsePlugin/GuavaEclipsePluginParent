@@ -6,14 +6,14 @@
       provider-name="Guava Eclipse Plugin Team"
       plugin="GuavaEclipsePlugin">
 
-   <description url="https://guavaeclipsehelperteam.github.io/">
+   <description url="https://guavaeclipseplugin.github.io">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
 following methods using Google guava utilty classes
 toString()
 equals(Object object)
 hashCode()
 compareTo(...)
-ReleaseNotes: https://sourceforge.net/projects/guavaeclipse/files/readme.txt/view
+ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
    </description>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0.html">
