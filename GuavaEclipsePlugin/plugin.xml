@@ -23,7 +23,13 @@
       <page
             class="net.sf.guavaeclipse.preferences.UserPreferencePage"
             id="net.sf.guavaeclipse.preferences.UserPreferencePage"
-            name="Guava Preference ">
+            name="Guava Preference">
+      </page>
+      <page
+            class="net.sf.guavaeclipse.preferences.CompareToPreferencePage"
+            id="net.sf.guavaeclipse.preferences.CompareToPreferencePage"
+            name="CompareTo Method Preference"
+            category="net.sf.guavaeclipse.preferences.UserPreferencePage">
       </page>
    </extension>
    <extension

@@ -16,9 +16,6 @@
  */
 package net.sf.guavaeclipse.preferences;
 
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.NO_COMMENTS;
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.ONLY_ONE_COMMENT;
 import static net.sf.guavaeclipse.preferences.EqualsEqualityType.CLASS_EQUALITY;
 import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
@@ -91,21 +88,6 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
                 ARRAYS_DEEP_HASH_CODE.name()},
             new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
-    
-    addField(new BooleanFieldEditor(HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
-        getFieldEditorParent()));
-    
-    addField(new RadioGroupFieldEditor(COMPARE_COMMENT_PREFERENCE,
-        "Kind of \"advice\" comments in compareTo method for non-comparable fields", 1,
-        new String[][] {
-            new String[] {"for every non-comparable field a seperate comment",
-                EVERY_FIELD_COMMENT.name()},
-            new String[] {"only one comment at beginning of method",
-                ONLY_ONE_COMMENT.name()},
-            new String[] {"no comments at all (not recommended)",
-                NO_COMMENTS.name()}}, getFieldEditorParent(), true));
-    
-
   }
 
   @Override

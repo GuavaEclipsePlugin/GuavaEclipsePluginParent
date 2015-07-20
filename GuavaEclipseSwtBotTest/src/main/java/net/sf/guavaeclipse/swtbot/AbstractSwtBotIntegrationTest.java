@@ -278,7 +278,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectMultiCommentsForCompareTo() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("for every non-comparable field a seperate comment");
     radio.setFocus();
     radio.click();
@@ -288,7 +288,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectOneCommentForCompareTo() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("only one comment at beginning of method");
     radio.setFocus();
     radio.click();
@@ -298,13 +298,20 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectNoCommentForCompareTo() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("no comments at all (not recommended)");
     radio.setFocus();
     radio.click();
     waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  private static SWTBotShell openCompareToPreferences() {
+    SWTBotShell shell = openGuavaPreferences();
+    bot.tree().getTreeItem("Guava Preference").expand().getNode("CompareTo Method Preference").select();
+    waitForPreferencesShell();
+    return shell;
   }
 
   public void createJavaProjectIfNotExists(String projectName) {
