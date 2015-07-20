@@ -59,7 +59,7 @@ public final class UserPreferenceUtil {
     return HashCodeStrategyType.valueOf(a);
   }
 
-  
+
   public static Boolean isHideCompareTo() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(HIDE_COMPARE_TO_PREFERENCE);
@@ -71,7 +71,7 @@ public final class UserPreferenceUtil {
     String a = store.getString(MORE_OBJECTS_PREFERENCE);
     return Boolean.valueOf(a);
   }
-  
+
   public static CompareToCommentsType getCompareToCommentsType() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(COMPARE_COMMENT_PREFERENCE);
@@ -81,4 +81,12 @@ public final class UserPreferenceUtil {
     return CompareToCommentsType.valueOf(a);
   }
 
+  public static String getCompareToTaskTag() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(UserPreferencePage.COMPARE_COMMENT_TASK_TAG);
+    if (a == null) {
+      return "";
+    }
+    return a;
+  }
 }

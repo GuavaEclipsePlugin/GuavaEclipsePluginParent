@@ -19,10 +19,14 @@ package net.sf.guavaeclipse.preferences;
 import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
 import static net.sf.guavaeclipse.preferences.CompareToCommentsType.NO_COMMENTS;
 import static net.sf.guavaeclipse.preferences.CompareToCommentsType.ONLY_ONE_COMMENT;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_TASK_TAG;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -43,10 +47,10 @@ IWorkbenchPreferencePage {
 
   @Override
   protected void createFieldEditors() {
-    addField(new BooleanFieldEditor(UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
+    addField(new BooleanFieldEditor(HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
         getFieldEditorParent()));
     
-    addField(new RadioGroupFieldEditor(UserPreferencePage.COMPARE_COMMENT_PREFERENCE,
+    addField(new RadioGroupFieldEditor(COMPARE_COMMENT_PREFERENCE,
         "Kind of \"advice\" comments in compareTo method for non-comparable fields", 1,
         new String[][] {
             new String[] {"for every non-comparable field a seperate comment",
@@ -56,6 +60,9 @@ IWorkbenchPreferencePage {
             new String[] {"no comments at all (not recommended)",
                 NO_COMMENTS.name()}}, getFieldEditorParent(), true));
     
+    StringFieldEditor sfe = new StringFieldEditor(COMPARE_COMMENT_TASK_TAG, "Task Tag prefix for compareTo comments", getFieldEditorParent());
+    sfe.setEmptyStringAllowed(true);
+    addField(sfe);
   }
   
 }

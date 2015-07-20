@@ -16,19 +16,25 @@
  */
 package net.sf.guavaeclipse.preferences;
 
+import static java.lang.Boolean.FALSE;
+import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
 import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_TASK_TAG;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
-import net.sf.guavaeclipse.Activator;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import net.sf.guavaeclipse.Activator;
 
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
@@ -39,6 +45,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(INSTANCEOF_CLASSEQUALS_PREFERENCE, INSTANCEOF.name());
     store.setDefault(FIELDS_GETTER_PREFERENCE, FIELDS.name());
     store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, SMART_HASH_CODE.name());
-    store.setDefault(HIDE_COMPARE_TO_PREFERENCE, Boolean.FALSE.toString());
+    store.setDefault(HIDE_COMPARE_TO_PREFERENCE, FALSE.toString());
+    store.setDefault(MORE_OBJECTS_PREFERENCE, FALSE.toString());
+    store.setDefault(COMPARE_COMMENT_PREFERENCE, EVERY_FIELD_COMMENT.toString());
+    store.setDefault(COMPARE_COMMENT_TASK_TAG, "XXX");
   }
 }

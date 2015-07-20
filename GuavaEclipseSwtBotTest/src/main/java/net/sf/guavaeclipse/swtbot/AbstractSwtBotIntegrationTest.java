@@ -40,6 +40,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.AfterClass;
@@ -312,6 +313,16 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.tree().getTreeItem("Guava Preference").expand().getNode("CompareTo Method Preference").select();
     waitForPreferencesShell();
     return shell;
+  }
+
+  protected static void setCompareToCommentTaskTag(String taskTag) {
+    SWTBotShell shell = openCompareToPreferences();
+    SWTBotText text = bot.textWithLabel("Task Tag prefix for compareTo comments");
+    text.setFocus();
+    text.setText(taskTag);
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
   }
 
   public void createJavaProjectIfNotExists(String projectName) {

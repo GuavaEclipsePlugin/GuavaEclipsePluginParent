@@ -4,6 +4,7 @@ We are pleased to announce the Guava Eclipse Plugin 1.4.0 release!
 
 ###New features:
 - [#23](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/23) seperate compareTo preferences page
+- [#22](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/22) Possibility to define "Task Tag" for comments in compareTo methods
 
 ###Fixed Bugs:
 

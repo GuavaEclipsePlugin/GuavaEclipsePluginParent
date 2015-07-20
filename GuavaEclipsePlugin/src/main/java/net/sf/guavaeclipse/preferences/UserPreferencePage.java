@@ -51,7 +51,9 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
   public static final String MORE_OBJECTS_PREFERENCE = "guavaEclipsePlugin.moreObjects"; //$NON-NLS-1$
 
   public static final String COMPARE_COMMENT_PREFERENCE = "guavaEclipsePlugin.compareToComments"; //$NON-NLS-1$
-  
+
+  public static final String COMPARE_COMMENT_TASK_TAG = "guavaEclipsePlugin.compareToTaskTag"; //$NON-NLS-1$
+
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
