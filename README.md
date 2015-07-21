@@ -1,3 +1,5 @@
+For PreferencePage setting results look [here](https://GuavaEclipsePlugin.github.io/PreferencePageSettingDetails.html)
+
 #Guava Eclipse Plugin 1.5.0 RELEASE NOTES
 
 We are pleased to announce the Guava Eclipse Plugin 1.4.0 release!
