@@ -50,6 +50,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String MORE_OBJECTS_PREFERENCE = "guavaEclipsePlugin.moreObjects"; //$NON-NLS-1$
 
+  public static final String JAVA_UTILS_OBJECTS_PREFERENCE = "guavaEclipsePlugin.javaUtilsObjects"; //$NON-NLS-1$
+
   public static final String COMPARE_COMMENT_PREFERENCE = "guavaEclipsePlugin.compareToComments"; //$NON-NLS-1$
 
   public static final String COMPARE_COMMENT_TASK_TAG = "guavaEclipsePlugin.compareToTaskTag"; //$NON-NLS-1$
@@ -63,6 +65,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
     addField(new BooleanFieldEditor(MORE_OBJECTS_PREFERENCE,
         "Use MoreObjects in toString Method (requires guava 18.0)", getFieldEditorParent()));
+    addField(new BooleanFieldEditor(JAVA_UTILS_OBJECTS_PREFERENCE,
+        "Use java.util.Objects in equals&hashCode Method (requires JDK 1.7 or higher)", getFieldEditorParent()));
     addField(new RadioGroupFieldEditor(SUPERCALL_STRATEGY_PREFERENCE, "super method behavior", 1,
         new String[][] {
             new String[] {"Use super class Methods (toString(), equals() and hashCode())",

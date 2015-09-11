@@ -36,10 +36,12 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   private final HashCodeStrategyType tmpHcst;
   private boolean useArrays = false;
 
+  private final String equalMethod;
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
     this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
+    this.equalMethod = super.useJavaUtilsObjects ? "equals" : "equal";
   }
 
   @Override
@@ -60,8 +62,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       content.append("         return false;\n");
     }
 
-    content.append("      ").append(className).append(" that = (").append(className)
-        .append(") object;\n");
+    content.append("      ").append(className).append(" that = (").append(className).append(") object;\n");
     content.append("      return ");
 
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
@@ -80,8 +81,8 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         content.append(")");
         useArrays = true;
       } else {
-        content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
-            .append(getGetterOrField(field)).append(")");
+        content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
+        .append(", that.").append(getGetterOrField(field)).append(")");
       }
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append("\n         && ");

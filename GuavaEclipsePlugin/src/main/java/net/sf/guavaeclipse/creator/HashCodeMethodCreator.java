@@ -30,11 +30,11 @@ import org.eclipse.jdt.core.JavaModelException;
 public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
 
-
+  private final String hashMethod;
   public HashCodeMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
-
+    this.hashMethod = super.useJavaUtilsObjects ? "hash" : "hashCode";
   }
 
   @Override
@@ -46,7 +46,17 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
       content.append("   return Arrays.deepHashCode(new Object[] {");
     } else {
-      content.append("   return Objects.hashCode(");
+      content.append("   return Objects.");
+      
+      // this is a hack for java.util.Objects.hash(...) method
+      // see warning in javadoc: java.util.Objects#hash(Object...)
+      if (methodGenerationStratergy != MethodGenerationStratergy.USE_SUPER && fields.size() == 1) {
+        content.append("hashCode");
+      } else {
+        content.append(hashMethod);
+      }
+
+      content.append("(");
     }
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
       content.append("super.hashCode(), ");
