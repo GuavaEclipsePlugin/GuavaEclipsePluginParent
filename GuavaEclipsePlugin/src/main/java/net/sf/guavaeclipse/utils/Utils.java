@@ -180,7 +180,7 @@ public final class Utils {
    * @return true if the field is primitive
    * @throws JavaModelException
    */
-  public static boolean fieldIsArrayPrimitiv(IType type, String fieldName)
+  public static boolean fieldIsPrimitiv(IType type, String fieldName)
       throws JavaModelException {
     IField fields[] = type.getFields();
     for (int i = 0; i < fields.length; i++) {

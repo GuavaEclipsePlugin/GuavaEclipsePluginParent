@@ -18,6 +18,7 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.utils.Utils.fieldIsPrimitiv;
 
 import java.util.Iterator;
 import java.util.List;
@@ -70,7 +71,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       if (useDeepEquals(field)) {
 
         content.append("Arrays.deepEquals(");
-        if (Utils.fieldIsArrayPrimitiv(insertionPoint.getInsertionType(), field)
+        if (fieldIsPrimitiv(insertionPoint.getInsertionType(), field)
             || !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
           content.append("new Object[] {this.").append(getGetterOrField(field))
               .append("}, new Object[] {that.").append(getGetterOrField(field)).append("}");
@@ -81,8 +82,13 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         content.append(")");
         useArrays = true;
       } else {
-        content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
-        .append(", that.").append(getGetterOrField(field)).append(")");
+        // don't use objects when parameter is primitive feature request #25
+        if (fieldIsPrimitiv(insertionPoint.getInsertionType(), field) && !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+          content.append("this.").append(getGetterOrField(field)).append(" ==  that.").append(getGetterOrField(field));
+        } else {
+          content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
+          .append(", that.").append(getGetterOrField(field)).append(")");
+        }
       }
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append("\n         && ");

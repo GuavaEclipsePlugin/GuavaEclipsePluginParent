@@ -19,7 +19,7 @@ public class SampleSimple {
 			if (!super.equals(object))
 				return false;
 			SampleSimple that = (SampleSimple) object;
-			return Objects.equal(this.intValue, that.intValue) && Objects.equal(this.strValue, that.strValue);
+			return this.intValue == that.intValue && Objects.equal(this.strValue, that.strValue);
 		}
 		return false;
 	}
