@@ -35,4 +35,4 @@ We are pleased to announce the Guava Eclipse Plugin 1.3.0 release!
 
 
 # Older Releases
-look here http://guavaeclipsehelperteam.github.io/allReleases.html 
+look here http://guavaeclipseplugin.github.io/allReleases.html 
