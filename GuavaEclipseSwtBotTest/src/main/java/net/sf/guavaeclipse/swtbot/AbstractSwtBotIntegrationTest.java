@@ -225,7 +225,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectUseGetter() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openEqualsHashCodePreferences();
 
     SWTBotRadio radio = bot.radio("use getter methods");
     radio.setFocus();
@@ -236,7 +236,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectUseField() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openEqualsHashCodePreferences();
 
     SWTBotRadio radio = bot.radio("use fields");
     radio.setFocus();
@@ -278,6 +278,13 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  private static SWTBotShell openEqualsHashCodePreferences() {
+    SWTBotShell shell = openGuavaPreferences();
+    bot.tree().getTreeItem("Guava Preference").expand().getNode("Equals/HashCode Methods Preferences").select();
+    waitForPreferencesShell();
+    return shell;
+  }
+
   protected static void selectMultiCommentsForCompareTo() {
     SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("for every non-comparable field a seperate comment");
@@ -314,7 +321,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     waitForPreferencesShell();
     return shell;
   }
-
+  
   protected static void setCompareToCommentTaskTag(String taskTag) {
     SWTBotShell shell = openCompareToPreferences();
     SWTBotText text = bot.textWithLabel("Task Tag prefix for compareTo comments");

@@ -26,6 +26,12 @@
             name="Guava Preference">
       </page>
       <page
+            class="net.sf.guavaeclipse.preferences.EqualsHashCodePreferencePage"
+            id="net.sf.guavaeclipse.preferences.EqualsHashCodePreferencePage"
+            name="Equals/HashCode Methods Preferences"
+            category="net.sf.guavaeclipse.preferences.UserPreferencePage">
+      </page>
+      <page
             class="net.sf.guavaeclipse.preferences.CompareToPreferencePage"
             id="net.sf.guavaeclipse.preferences.CompareToPreferencePage"
             name="CompareTo Method Preference"
