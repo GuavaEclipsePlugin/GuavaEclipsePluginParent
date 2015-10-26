@@ -18,31 +18,37 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getHashCodeStrategyType;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.usePrimitivesCompareInEquals;
 import static net.sf.guavaeclipse.utils.Utils.fieldIsPrimitiv;
 
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jdt.core.JavaModelException;
+
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
-
-import org.eclipse.jdt.core.JavaModelException;
 
 public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   private final HashCodeStrategyType tmpHcst;
+  
   private boolean useArrays = false;
 
   private final String equalMethod;
+  
+  private final boolean dontUseObjectsMethodForPrimitives;
+  
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
-    this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
+    this.tmpHcst = getHashCodeStrategyType();
     this.equalMethod = super.useJavaUtilsObjects ? "equals" : "equal";
+    this.dontUseObjectsMethodForPrimitives = usePrimitivesCompareInEquals();
   }
 
   @Override
@@ -83,7 +89,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         useArrays = true;
       } else {
         // don't use objects when parameter is primitive feature request #25
-        if (fieldIsPrimitiv(insertionPoint.getInsertionType(), field) && !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+        if (dontUseObjectsMethodForPrimitives && fieldIsPrimitiv(insertionPoint.getInsertionType(), field) && !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
           content.append("this.").append(getGetterOrField(field)).append(" ==  that.").append(getGetterOrField(field));
         } else {
           content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
