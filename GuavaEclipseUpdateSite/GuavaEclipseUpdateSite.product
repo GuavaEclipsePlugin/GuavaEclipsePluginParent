@@ -30,8 +30,8 @@
 
 
    <repositories>
-      <repository location="https://sourceforge.net/projects/guavaeclipse/files/SNAPSHOTS/UpdateSite/LATEST/" enabled="false" />
-      <repository location="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite/LATEST/" enabled="true" />
+      <repository location="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/SNAPSHOT/latest/" enabled="false" />
+      <repository location="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/" enabled="true" />
    </repositories>
 
    <preferencesInfo>

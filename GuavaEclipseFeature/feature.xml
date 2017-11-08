@@ -196,7 +196,7 @@ ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
    </license>
 
    <url>
-      <update label="Guava Eclipse Plugin Update Site" url="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite/LATEST/"/>
+      <update label="Guava Eclipse Plugin Update Site" url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/"/>
    </url>
 
    <plugin
