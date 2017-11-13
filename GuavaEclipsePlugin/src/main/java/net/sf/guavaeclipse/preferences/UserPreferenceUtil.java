@@ -18,12 +18,14 @@ package net.sf.guavaeclipse.preferences;
 
 import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -59,7 +61,7 @@ public final class UserPreferenceUtil {
     return HashCodeStrategyType.valueOf(a);
   }
 
-  
+
   public static Boolean isHideCompareTo() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(HIDE_COMPARE_TO_PREFERENCE);
@@ -71,7 +73,7 @@ public final class UserPreferenceUtil {
     String a = store.getString(MORE_OBJECTS_PREFERENCE);
     return Boolean.valueOf(a);
   }
-  
+
   public static CompareToCommentsType getCompareToCommentsType() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(COMPARE_COMMENT_PREFERENCE);
@@ -81,4 +83,24 @@ public final class UserPreferenceUtil {
     return CompareToCommentsType.valueOf(a);
   }
 
+  public static String getCompareToTaskTag() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(UserPreferencePage.COMPARE_COMMENT_TASK_TAG);
+    if (a == null) {
+      return "";
+    }
+    return a;
+  }
+  
+  public static Boolean useJavaUtilsObjects() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(JAVA_UTILS_OBJECTS_PREFERENCE);
+    return Boolean.valueOf(a);
+  }
+  
+  public static Boolean usePrimitivesCompareInEquals() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE);
+    return Boolean.valueOf(a);
+  }
 }

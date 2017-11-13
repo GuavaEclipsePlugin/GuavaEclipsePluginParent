@@ -1,0 +1,102 @@
+package net.sf.guavaeclipse.swtbot.equalshashcode.beforejavaseven;
+
+import static net.sf.guavaeclipse.swtbot.MenuSelection.EQUALS_HASHCODE;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
+
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
+import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+
+
+@RunWith(SWTBotJunit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class EqualHashCodeGetterIntegrationTest extends AbstractSwtBotIntegrationTest {
+
+  @BeforeClass
+  public static void changePreferences() throws Exception {
+    selectSmartSuper();
+    selectUseGetter();
+    deselectUseJava7Objects();
+  }
+
+  @AfterClass
+  public static void changePreferencesSelectUseField() throws Exception {
+    selectUseField();
+    selectUseJava7Objects();
+  }
+
+  @Test
+  public void createEqualsHashCode() throws Exception {
+
+    createJavaProjectIfNotExists("SampleJavaProject");
+    deleteClassIfExists("SampleSimple");
+    createClass("SampleSimple");
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
+
+    generateGetter(cutEditor, 7, "strValue");
+    sleep(1000);
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
+
+    String editorText = cutEditor.getText();
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCode()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
+
+  @Test
+  public void createEqualsHashCodeForExtendedClass() throws Exception {
+
+    bot.waitUntil(Conditions.treeHasRows(bot.tree(), 1));
+    bot.tree().getTreeItem("SampleJavaProject").select();
+    deleteClassIfExists("ExtendedSimpleClass");
+    createClassWithSuperClass("ExtendedSimpleClass", "net.sf.guavaeclipse.test.SampleSimple");
+
+    SWTBotEclipseEditor cutEditor = setClassContent("ExtendedSimpleClass", 7);
+
+    generateGetter(cutEditor, 6, "objectValue");
+    sleep(1500);
+    cutEditor.selectLine(10);
+    executePluginMethod(cutEditor, EQUALS_HASHCODE);
+
+    String editorText = cutEditor.getText();
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForExtendedClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
+
+  @Test
+  public void createEqualsHashCodeForInterfaceClass() throws Exception {
+
+    SWTBotEclipseEditor cutEditor = executeTestForInterface(EQUALS_HASHCODE);
+
+    String editorText = cutEditor.getText();
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForInterfaceClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForInterfaceClass()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
+
+
+  @Test
+  public void createEqualsHashCodeForInterfaceClassAndExtendedClass() throws Exception {
+
+    SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(EQUALS_HASHCODE);
+
+    String editorText = cutEditor.getText();
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForInterfaceAndExtendedClass_Getter.txt";
+    logEditorResults(fileName, EqualHashCodeGetterIntegrationTest.class, "createEqualsHashCodeForInterfaceClassAndExtendedClass()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
+
+}

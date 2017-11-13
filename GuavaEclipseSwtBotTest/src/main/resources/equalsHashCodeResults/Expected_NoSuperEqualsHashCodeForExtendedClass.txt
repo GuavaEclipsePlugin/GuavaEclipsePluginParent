@@ -1,6 +1,6 @@
 package net.sf.guavaeclipse.test;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public class ExtendedSimpleClass extends SampleSimple {
 
@@ -16,7 +16,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 	public boolean equals(Object object) {
 		if (object instanceof ExtendedSimpleClass) {
 			ExtendedSimpleClass that = (ExtendedSimpleClass) object;
-			return Objects.equal(this.objectValue, that.objectValue);
+			return Objects.equals(this.objectValue, that.objectValue);
 		}
 		return false;
 	}

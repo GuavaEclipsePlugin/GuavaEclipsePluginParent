@@ -40,6 +40,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.AfterClass;
@@ -98,24 +99,29 @@ public abstract class AbstractSwtBotIntegrationTest {
     }
 
 
-//    bot.tree().getTreeItem("Java").expand().select();
-//    waitForPreferencesShell();
-//    bot.tree().getTreeItem("Java").getNode("Code Style").expand().select();
-//    waitForPreferencesShell();
-//    bot.tree().getTreeItem("Java").getNode("Code Style").getNode("Formatter").select();
-//    bot.comboBox().setSelection("Eclipse [built-in]");
-//    bot.button("Edit...").click();
-//    waitForPreferencesShell();
-//    bot.textWithLabel("&Profile name:").setText("Eclipse [built-in] 80");
-//    waitForPreferencesShell();
-//    bot.tabItem("Line Wrappin&g").activate();
-//    waitForPreferencesShell();
-//    bot.textWithLabel("Max&imum line width:").setText("80");
-//    waitForPreferencesShell();
-//    
-//    bot.button("OK").click();
-//    bot.button("Apply").click();
-    
+    try {
+      bot.tree().getTreeItem("Java").expand().select();
+      waitForPreferencesShell();
+      bot.tree().getTreeItem("Java").getNode("Code Style").expand().select();
+      waitForPreferencesShell();
+      bot.tree().getTreeItem("Java").getNode("Code Style").getNode("Formatter").select();
+      if (!"Eclipse [built-in] 120".equals(bot.comboBox().selection())) {
+        bot.comboBox().setSelection("Eclipse [built-in]");
+        bot.button("Edit...").click();
+        waitForPreferencesShell();
+        bot.textWithLabel("&Profile name:").setText("Eclipse [built-in] 120");
+        waitForPreferencesShell();
+        bot.tabItem("Line Wrappin&g").activate();
+        waitForPreferencesShell();
+        bot.textWithLabel("Max&imum line width:").setText("120");
+        waitForPreferencesShell();
+        
+        bot.button("OK").click();
+        bot.button("Apply").click();
+      }
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
@@ -223,8 +229,36 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectUseJava7Objects() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use java.util.Objects in equals/hashCode Methods (requires JDK 1.7 or higher)");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectUseJava7Objects() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use java.util.Objects in equals/hashCode Methods (requires JDK 1.7 or higher)");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseGetter() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openEqualsHashCodePreferences();
 
     SWTBotRadio radio = bot.radio("use getter methods");
     radio.setFocus();
@@ -235,7 +269,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectUseField() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openEqualsHashCodePreferences();
 
     SWTBotRadio radio = bot.radio("use fields");
     radio.setFocus();
@@ -277,8 +311,15 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
-  protected static void selectMultiCommentsForCompareTo() {
+  private static SWTBotShell openEqualsHashCodePreferences() {
     SWTBotShell shell = openGuavaPreferences();
+    bot.tree().getTreeItem("Guava Preference").expand().getNode("Equals/HashCode Methods Preferences").select();
+    waitForPreferencesShell();
+    return shell;
+  }
+
+  protected static void selectMultiCommentsForCompareTo() {
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("for every non-comparable field a seperate comment");
     radio.setFocus();
     radio.click();
@@ -288,7 +329,7 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectOneCommentForCompareTo() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("only one comment at beginning of method");
     radio.setFocus();
     radio.click();
@@ -298,10 +339,27 @@ public abstract class AbstractSwtBotIntegrationTest {
   }
 
   protected static void selectNoCommentForCompareTo() {
-    SWTBotShell shell = openGuavaPreferences();
+    SWTBotShell shell = openCompareToPreferences();
     SWTBotRadio radio = bot.radio("no comments at all (not recommended)");
     radio.setFocus();
     radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  private static SWTBotShell openCompareToPreferences() {
+    SWTBotShell shell = openGuavaPreferences();
+    bot.tree().getTreeItem("Guava Preference").expand().getNode("CompareTo Method Preference").select();
+    waitForPreferencesShell();
+    return shell;
+  }
+  
+  protected static void setCompareToCommentTaskTag(String taskTag) {
+    SWTBotShell shell = openCompareToPreferences();
+    SWTBotText text = bot.textWithLabel("Task Tag prefix for compareTo comments");
+    text.setFocus();
+    text.setText(taskTag);
     waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));

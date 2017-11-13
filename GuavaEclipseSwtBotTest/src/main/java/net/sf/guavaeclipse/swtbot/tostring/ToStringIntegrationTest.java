@@ -31,6 +31,7 @@ import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -43,9 +44,14 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
   @BeforeClass
   public static void changePreferences() throws Exception {
+    deselectMoreObjects();
     selectSmartSuper();
   }
 
+  @AfterClass
+  public static void changePreferencesBack() throws Exception {
+    selectMoreObjects();
+  }
   @Test
   public void createToStringMethod() throws IOException, URISyntaxException {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);

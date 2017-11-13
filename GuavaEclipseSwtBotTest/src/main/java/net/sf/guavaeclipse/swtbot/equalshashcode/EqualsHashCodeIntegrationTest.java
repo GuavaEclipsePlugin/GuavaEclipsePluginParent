@@ -20,7 +20,6 @@ import static net.sf.guavaeclipse.swtbot.MenuSelection.EQUALS_HASHCODE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
@@ -36,6 +35,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -113,8 +114,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     UIThreadRunnable.syncExec(new VoidResult() {
       @Override
       public void run() {
-        SWTBotShell shell =
- bot.shell("Duplicate Methods");
+        SWTBotShell shell = bot.shell("Duplicate Methods");
         SWTBot currentBot = shell.bot();
         assertNotNull(currentBot.label("hashCode() and equals() already present. Replace both?"));
         currentBot.button("Yes").click();

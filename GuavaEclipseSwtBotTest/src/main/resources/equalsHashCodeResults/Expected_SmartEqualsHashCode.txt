@@ -1,7 +1,7 @@
 package net.sf.guavaeclipse.test;
 
 import java.util.Arrays;
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public class SampleSimple {
 
@@ -21,7 +21,8 @@ public class SampleSimple {
 		if (object instanceof SampleSimple) {
 			SampleSimple that = (SampleSimple) object;
 			return Arrays.deepEquals(new Object[] { this.intValue }, new Object[] { that.intValue })
-					&& Objects.equal(this.strValue, that.strValue) && Arrays.deepEquals(this.strValue2, that.strValue2);
+					&& Objects.equals(this.strValue, that.strValue)
+					&& Arrays.deepEquals(this.strValue2, that.strValue2);
 		}
 		return false;
 	}

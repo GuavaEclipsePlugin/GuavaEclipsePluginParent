@@ -17,6 +17,7 @@
 package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getCompareToCommentsType;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getCompareToTaskTag;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,10 +40,13 @@ public class CompareMethodCreator extends AbstractMethodCreator {
 
   private final CompareToCommentsType compareToCommentsType;
   
+  private final String taskTag;
+  
   public CompareMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
     compareToCommentsType = getCompareToCommentsType();
+    taskTag = getCompareToTaskTag();
   }
 
   @Override
@@ -72,7 +76,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
 
     if (parentCompareToClass != null) {
       content.append("  if ( !( that instanceof " + currentClass.getElementName() + ")) {\n");
-      content.append("  // XXX check  \n");
+      content.append("  // "+this.taskTag+" check  \n");
       content.append("    throw new RuntimeException(\"that is not of type "
           + currentClass.getFullyQualifiedName() + "\");\n");
       content.append("  } \n");
@@ -89,7 +93,7 @@ public class CompareMethodCreator extends AbstractMethodCreator {
     if (parentCompareToClass != null) {
       comparisonChain
           .append(
-              "     // XXX implement parent compare by yourself. This code won't work   .compare((")
+              "     // "+this.taskTag+" implement parent compare by yourself. This code won't work   .compare((")
           .append(parentCompareToClass.getElementName()).append(") this, (")
           .append(parentCompareToClass.getElementName()).append(") ").append(variableName)
           .append(")\n");
@@ -154,14 +158,14 @@ public class CompareMethodCreator extends AbstractMethodCreator {
             if (commentMsg == null || commentMsg.trim().isEmpty()) {
               commentMsg = "is not comparable";
             }
-            comparisonChain.append("// XXX field '" + field + "' " + commentMsg + " \n");
+            comparisonChain.append("// "+this.taskTag+" field '" + field + "' " + commentMsg + " \n");
             break;
           case ONLY_ONE_COMMENT:
             if (commentSection == null) {
               commentSection = new StringBuilder(); 
             }
             if (commentSection.length() == 0) {
-              commentSection.append("// XXX check the comment lines, because variables do not implement java.lang.Comparable or they are not comparable at all like arrays \n");
+              commentSection.append("// "+this.taskTag+" check the comment lines, because variables do not implement java.lang.Comparable or they are not comparable at all like arrays \n");
             }
           case NO_COMMENTS:
             // do nothing because user wants no comment

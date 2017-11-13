@@ -2,18 +2,18 @@
 <feature
       id="GuavaEclipseFeature"
       label="Guava Eclipse Feature"
-      version="1.5.0.qualifier"
+      version="1.6.0.qualifier"
       provider-name="Guava Eclipse Plugin Team"
       plugin="GuavaEclipsePlugin">
 
-   <description url="https://guavaeclipsehelperteam.github.io/">
+   <description url="https://guavaeclipseplugin.github.io">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
 following methods using Google guava utilty classes
 toString()
 equals(Object object)
 hashCode()
 compareTo(...)
-ReleaseNotes: https://sourceforge.net/projects/guavaeclipse/files/readme.txt/view
+ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
    </description>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0.html">
@@ -196,14 +196,14 @@ ReleaseNotes: https://sourceforge.net/projects/guavaeclipse/files/readme.txt/vie
    </license>
 
    <url>
-      <update label="Guava Eclipse Plugin Update Site" url="https://sourceforge.net/projects/guavaeclipse/files/UpdateSite/LATEST/"/>
+      <update label="Guava Eclipse Plugin Update Site" url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/"/>
    </url>
 
    <plugin
          id="GuavaEclipsePlugin"
          download-size="32"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.6.0.qualifier"
          unpack="false"/>
 
 </feature>

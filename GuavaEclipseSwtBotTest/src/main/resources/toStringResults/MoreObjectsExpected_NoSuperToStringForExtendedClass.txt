@@ -1,0 +1,15 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.MoreObjects;
+
+public class ExtendedSimpleClass extends SampleSimple {
+
+
+	private Object objectValue;
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("objectValue", objectValue).toString();
+	}
+
+}

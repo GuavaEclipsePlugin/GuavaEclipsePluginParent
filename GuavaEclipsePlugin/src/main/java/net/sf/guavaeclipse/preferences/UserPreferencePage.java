@@ -16,13 +16,6 @@
  */
 package net.sf.guavaeclipse.preferences;
 
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.NO_COMMENTS;
-import static net.sf.guavaeclipse.preferences.CompareToCommentsType.ONLY_ONE_COMMENT;
-import static net.sf.guavaeclipse.preferences.EqualsEqualityType.CLASS_EQUALITY;
-import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
-import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
-import static net.sf.guavaeclipse.preferences.FieldsGetterType.GETTER;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.OBJECTS_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
@@ -43,18 +36,24 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String SUPERCALL_STRATEGY_PREFERENCE = "guavaPreference"; //$NON-NLS-1$
 
-  public static final String INSTANCEOF_CLASSEQUALS_PREFERENCE = "guavaEclipseEqualsPreference"; //$NON-NLS-1$
-
   public static final String FIELDS_GETTER_PREFERENCE = "guavaEclipseFieldsGetterPreference"; //$NON-NLS-1$
-
-  public static final String HASH_CODE_STRATEGY_PREFERENCE = "guavaEclipsePlugin.HashCodeStrategy"; //$NON-NLS-1$
 
   public static final String HIDE_COMPARE_TO_PREFERENCE = "guavaEclipsePlugin.hideCompareTo"; //$NON-NLS-1$
 
   public static final String MORE_OBJECTS_PREFERENCE = "guavaEclipsePlugin.moreObjects"; //$NON-NLS-1$
 
   public static final String COMPARE_COMMENT_PREFERENCE = "guavaEclipsePlugin.compareToComments"; //$NON-NLS-1$
-  
+
+  public static final String COMPARE_COMMENT_TASK_TAG = "guavaEclipsePlugin.compareToTaskTag"; //$NON-NLS-1$
+
+  public static final String INSTANCEOF_CLASSEQUALS_PREFERENCE = "guavaEclipseEqualsPreference"; //$NON-NLS-1$
+
+  public static final String JAVA_UTILS_OBJECTS_PREFERENCE = "guavaEclipsePlugin.javaUtilsObjects"; //$NON-NLS-1$
+
+  public static final String HASH_CODE_STRATEGY_PREFERENCE = "guavaEclipsePlugin.HashCodeStrategy"; //$NON-NLS-1$
+
+  public static final String EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE = "guavaEclipsePlugin.equalsMethodComparePrimitivesDirectly"; //$NON-NLS-1$
+
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
@@ -73,15 +72,6 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
             new String[] {
                 "Use super class Methods (Only if superclass is not \"java.lang.Object\")",
                 SMART_OPTION.name()}}, getFieldEditorParent(), true));
-    addField(new RadioGroupFieldEditor(INSTANCEOF_CLASSEQUALS_PREFERENCE,
-        "instanceOf or class equality in equals", 1, new String[][] {
-            new String[] {"Use instanceof in equals()", INSTANCEOF.name()},
-            new String[] {"use class equality", CLASS_EQUALITY.name()}}, getFieldEditorParent(),
-        true));
-    addField(new RadioGroupFieldEditor(FIELDS_GETTER_PREFERENCE,
-        "use fields directly or use getter methods in equals and hashCode", 1, new String[][] {
-            new String[] {"use fields", FIELDS.name()},
-            new String[] {"use getter methods", GETTER.name()}}, getFieldEditorParent(), true));
     addField(new RadioGroupFieldEditor(HASH_CODE_STRATEGY_PREFERENCE,
         "Use java.util.Arrays.deep Utility Methods or com.google.common.base.Objects Methods", 1,
         new String[][] {
@@ -92,20 +82,6 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
             new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
     
-    addField(new BooleanFieldEditor(HIDE_COMPARE_TO_PREFERENCE, "Hide the compareTo menu",
-        getFieldEditorParent()));
-    
-    addField(new RadioGroupFieldEditor(COMPARE_COMMENT_PREFERENCE,
-        "Kind of \"advice\" comments in compareTo method for non-comparable fields", 1,
-        new String[][] {
-            new String[] {"for every non-comparable field a seperate comment",
-                EVERY_FIELD_COMMENT.name()},
-            new String[] {"only one comment at beginning of method",
-                ONLY_ONE_COMMENT.name()},
-            new String[] {"no comments at all (not recommended)",
-                NO_COMMENTS.name()}}, getFieldEditorParent(), true));
-    
-
   }
 
   @Override

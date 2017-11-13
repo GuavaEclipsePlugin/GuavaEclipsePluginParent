@@ -60,7 +60,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     for (String field : fields) {
       if (useArraysToString(field)) {
         content.append("    .add(\"").append(field).append("\", Arrays.deepToString(");
-        if (Utils.fieldIsArrayPrimitiv(insertionPoint.getInsertionType(), field)
+        if (Utils.fieldIsPrimitiv(insertionPoint.getInsertionType(), field)
             || !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
           content.append("new Object[]{").append(field).append("}");
         } else {

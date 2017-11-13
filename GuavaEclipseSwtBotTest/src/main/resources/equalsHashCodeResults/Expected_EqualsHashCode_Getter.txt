@@ -1,6 +1,6 @@
 package net.sf.guavaeclipse.test;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public class SampleSimple {
 
@@ -14,14 +14,14 @@ public class SampleSimple {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(intValue, getStrValue());
+		return Objects.hash(intValue, getStrValue());
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof SampleSimple) {
 			SampleSimple that = (SampleSimple) object;
-			return Objects.equal(this.intValue, that.intValue) && Objects.equal(this.getStrValue(), that.getStrValue());
+			return this.intValue == that.intValue && Objects.equals(this.getStrValue(), that.getStrValue());
 		}
 		return false;
 	}

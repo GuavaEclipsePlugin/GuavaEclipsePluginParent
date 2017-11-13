@@ -27,6 +27,7 @@ import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -39,9 +40,16 @@ public class NoSuperToStringIntegrationTest extends AbstractSwtBotIntegrationTes
 
   @BeforeClass
   public static void changePreferences() throws Exception {
+    deselectMoreObjects();
     selectNoSuper();
   }
 
+  @AfterClass
+  public static void changePreferencesBack() throws Exception {
+    selectMoreObjects();
+    selectNoSuper();
+  }
+  
   @Test
   public void createToStringMethod() throws IOException, URISyntaxException {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);

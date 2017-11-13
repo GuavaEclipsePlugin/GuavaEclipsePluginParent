@@ -1,6 +1,6 @@
 package net.sf.guavaeclipse.test;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public class SampleImplementsInterface implements InterfaceSample {
 
@@ -20,7 +20,7 @@ public class SampleImplementsInterface implements InterfaceSample {
 	public boolean equals(Object object) {
 		if (object instanceof SampleImplementsInterface) {
 			SampleImplementsInterface that = (SampleImplementsInterface) object;
-			return Objects.equal(this.stringValue, that.stringValue);
+			return Objects.equals(this.stringValue, that.stringValue);
 		}
 		return false;
 	}

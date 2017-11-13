@@ -18,28 +18,37 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getHashCodeStrategyType;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.usePrimitivesCompareInEquals;
+import static net.sf.guavaeclipse.utils.Utils.fieldIsPrimitiv;
 
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.jdt.core.JavaModelException;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
-
-import org.eclipse.jdt.core.JavaModelException;
 
 public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   private final HashCodeStrategyType tmpHcst;
+  
   private boolean useArrays = false;
 
+  private final String equalMethod;
+  
+  private final boolean dontUseObjectsMethodForPrimitives;
+  
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
-    this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
+    this.tmpHcst = getHashCodeStrategyType();
+    this.equalMethod = super.useJavaUtilsObjects ? "equals" : "equal";
+    this.dontUseObjectsMethodForPrimitives = usePrimitivesCompareInEquals();
   }
 
   @Override
@@ -60,8 +69,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       content.append("         return false;\n");
     }
 
-    content.append("      ").append(className).append(" that = (").append(className)
-        .append(") object;\n");
+    content.append("      ").append(className).append(" that = (").append(className).append(") object;\n");
     content.append("      return ");
 
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
@@ -69,7 +77,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
       if (useDeepEquals(field)) {
 
         content.append("Arrays.deepEquals(");
-        if (Utils.fieldIsArrayPrimitiv(insertionPoint.getInsertionType(), field)
+        if (fieldIsPrimitiv(insertionPoint.getInsertionType(), field)
             || !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
           content.append("new Object[] {this.").append(getGetterOrField(field))
               .append("}, new Object[] {that.").append(getGetterOrField(field)).append("}");
@@ -80,8 +88,13 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         content.append(")");
         useArrays = true;
       } else {
-        content.append("Objects.equal(this.").append(getGetterOrField(field)).append(", that.")
-            .append(getGetterOrField(field)).append(")");
+        // don't use objects when parameter is primitive feature request #25
+        if (dontUseObjectsMethodForPrimitives && fieldIsPrimitiv(insertionPoint.getInsertionType(), field) && !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+          content.append("this.").append(getGetterOrField(field)).append(" ==  that.").append(getGetterOrField(field));
+        } else {
+          content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
+          .append(", that.").append(getGetterOrField(field)).append(")");
+        }
       }
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append("\n         && ");

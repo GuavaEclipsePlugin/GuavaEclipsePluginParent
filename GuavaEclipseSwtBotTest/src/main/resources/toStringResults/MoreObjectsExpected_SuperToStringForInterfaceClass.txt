@@ -1,0 +1,20 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.MoreObjects;
+
+public class SampleImplementsInterface implements InterfaceSample {
+
+	private String stringValue;
+
+	@Override
+	public String getStringValue() {
+		return this.stringValue;
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("super", super.toString()).add("stringValue", stringValue)
+				.toString();
+	}
+
+}

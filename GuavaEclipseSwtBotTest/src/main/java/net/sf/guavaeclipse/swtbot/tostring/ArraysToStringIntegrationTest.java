@@ -21,10 +21,12 @@ public class ArraysToStringIntegrationTest extends AbstractSwtBotIntegrationTest
   @BeforeClass
   public static void changePreferences() throws Exception {
     selectSmartSuper();
+    deselectMoreObjects();
   }
 
   @AfterClass
   public static void changePreferencesAfterClass() throws Exception {
+    selectMoreObjects();
     selectSmartSuper();
     selectSmartHashCode();
   }
