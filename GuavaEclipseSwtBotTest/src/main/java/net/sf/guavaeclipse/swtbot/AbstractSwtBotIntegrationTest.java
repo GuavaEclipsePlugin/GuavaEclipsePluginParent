@@ -99,24 +99,29 @@ public abstract class AbstractSwtBotIntegrationTest {
     }
 
 
-//    bot.tree().getTreeItem("Java").expand().select();
-//    waitForPreferencesShell();
-//    bot.tree().getTreeItem("Java").getNode("Code Style").expand().select();
-//    waitForPreferencesShell();
-//    bot.tree().getTreeItem("Java").getNode("Code Style").getNode("Formatter").select();
-//    bot.comboBox().setSelection("Eclipse [built-in]");
-//    bot.button("Edit...").click();
-//    waitForPreferencesShell();
-//    bot.textWithLabel("&Profile name:").setText("Eclipse [built-in] 80");
-//    waitForPreferencesShell();
-//    bot.tabItem("Line Wrappin&g").activate();
-//    waitForPreferencesShell();
-//    bot.textWithLabel("Max&imum line width:").setText("80");
-//    waitForPreferencesShell();
-//    
-//    bot.button("OK").click();
-//    bot.button("Apply").click();
-    
+    try {
+      bot.tree().getTreeItem("Java").expand().select();
+      waitForPreferencesShell();
+      bot.tree().getTreeItem("Java").getNode("Code Style").expand().select();
+      waitForPreferencesShell();
+      bot.tree().getTreeItem("Java").getNode("Code Style").getNode("Formatter").select();
+      if (!"Eclipse [built-in] 120".equals(bot.comboBox().selection())) {
+        bot.comboBox().setSelection("Eclipse [built-in]");
+        bot.button("Edit...").click();
+        waitForPreferencesShell();
+        bot.textWithLabel("&Profile name:").setText("Eclipse [built-in] 120");
+        waitForPreferencesShell();
+        bot.tabItem("Line Wrappin&g").activate();
+        waitForPreferencesShell();
+        bot.textWithLabel("Max&imum line width:").setText("120");
+        waitForPreferencesShell();
+        
+        bot.button("OK").click();
+        bot.button("Apply").click();
+      }
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
