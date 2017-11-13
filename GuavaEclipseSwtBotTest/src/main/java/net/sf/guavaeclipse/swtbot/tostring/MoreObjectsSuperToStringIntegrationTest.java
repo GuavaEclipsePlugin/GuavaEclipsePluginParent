@@ -23,38 +23,32 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
-
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
+
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
+public class MoreObjectsSuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
   @BeforeClass
   public static void changePreferences() throws Exception {
-    deselectMoreObjects();
     selectUseAlwaysSuper();
   }
 
-  @AfterClass
-  public static void changePreferencesBack() throws Exception {
-    selectMoreObjects();
-  }
   @Test
   public void createToStringMethod() throws IOException, URISyntaxException {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_SuperToString.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createToStringMethod()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_SuperToString.txt";
+    logEditorResults(fileName, MoreObjectsSuperToStringIntegrationTest.class, "createToStringMethod()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -65,8 +59,8 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_ToStringForExtendedClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForExtendedClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringForExtendedClass.txt";
+    logEditorResults(fileName, MoreObjectsSuperToStringIntegrationTest.class, "createtoStringForExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -77,8 +71,8 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_SuperToStringForInterfaceClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForInterfaceClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_SuperToStringForInterfaceClass.txt";
+    logEditorResults(fileName, MoreObjectsSuperToStringIntegrationTest.class, "createtoStringForInterfaceClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -88,8 +82,8 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_ToStringForInterfaceAndExtendedClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForInterfaceClassAndExtendedClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringForInterfaceAndExtendedClass.txt";
+    logEditorResults(fileName, MoreObjectsSuperToStringIntegrationTest.class, "createtoStringForInterfaceClassAndExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }

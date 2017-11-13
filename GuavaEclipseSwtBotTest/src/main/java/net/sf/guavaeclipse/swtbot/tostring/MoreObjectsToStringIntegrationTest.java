@@ -18,43 +18,41 @@ package net.sf.guavaeclipse.swtbot.tostring;
 
 import static net.sf.guavaeclipse.swtbot.MenuSelection.TO_STRING;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
-
+import org.eclipse.swt.SWT;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.junit.AfterClass;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
+
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
+public class MoreObjectsToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
   @BeforeClass
   public static void changePreferences() throws Exception {
-    deselectMoreObjects();
-    selectUseAlwaysSuper();
+    selectSmartSuper();
   }
 
-  @AfterClass
-  public static void changePreferencesBack() throws Exception {
-    selectMoreObjects();
-  }
   @Test
   public void createToStringMethod() throws IOException, URISyntaxException {
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_SuperToString.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createToStringMethod()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToString.txt";
+    logEditorResults(fileName, MoreObjectsToStringIntegrationTest.class, "createToStringMethod()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -65,8 +63,8 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_ToStringForExtendedClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForExtendedClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringForExtendedClass.txt";
+    logEditorResults(fileName, MoreObjectsToStringIntegrationTest.class, "createtoStringForExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -77,8 +75,8 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_SuperToStringForInterfaceClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForInterfaceClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringForInterfaceClass.txt";
+    logEditorResults(fileName, MoreObjectsToStringIntegrationTest.class, "createtoStringForInterfaceClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
@@ -88,10 +86,36 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/Expected_ToStringForInterfaceAndExtendedClass.txt";
-    logEditorResults(fileName, SuperToStringIntegrationTest.class, "createtoStringForInterfaceClassAndExtendedClass()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringForInterfaceAndExtendedClass.txt";
+    logEditorResults(fileName, MoreObjectsToStringIntegrationTest.class, "createtoStringForInterfaceClassAndExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
+
+  @Test
+  public void replaceToString() throws Exception {
+
+    SWTBotMenu menu = bot.menu("Navigate").click();
+    menu.menu("Open Type...").click();
+    bot.waitUntil(Conditions.shellIsActive("Open Type"));
+    bot.text().setText("SampleSimple");
+    bot.button("OK").click();
+    sleep();
+
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_ToString", 9);
+    cutEditor.pressShortcut(SWT.CTRL | SWT.SHIFT, '4');
+
+    assertNotNull(bot.label("toString() method already present. Replace it?"));
+    bot.button("Yes").click();
+    sleep();
+    processDialog(cutEditor, TO_STRING);
+
+    String editorText = cutEditor.getText();
+    String fileName = "toStringResults/MoreObjectsExpected_ToString_Overwrite.txt";
+    logEditorResults(fileName, MoreObjectsToStringIntegrationTest.class, "replaceToString()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
+
 
 }

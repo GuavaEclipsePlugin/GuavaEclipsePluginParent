@@ -20,12 +20,10 @@ public class MoreObjectsArraysToStringIntegrationTest extends ArraysToStringInte
   @BeforeClass
   public static void changePreferences() throws Exception {
     selectSmartSuper();
-    selectMoreObjects();
   }
 
   @AfterClass
   public static void changePreferencesAfterClass() throws Exception {
-    deselectMoreObjects();
     selectSmartSuper();
     selectSmartHashCode();
   }
