@@ -229,6 +229,34 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectUseJava7Objects() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use java.util.Objects in equals/hashCode Methods (requires JDK 1.7 or higher)");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectUseJava7Objects() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("Use java.util.Objects in equals/hashCode Methods (requires JDK 1.7 or higher)");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseGetter() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 

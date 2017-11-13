@@ -1,6 +1,6 @@
 package net.sf.guavaeclipse.test;
 
-import java.util.Objects;
+import com.google.common.base.Objects;
 
 public class SampleImplementsInterface implements InterfaceSample {
 
@@ -13,14 +13,14 @@ public class SampleImplementsInterface implements InterfaceSample {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(stringValue);
+		return Objects.hashCode(getStringValue());
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof SampleImplementsInterface) {
 			SampleImplementsInterface that = (SampleImplementsInterface) object;
-			return Objects.equals(this.stringValue, that.stringValue);
+			return Objects.equal(this.getStringValue(), that.getStringValue());
 		}
 		return false;
 	}

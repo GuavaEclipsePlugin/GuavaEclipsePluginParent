@@ -1,6 +1,7 @@
 package net.sf.guavaeclipse.test;
 
-import java.util.Objects;
+import java.util.Arrays;
+import com.google.common.base.Objects;
 
 public class SampleSimple {
 
@@ -12,15 +13,15 @@ public class SampleSimple {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(intValue, strValue, strValue2);
+		return Arrays.deepHashCode(new Object[] { intValue, strValue, strValue2 });
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof SampleSimple) {
 			SampleSimple that = (SampleSimple) object;
-			return Objects.equals(this.intValue, that.intValue) && Objects.equals(this.strValue, that.strValue)
-					&& Objects.equals(this.strValue2, that.strValue2);
+			return Arrays.deepEquals(new Object[] { this.intValue }, new Object[] { that.intValue })
+					&& Objects.equal(this.strValue, that.strValue) && Arrays.deepEquals(this.strValue2, that.strValue2);
 		}
 		return false;
 	}

@@ -1,6 +1,6 @@
 package net.sf.guavaeclipse.test;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public class ExtendedSimpleClass extends SampleSimple {
 
@@ -9,7 +9,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), objectValue);
+		return Objects.hash(super.hashCode(), objectValue);
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class ExtendedSimpleClass extends SampleSimple {
 			if (!super.equals(object))
 				return false;
 			ExtendedSimpleClass that = (ExtendedSimpleClass) object;
-			return Objects.equal(this.objectValue, that.objectValue);
+			return Objects.equals(this.objectValue, that.objectValue);
 		}
 		return false;
 	}

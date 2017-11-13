@@ -14,12 +14,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.sf.guavaeclipse.swtbot.equalshashcode;
+package net.sf.guavaeclipse.swtbot.equalshashcode.beforejavaseven;
 
 import static net.sf.guavaeclipse.swtbot.MenuSelection.EQUALS_HASHCODE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
@@ -30,13 +31,12 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -45,15 +45,20 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
   @BeforeClass
   public static void changePreferences() throws Exception {
     selectSmartSuper();
+    deselectUseJava7Objects();
   }
 
+  @AfterClass
+  public static void changePreferencesBack() throws Exception {
+    selectUseJava7Objects();
+  }
   @Test
   public void createEqualsHashCode() throws Exception {
 
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCode()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -65,7 +70,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForExtendedClass(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForExtendedClass.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForExtendedClass.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -77,7 +82,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceClass.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForInterfaceClass.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -90,7 +95,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     SWTBotEclipseEditor cutEditor = executeTestForSuperClassAndInterface(EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCodeForInterfaceAndExtendedClass.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "createEqualsHashCodeForInterfaceClassAndExtendedClass()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -114,7 +119,8 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     UIThreadRunnable.syncExec(new VoidResult() {
       @Override
       public void run() {
-        SWTBotShell shell = bot.shell("Duplicate Methods");
+        SWTBotShell shell =
+ bot.shell("Duplicate Methods");
         SWTBot currentBot = shell.bot();
         assertNotNull(currentBot.label("hashCode() and equals() already present. Replace both?"));
         currentBot.button("Yes").click();
@@ -126,7 +132,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode_Overwrite.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceEqualsAndHashCode()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -135,7 +141,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
   @Test
   public void replaceEqualsAndHashCodeAgain() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode_beforeJavaSeven", 9);
     cutEditor.pressShortcut(SWT.CTRL | SWT.SHIFT, '5');
     // sleep(2000);
     // SWTBotMenu contextMenu = cutEditor.contextMenu("Google Guava Helper");
@@ -151,7 +157,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_Overwrite.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode_Overwrite.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceEqualsAndHashCodeAgain()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -160,7 +166,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
   @Test
   public void replaceOnlyEquals() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode_beforeJavaSeven", 9);
     cutEditor.pressShortcut(SWT.CTRL | SWT.SHIFT, '5');
 
     assertNotNull(bot.label("hashCode() and equals() already present. Replace both?"));
@@ -172,7 +178,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyEquals.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode_OverwriteOnlyEquals.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceOnlyEquals()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
@@ -181,7 +187,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
   @Test
   public void replaceOnlyHashCode() throws Exception {
 
-    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode", 9);
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_Overwrite_EqualsHashCode_beforeJavaSeven", 9);
     cutEditor.pressShortcut(SWT.CTRL | SWT.SHIFT, '5');
 
     assertNotNull(bot.label("hashCode() and equals() already present. Replace both?"));
@@ -193,7 +199,7 @@ public class EqualsHashCodeIntegrationTest extends AbstractSwtBotIntegrationTest
     processDialog(cutEditor, EQUALS_HASHCODE);
 
     String editorText = cutEditor.getText();
-    String fileName = "equalsHashCodeResults/Expected_EqualsHashCode_OverwriteOnlyHashCode.txt";
+    String fileName = "equalsHashCodeResults/beforejavaseven/Expected_EqualsHashCode_OverwriteOnlyHashCode.txt";
     logEditorResults(fileName, EqualsHashCodeIntegrationTest.class, "replaceOnlyHashCode()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
