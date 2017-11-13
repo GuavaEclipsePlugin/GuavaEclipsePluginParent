@@ -43,6 +43,7 @@ public class ToStringIntegrationTest extends AbstractSwtBotIntegrationTest {
 
   @BeforeClass
   public static void changePreferences() throws Exception {
+    deselectMoreObjects();
     selectSmartSuper();
   }
 

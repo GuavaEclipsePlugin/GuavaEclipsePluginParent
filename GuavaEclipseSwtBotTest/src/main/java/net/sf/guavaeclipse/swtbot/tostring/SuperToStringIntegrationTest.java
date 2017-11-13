@@ -39,6 +39,7 @@ public class SuperToStringIntegrationTest extends AbstractSwtBotIntegrationTest 
 
   @BeforeClass
   public static void changePreferences() throws Exception {
+    deselectMoreObjects();
     selectUseAlwaysSuper();
   }
 

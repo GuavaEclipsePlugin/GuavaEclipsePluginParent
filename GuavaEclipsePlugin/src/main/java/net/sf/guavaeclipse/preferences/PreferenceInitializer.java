@@ -49,7 +49,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(FIELDS_GETTER_PREFERENCE, FIELDS.name());
     store.setDefault(HASH_CODE_STRATEGY_PREFERENCE, SMART_HASH_CODE.name());
     store.setDefault(HIDE_COMPARE_TO_PREFERENCE, FALSE.toString());
-    store.setDefault(MORE_OBJECTS_PREFERENCE, FALSE.toString());
+    store.setDefault(MORE_OBJECTS_PREFERENCE, TRUE.toString());
     store.setDefault(COMPARE_COMMENT_PREFERENCE, EVERY_FIELD_COMMENT.toString());
     store.setDefault(COMPARE_COMMENT_TASK_TAG, "XXX");
     store.setDefault(JAVA_UTILS_OBJECTS_PREFERENCE, FALSE.toString());
