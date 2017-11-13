@@ -2,7 +2,7 @@
 <feature
       id="GuavaEclipseFeature"
       label="Guava Eclipse Feature"
-      version="1.5.0.qualifier"
+      version="1.5.0"
       provider-name="Guava Eclipse Plugin Team"
       plugin="GuavaEclipsePlugin">
 
@@ -203,7 +203,7 @@ ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
          id="GuavaEclipsePlugin"
          download-size="32"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.5.0"
          unpack="false"/>
 
 </feature>
