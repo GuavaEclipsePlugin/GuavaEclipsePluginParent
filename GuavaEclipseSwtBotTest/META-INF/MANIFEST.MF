@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: GuavaEclipseSwtBotTest
 Bundle-SymbolicName: GuavaEclipseSwtBotTest;singleton:=true
-Bundle-Version: 1.4.1
+Bundle-Version: 1.4.2.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: 
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
