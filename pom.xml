@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.guavaeclipseplugin</groupId>
 	<artifactId>GuavaEclipseHelper</artifactId>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>0.23.0</tycho.version>
@@ -12,11 +12,11 @@
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
-		<luna-repo.url>http://download.eclipse.org/releases/mars</luna-repo.url>
-		<!-- <luna-repo.url>file:/D:/Wad/p2repos/</luna-repo.url> -->
+		<!-- <luna-repo.url>http://download.eclipse.org/releases/mars</luna-repo.url> -->
+		<luna-repo.url>file:/D:/p2repos/mars</luna-repo.url>
 
-		<swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url>
-		<!-- <swtbot.url>file:/D:/Wad/p2repos/swtbot/swtbot</swtbot.url> -->
+		<!-- <swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url> -->
+		<swtbot.url>file:/D:/p2repos/swtbot/swtbot</swtbot.url>
 
 
 		<test.vmparams></test.vmparams>
