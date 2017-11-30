@@ -23,12 +23,6 @@ import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CO
 import java.util.List;
 import java.util.Map;
 
-import net.sf.guavaeclipse.dto.MethodInsertionPoint;
-import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
-import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
-import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
-import net.sf.guavaeclipse.utils.Utils;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -44,6 +38,12 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
+import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
+import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
+import net.sf.guavaeclipse.utils.Utils;
+
 public abstract class AbstractMethodCreator {
 
   protected static final String IMPORT_DECL_OBJECTS = "com.google.common.base.Objects";
@@ -53,7 +53,6 @@ public abstract class AbstractMethodCreator {
   protected final List<String> fields;
   protected final MethodGenerationStratergy methodGenerationStratergy;
   protected final HashCodeStrategyType hcst;
-
 
   public AbstractMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
