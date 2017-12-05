@@ -54,6 +54,10 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE = "guavaEclipsePlugin.equalsMethodComparePrimitivesDirectly"; //$NON-NLS-1$
 
+  public static final String EQUALS_HASHCODE_PRIMITIVESBOXING = "guavaEclipsePlugin.equalsHashCodePrimitivsBoxing"; //$NON-NLS-1$
+  
+  public static final String NON_NLS_1_PREFERENCE = "guavaEclipsePlugin.NonNls1Comment"; //$NON-NLS-1$
+
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
@@ -82,6 +86,9 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
             new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
     
+    addField(new BooleanFieldEditor(NON_NLS_1_PREFERENCE, 
+        "add $NON-NLS-1$ comment after each toString field", getFieldEditorParent()));
+
   }
 
   @Override

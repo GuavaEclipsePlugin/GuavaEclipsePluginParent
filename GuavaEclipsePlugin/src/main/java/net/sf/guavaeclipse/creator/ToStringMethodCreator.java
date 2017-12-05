@@ -35,11 +35,14 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
   private final HashCodeStrategyType tmpHcst;
 
   private boolean useArrays = false;
+  
+  private final boolean isNonNls1PreferenceSelected;
 
   public ToStringMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
     this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
+    isNonNls1PreferenceSelected = UserPreferenceUtil.isNonNls1PreferenceSelected();
   }
 
   @Override
@@ -66,11 +69,15 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
         } else {
           content.append(field);
         }
-        content.append("))\n");
+        content.append("))");
         useArrays = true;
       } else {
-        content.append("    .add(\"").append(field).append("\", ").append(field).append(")\n");
+        content.append("    .add(\"").append(field).append("\", ").append(field).append(")");
       }
+      if (isNonNls1PreferenceSelected) {
+        content.append(" //$NON-NLS-1$");
+      }
+      content.append("\n");
     }
 
     content.append("    .toString();\n");

@@ -23,8 +23,10 @@ import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
+import static net.sf.guavaeclipse.preferences.PrimitivsBoxingType.AUTOBOXING;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_TASK_TAG;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_HASHCODE_PRIMITIVESBOXING;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
@@ -32,6 +34,7 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.NON_NLS_1_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -54,5 +57,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(COMPARE_COMMENT_TASK_TAG, "XXX");
     store.setDefault(JAVA_UTILS_OBJECTS_PREFERENCE, TRUE.toString());
     store.setDefault(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE, TRUE.toString());
+    store.setDefault(EQUALS_HASHCODE_PRIMITIVESBOXING, AUTOBOXING.toString());
+    store.setDefault(NON_NLS_1_PREFERENCE, FALSE.toString());
   }
 }
