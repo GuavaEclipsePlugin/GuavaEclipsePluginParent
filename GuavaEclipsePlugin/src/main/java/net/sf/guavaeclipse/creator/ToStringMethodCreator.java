@@ -19,6 +19,7 @@ package net.sf.guavaeclipse.creator;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isSkipNullValues;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     } else {
       content.append("  return Objects.toStringHelper(this)\n");
     }
+    addSkipNullValuesIfNecessary(content);
 
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
       content.append("    .add(\"super\", super.toString())\n");
@@ -76,6 +78,12 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     content.append("    .toString();\n");
     content.append("}\n");
     return content.toString();
+  }
+
+  private void addSkipNullValuesIfNecessary(StringBuilder content) {
+    if (isSkipNullValues()) {
+      content.append("    .omitNullValues()\n");
+    }
   }
 
   @Override

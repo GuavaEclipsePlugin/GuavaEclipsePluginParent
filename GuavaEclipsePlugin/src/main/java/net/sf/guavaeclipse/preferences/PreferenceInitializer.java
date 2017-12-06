@@ -35,6 +35,7 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLAS
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.TO_STRING_SKIP_NULL_VALUES;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -57,5 +58,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(JAVA_UTILS_OBJECTS_PREFERENCE, TRUE.toString());
     store.setDefault(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE, TRUE.toString());
     store.setDefault(EQUALS_HASHCODE_PRIMITIVESBOXING, AUTOBOXING.toString());
+    store.setDefault(TO_STRING_SKIP_NULL_VALUES, FALSE.toString());
   }
 }
