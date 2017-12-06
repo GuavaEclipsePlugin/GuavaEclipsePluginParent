@@ -1,0 +1,17 @@
+package net.sf.guavaeclipse.test;
+
+public class SampleSimple {
+
+	private int intValue;
+
+	private int[] intArray;
+	
+	private Integer intObjectValue;
+	
+	private long longValue;
+	
+	private Long longObjectValue;
+	
+	private String stringValue;
+
+}

@@ -201,4 +201,39 @@ public final class Utils {
     return false;
   }
 
+  public static String getBoxingString(IType type, String fieldName)
+      throws JavaModelException {
+    IField fields[] = type.getFields();
+    for (int i = 0; i < fields.length; i++) {
+      if (fieldName.equals(fields[i].getElementName())) {
+        String typeSignature = fields[i].getTypeSignature();
+        if (typeSignature.endsWith(Signature.SIG_BOOLEAN)) {
+          return "Boolean.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_BYTE)) {
+          return "Byte.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_CHAR)) {
+          return "Character.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_DOUBLE)) {
+          return "Double.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_FLOAT)) {
+          return "Float.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_INT)) {
+          return "Integer.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_LONG)) {
+          return "Long.valueOf";
+        }
+        if (typeSignature.endsWith(Signature.SIG_SHORT)) {
+          return "Short.valueOf";
+        }
+      }
+    }
+    return fieldName;
+  }
+
 }
