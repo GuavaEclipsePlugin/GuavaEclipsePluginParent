@@ -45,7 +45,7 @@ public class MoreObjectsToStringNonNls1IntegrationTest extends AbstractSwtBotInt
   
   @Test
   public void createToStringMethod_NonNls1Comment() throws IOException, URISyntaxException {
-    deselectNonNls1Comment();
+    selectNonNls1Comment();
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
@@ -57,7 +57,7 @@ public class MoreObjectsToStringNonNls1IntegrationTest extends AbstractSwtBotInt
 
   @Test
   public void createToStringMethod_NonNls1SupressWarning() throws IOException, URISyntaxException {
-    deselectNonNls1SupressWarning();
+    selectNonNls1SupressWarning();
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
