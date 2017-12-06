@@ -18,6 +18,7 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getEqualsEqualityType;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getFieldsOrGetterType;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getPrimitivsBoxingType;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useJavaUtilsObjects;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.exception.MehodGenerationFailedException;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
 import net.sf.guavaeclipse.preferences.FieldsGetterType;
+import net.sf.guavaeclipse.preferences.PrimitivsBoxingType;
 import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.JavaModelException;
@@ -35,6 +37,7 @@ public abstract class AbstractEqualsHashCodeMethodCreator extends AbstractMethod
   protected final EqualsEqualityType eet;
   protected final FieldsGetterType fgt;
   protected final Boolean useJavaUtilsObjects;
+  protected final PrimitivsBoxingType primitivsBoxingType;
 
   public AbstractEqualsHashCodeMethodCreator(MethodInsertionPoint insertionPoint,
       List<String> fields) throws JavaModelException {
@@ -42,6 +45,7 @@ public abstract class AbstractEqualsHashCodeMethodCreator extends AbstractMethod
     this.eet = getEqualsEqualityType();
     this.fgt = getFieldsOrGetterType();
     this.useJavaUtilsObjects = useJavaUtilsObjects();
+    this.primitivsBoxingType = getPrimitivsBoxingType();
   }
 
   protected String getGetterOrField(String fieldName) {

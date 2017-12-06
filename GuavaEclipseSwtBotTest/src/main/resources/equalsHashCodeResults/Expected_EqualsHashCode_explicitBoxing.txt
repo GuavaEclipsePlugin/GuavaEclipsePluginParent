@@ -1,0 +1,40 @@
+package net.sf.guavaeclipse.test;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+public class SampleSimple {
+
+	private int intValue;
+
+	private int[] intArray;
+	
+	private Integer intObjectValue;
+	
+	private long longValue;
+	
+	private Long longObjectValue;
+	
+	private String stringValue;
+
+	@Override
+	public int hashCode() {
+		return Arrays.deepHashCode(new Object[] { Integer.valueOf(intValue), intArray, intObjectValue,
+				Long.valueOf(longValue), longObjectValue, stringValue });
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SampleSimple) {
+			SampleSimple that = (SampleSimple) object;
+			return Objects.equals(Integer.valueOf(this.intValue), Integer.valueOf(that.intValue))
+					&& Arrays.deepEquals(new Object[] { this.intArray }, new Object[] { that.intArray })
+					&& Objects.equals(this.intObjectValue, that.intObjectValue)
+					&& Objects.equals(Long.valueOf(this.longValue), Long.valueOf(that.longValue))
+					&& Objects.equals(this.longObjectValue, that.longObjectValue)
+					&& Objects.equals(this.stringValue, that.stringValue);
+		}
+		return false;
+	}
+
+}

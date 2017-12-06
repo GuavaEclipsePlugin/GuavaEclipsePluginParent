@@ -229,7 +229,35 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
-  protected static void selectNonNls1DoNothing() {
+  protected static void selectSkipNullValues() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("skip NullValues in toString()");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectSkipNullValues() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("skip NullValues in toString()");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+    protected static void selectNonNls1DoNothing() {
     SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("do nothing about it");
@@ -240,7 +268,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
-  protected static void deselectNonNls1Comment() {
+  protected static void selectNonNls1Comment() {
     SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("add $NON-NLS-1$ comment after each toString field");
@@ -251,7 +279,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
-  protected static void deselectNonNls1SupressWarning() {
+  protected static void selectNonNls1SupressWarning() {
     SWTBotShell shell = openGuavaPreferences();
 
     SWTBotRadio radio = bot.radio("add @SuppressWarnings(\"nls\")");
@@ -261,7 +289,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
-
+  
   protected static void selectUseJava7Objects() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 
@@ -339,6 +367,67 @@ public abstract class AbstractSwtBotIntegrationTest {
     SWTBotRadio radio = bot.radio("Use java.util.Arrays.deep Utility methods only when necessary");
     radio.setFocus();
     radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectAutoboxing() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotRadio radio = bot.radio("autoboxing");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectAutoboxingAndGenerateSuppress() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotRadio radio = bot.radio("autoboxing and add @SuppressWarnings(\"boxing\")");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectExplicitBoxing() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotRadio radio = bot.radio("explicit boxing");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectDontUseObjectsForPrimitives() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("For primitives don't use Objects method in equals() to avoid casting");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectDontUseObjectsForPrimitives() {
+    SWTBotShell shell = openEqualsHashCodePreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("For primitives don't use Objects method in equals() to avoid casting");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
     waitForPreferencesShell();
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
@@ -649,6 +738,28 @@ public abstract class AbstractSwtBotIntegrationTest {
     deleteClassIfExists("SampleSimple");
     createClass("SampleSimple");
     SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple", 9);
+    executePluginMethod(cutEditor, menuSelection);
+    return cutEditor;
+  }
+  
+  protected SWTBotEclipseEditor executeTestForAutoBoxing(MenuSelection menuSelection)
+      throws IOException, URISyntaxException {
+    return this.executeTestForAutoBoxing(menuSelection, null);
+  }
+
+  protected SWTBotEclipseEditor executeTestForAutoBoxing(MenuSelection menuSelection, String primitivsBoxingType)
+      throws IOException, URISyntaxException {
+    if ("AUTOBOXING".equals(primitivsBoxingType)) {
+      selectAutoboxing();
+    } else if ("AUTOBOXING_SUPRESS_WARNINGS".equals(primitivsBoxingType)) {
+      selectAutoboxingAndGenerateSuppress();
+    } else if ("EXPLICIT_BOXING".equals(primitivsBoxingType)) {
+      selectExplicitBoxing();
+    }
+    createJavaProjectIfNotExists("SampleJavaProject");
+    deleteClassIfExists("SampleSimple");
+    createClass("SampleSimple");
+    SWTBotEclipseEditor cutEditor = setClassContent("SampleSimple_forAutoBoxing", 17);
     executePluginMethod(cutEditor, menuSelection);
     return cutEditor;
   }

@@ -28,6 +28,8 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJE
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.NON_NLS_1_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.TO_STRING_SKIP_NULL_VALUES;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -105,11 +107,17 @@ public final class UserPreferenceUtil {
     String a = store.getString(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE);
     return Boolean.valueOf(a);
   }
-  
+
   public static PrimitivsBoxingType getPrimitivsBoxingType() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(EQUALS_HASHCODE_PRIMITIVESBOXING);
     return PrimitivsBoxingType.valueOf(a);
+  }
+
+  public static Boolean isSkipNullValues() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(TO_STRING_SKIP_NULL_VALUES);
+    return Boolean.valueOf(a);
   }
 
   public static NonNlsType getNonNls1Preference() {
@@ -117,4 +125,5 @@ public final class UserPreferenceUtil {
     String a = store.getString(NON_NLS_1_PREFERENCE);
     return NonNlsType.valueOf(a);
   }
+
 }

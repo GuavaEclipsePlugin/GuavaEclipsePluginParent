@@ -20,6 +20,7 @@ import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_H
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getNonNls1Preference;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isSkipNullValues;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     } else {
       content.append("  return Objects.toStringHelper(this)\n");
     }
+    addSkipNullValuesIfNecessary(content);
 
     if (methodGenerationStratergy == MethodGenerationStratergy.USE_SUPER) {
       content.append("    .add(\"super\", super.toString())\n");
@@ -88,9 +90,16 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
       content.append(" //$NON-NLS-1$");
     }
   }
+
   private void addNonNls1SupressWarningIfNecessary(StringBuilder content) {
     if (NonNlsType.NON_NLS_1_SUPRESS.equals(getNonNls1Preference())) {
       content.append("@SuppressWarnings(\"nls\")\n");
+    }
+  }
+
+  private void addSkipNullValuesIfNecessary(StringBuilder content) {
+    if (isSkipNullValues()) {
+      content.append("    .omitNullValues()\n");
     }
   }
 
