@@ -18,25 +18,21 @@ package net.sf.guavaeclipse.swtbot.tostring;
 
 import static net.sf.guavaeclipse.swtbot.MenuSelection.TO_STRING;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
+import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
