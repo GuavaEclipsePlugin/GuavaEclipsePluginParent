@@ -56,7 +56,7 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String EQUALS_HASHCODE_PRIMITIVESBOXING = "guavaEclipsePlugin.equalsHashCodePrimitivsBoxing"; //$NON-NLS-1$
   
-  public static final String NON_NLS_1_PREFERENCE = "guavaEclipsePlugin.NonNls1Comment"; //$NON-NLS-1$
+  public static final String NON_NLS_1_PREFERENCE = "guavaEclipsePlugin.NonNls1Preference"; //$NON-NLS-1$
 
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
@@ -86,8 +86,15 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
             new String[] {"Use java.util.Arrays.deep Utility methods only when necessary",
                 SMART_HASH_CODE.name()}}, getFieldEditorParent(), true));
     
-    addField(new BooleanFieldEditor(NON_NLS_1_PREFERENCE, 
-        "add $NON-NLS-1$ comment after each toString field", getFieldEditorParent()));
+    addField(new RadioGroupFieldEditor(NON_NLS_1_PREFERENCE,
+        "How to handle NLS1 warnings?", 1,
+        new String[][] {
+            new String[] {"do nothing about it",
+                NonNlsType.NON_NLS_1_DO_NOTHING.name()},
+            new String[] {"add $NON-NLS-1$ comment after each toString field",
+                NonNlsType.NON_NLS_1_COMMENT.name()},
+            new String[] {"add @SuppressWarnings(\"nls\")",
+                NonNlsType.NON_NLS_1_SUPRESS.name()}}, getFieldEditorParent(), true));
 
   }
 

@@ -18,7 +18,7 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
-import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isNonNls1PreferenceSelected;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getNonNls1Preference;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 
 import java.util.List;
@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.NonNlsType;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
 
@@ -47,6 +48,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
   protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
+    addNonNls1SupressWarningIfNecessary(content);
     content.append("public String toString() {\n");
     if (useMoreObjects()) {
       content.append("  return MoreObjects.toStringHelper(this)\n");
@@ -72,7 +74,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
       } else {
         content.append("    .add(\"").append(field).append("\", ").append(field).append(")");
       }
-      addNonNls1IfNecessary(content);
+      addNonNls1CommentIfNecessary(content);
       content.append("\n");
     }
 
@@ -81,9 +83,14 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     return content.toString();
   }
 
-  private void addNonNls1IfNecessary(StringBuilder content) {
-    if (isNonNls1PreferenceSelected()) {
+  private void addNonNls1CommentIfNecessary(StringBuilder content) {
+    if (NonNlsType.NON_NLS_1_COMMENT.equals(getNonNls1Preference())) {
       content.append(" //$NON-NLS-1$");
+    }
+  }
+  private void addNonNls1SupressWarningIfNecessary(StringBuilder content) {
+    if (NonNlsType.NON_NLS_1_SUPRESS.equals(getNonNls1Preference())) {
+      content.append("@SuppressWarnings(\"nls\")\n");
     }
   }
 

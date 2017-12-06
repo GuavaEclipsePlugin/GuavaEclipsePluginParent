@@ -26,7 +26,6 @@ import java.net.URISyntaxException;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,26 +37,34 @@ import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MoreObjectsToStringNonNls1IntegrationTest extends AbstractSwtBotIntegrationTest {
 
-  @BeforeClass
-  public static void changePreferences() throws Exception {
-    selectNonNls1();
-  }
 
   @AfterClass
   public static void changePreferencesBack() throws Exception {
-    deselectNonNls1();
+    selectNonNls1DoNothing();
   }
   
   @Test
-  public void createToStringMethod() throws IOException, URISyntaxException {
+  public void createToStringMethod_NonNls1Comment() throws IOException, URISyntaxException {
+    deselectNonNls1Comment();
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/MoreObjectsExpected_ToStringNonNls1.txt";
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringNonNls1Comment.txt";
     logEditorResults(fileName, MoreObjectsToStringNonNls1IntegrationTest.class, "createToStringMethod()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
+  @Test
+  public void createToStringMethod_NonNls1SupressWarning() throws IOException, URISyntaxException {
+    deselectNonNls1SupressWarning();
+    SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
+
+    String editorText = cutEditor.getText();
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringNonNls1SupressWarning.txt";
+    logEditorResults(fileName, MoreObjectsToStringNonNls1IntegrationTest.class, "createToStringMethod()", editorText);
+    String expectedText = readFile(fileName);
+    assertThat(editorText, is(expectedText));
+  }
 
 }

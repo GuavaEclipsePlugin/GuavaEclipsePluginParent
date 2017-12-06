@@ -112,9 +112,9 @@ public final class UserPreferenceUtil {
     return PrimitivsBoxingType.valueOf(a);
   }
 
-  public static Boolean isNonNls1PreferenceSelected() {
+  public static NonNlsType getNonNls1Preference() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(NON_NLS_1_PREFERENCE);
-    return Boolean.valueOf(a);
+    return NonNlsType.valueOf(a);
   }
 }
