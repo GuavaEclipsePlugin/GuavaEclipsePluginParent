@@ -6,20 +6,16 @@
 
 For PreferencePage setting results look [here](https://GuavaEclipsePlugin.github.io/PreferencePageSettingDetails.html)
 
-# Guava Eclipse Plugin 1.5.0 RELEASE NOTES
+# Guava Eclipse Plugin 1.6.0 SNAPSHOT RELEASE NOTES
 
-We are pleased to announce the Guava Eclipse Plugin 1.5.0 release!
+We are pleased to announce the Guava Eclipse Plugin 1.6.0 SNAPSHOT release!
 
 ### New features:
-- moved update site to bintray.com 
-- [#23](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/23) seperate compareTo preferences page
-- [#22](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/22) Possibility to define "Task Tag" for comments in compareTo methods
-- [#24](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/24) option for Java 7 java.util.Objects support
-- [#25](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/25) option for primitive equality check
-- [#33](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/33) Objects.hashCode and equals are deprecated for Java 7 and later
+- [#30](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/30) Escape autoboxing for primitive types
+- [#31](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/31) Add option to generate //$NON-NLS-1$
+- [#34](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/34) Add option to skip nulls on toString generation
 
 ### Fixed Bugs:
-- [#36](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/36) Error installing from Eclipse Market Place 
 
 ### Known Issues:
 - [#17](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/17) Maven Release Mechanism does not work
