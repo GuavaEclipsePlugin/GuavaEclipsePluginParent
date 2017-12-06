@@ -229,6 +229,36 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectSkipNullValues() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("skip NullValues in toString()");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectSkipNullValues() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("skip NullValues in toString()");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseJava7Objects() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 
