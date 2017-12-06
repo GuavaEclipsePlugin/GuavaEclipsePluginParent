@@ -40,6 +40,7 @@ public class ToStringSkipNullValuesIntegrationTest extends AbstractSwtBotIntegra
 
   @BeforeClass
   public static void changePreferences() throws Exception {
+    selectSmartSuper();
     selectSkipNullValues();
   }
 
