@@ -229,6 +229,36 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+  protected static void selectNonNls1() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("add $NON-NLS-1$ comment after each toString field");
+    checkBox.setFocus();
+    if (!checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void deselectNonNls1() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotCheckBox checkBox =
+        bot.checkBox("add $NON-NLS-1$ comment after each toString field");
+    checkBox.setFocus();
+    if (checkBox.isChecked()) {
+      checkBox.click();
+    }
+    waitForPreferencesShell();
+
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseJava7Objects() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 

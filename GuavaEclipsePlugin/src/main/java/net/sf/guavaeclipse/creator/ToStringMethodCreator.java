@@ -18,6 +18,7 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isNonNls1PreferenceSelected;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 
 import java.util.List;
@@ -36,13 +37,10 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
 
   private boolean useArrays = false;
   
-  private final boolean isNonNls1PreferenceSelected;
-
   public ToStringMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
     this.tmpHcst = UserPreferenceUtil.getHashCodeStrategyType();
-    isNonNls1PreferenceSelected = UserPreferenceUtil.isNonNls1PreferenceSelected();
   }
 
   @Override
@@ -74,15 +72,19 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
       } else {
         content.append("    .add(\"").append(field).append("\", ").append(field).append(")");
       }
-      if (isNonNls1PreferenceSelected) {
-        content.append(" //$NON-NLS-1$");
-      }
+      addNonNls1IfNecessary(content);
       content.append("\n");
     }
 
     content.append("    .toString();\n");
     content.append("}\n");
     return content.toString();
+  }
+
+  private void addNonNls1IfNecessary(StringBuilder content) {
+    if (isNonNls1PreferenceSelected()) {
+      content.append(" //$NON-NLS-1$");
+    }
   }
 
   @Override
