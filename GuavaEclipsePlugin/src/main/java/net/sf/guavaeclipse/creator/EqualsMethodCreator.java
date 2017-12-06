@@ -31,6 +31,7 @@ import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.EqualsEqualityType;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.PrimitivsBoxingType;
 import net.sf.guavaeclipse.utils.Utils;
 
 public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
@@ -42,7 +43,7 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   private final String equalMethod;
   
   private final boolean dontUseObjectsMethodForPrimitives;
-  
+
   public EqualsMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
@@ -55,6 +56,10 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
+    if (PrimitivsBoxingType.AUTOBOXING_SUPRESS_WARNINGS == primitivsBoxingType &&
+        !dontUseObjectsMethodForPrimitives) {
+      content.append("@SuppressWarnings(\"boxing\")\n");
+    }
     content.append("public boolean equals(Object object){\n");
 
     String className = insertionPoint.getInsertionType().getElementName();
@@ -92,8 +97,19 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         if (dontUseObjectsMethodForPrimitives && fieldIsPrimitiv(insertionPoint.getInsertionType(), field) && !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
           content.append("this.").append(getGetterOrField(field)).append(" ==  that.").append(getGetterOrField(field));
         } else {
-          content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
-          .append(", that.").append(getGetterOrField(field)).append(")");
+          if (PrimitivsBoxingType.EXPLICIT_BOXING == primitivsBoxingType &&
+              fieldIsPrimitiv(insertionPoint.getInsertionType(), field) &&
+              !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+            content.append("Objects.").append(this.equalMethod).append("(")
+            .append(Utils.getBoxingString(insertionPoint.getInsertionType(), field)).append("(")
+            .append("this.").append(getGetterOrField(field)).append(")")
+            .append(", ")
+            .append(Utils.getBoxingString(insertionPoint.getInsertionType(), field)).append("(")
+            .append("that.").append(getGetterOrField(field)).append(")").append(")");
+          } else {
+            content.append("Objects.").append(this.equalMethod).append("(this.").append(getGetterOrField(field))
+            .append(", that.").append(getGetterOrField(field)).append(")");
+          }
         }
       }
       if (!fields.get(fields.size() - 1).equals(field)) {

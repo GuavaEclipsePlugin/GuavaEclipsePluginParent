@@ -18,14 +18,15 @@ package net.sf.guavaeclipse.preferences;
 
 import static net.sf.guavaeclipse.preferences.CompareToCommentsType.EVERY_FIELD_COMMENT;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_HASHCODE_PRIMITIVESBOXING;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HASH_CODE_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
-import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -103,4 +104,11 @@ public final class UserPreferenceUtil {
     String a = store.getString(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE);
     return Boolean.valueOf(a);
   }
+  
+  public static PrimitivsBoxingType getPrimitivsBoxingType() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(EQUALS_HASHCODE_PRIMITIVESBOXING);
+    return PrimitivsBoxingType.valueOf(a);
+  }
+
 }

@@ -21,6 +21,10 @@ import static net.sf.guavaeclipse.preferences.EqualsEqualityType.CLASS_EQUALITY;
 import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.GETTER;
+import static net.sf.guavaeclipse.preferences.PrimitivsBoxingType.AUTOBOXING;
+import static net.sf.guavaeclipse.preferences.PrimitivsBoxingType.AUTOBOXING_SUPRESS_WARNINGS;
+import static net.sf.guavaeclipse.preferences.PrimitivsBoxingType.EXPLICIT_BOXING;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_HASHCODE_PRIMITIVESBOXING;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.FIELDS_GETTER_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
@@ -66,6 +70,14 @@ public class EqualsHashCodePreferencePage extends FieldEditorPreferencePage
         "use fields directly or use getter methods in equals and hashCode", 1, new String[][] {
             new String[] {"use fields", FIELDS.name()},
             new String[] {"use getter methods", GETTER.name()}}, getFieldEditorParent(), true));
+
+
+    addField(new RadioGroupFieldEditor(EQUALS_HASHCODE_PRIMITIVESBOXING,
+        "autoboxing, supressWarning(boxing), explicit boxing for primitives", 1, new String[][] {
+            new String[] {"autoboxing", AUTOBOXING.name()},
+            new String[] {"autoboxing and add @SuppressWarnings(\"boxing\")", AUTOBOXING_SUPRESS_WARNINGS.name()},
+            new String[] {"explicit boxing", EXPLICIT_BOXING.name()}}
+        , getFieldEditorParent(), true));
   }
 
 }

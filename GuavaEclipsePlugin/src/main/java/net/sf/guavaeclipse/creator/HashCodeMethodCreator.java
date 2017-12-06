@@ -18,12 +18,15 @@
 package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
+import static net.sf.guavaeclipse.utils.Utils.fieldIsPrimitiv;
 
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.PrimitivsBoxingType;
+import net.sf.guavaeclipse.utils.Utils;
 
 import org.eclipse.jdt.core.JavaModelException;
 
@@ -38,10 +41,13 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   }
 
   @Override
-  protected String getMethodContent() {
+  protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
 
     content.append("@Override\n");
+    if (PrimitivsBoxingType.AUTOBOXING_SUPRESS_WARNINGS == primitivsBoxingType) {
+      content.append("@SuppressWarnings(\"boxing\")\n");
+    }
     content.append("public int hashCode(){\n");
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
       content.append("   return Arrays.deepHashCode(new Object[] {");
@@ -63,7 +69,15 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     }
     for (Iterator<String> fieldsIterator = fields.iterator(); fieldsIterator.hasNext();) {
       String field = fieldsIterator.next();
-      content.append(getGetterOrField(field));
+      
+      if (PrimitivsBoxingType.EXPLICIT_BOXING == primitivsBoxingType &&
+          fieldIsPrimitiv(insertionPoint.getInsertionType(), field) &&
+          !Utils.fieldIsArray(insertionPoint.getInsertionType(), field)) {
+        content.append(Utils.getBoxingString(insertionPoint.getInsertionType(), field))
+        .append("(").append(getGetterOrField(field)).append(")");
+      } else {
+        content.append(getGetterOrField(field));
+      }
       if (!fields.get(fields.size() - 1).equals(field)) {
         content.append(", ");
       }
