@@ -1,0 +1,17 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.MoreObjects;
+
+public class SampleSimple {
+
+	private int intValue;
+
+	private String strValue;
+
+	@Override
+	@SuppressWarnings("nls")
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("intValue", intValue).add("strValue", strValue).toString();
+	}
+
+}

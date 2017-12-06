@@ -18,6 +18,7 @@ package net.sf.guavaeclipse.creator;
 
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getNonNls1Preference;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isSkipNullValues;
 
@@ -28,6 +29,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
+import net.sf.guavaeclipse.preferences.NonNlsType;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
 import net.sf.guavaeclipse.utils.Utils;
 
@@ -36,7 +38,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
   private final HashCodeStrategyType tmpHcst;
 
   private boolean useArrays = false;
-
+  
   public ToStringMethodCreator(MethodInsertionPoint insertionPoint, List<String> fields)
       throws JavaModelException {
     super(insertionPoint, fields);
@@ -47,6 +49,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
   protected String getMethodContent() throws JavaModelException {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
+    addNonNls1SupressWarningIfNecessary(content);
     content.append("public String toString() {\n");
     if (useMoreObjects()) {
       content.append("  return MoreObjects.toStringHelper(this)\n");
@@ -68,16 +71,30 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
         } else {
           content.append(field);
         }
-        content.append("))\n");
+        content.append("))");
         useArrays = true;
       } else {
-        content.append("    .add(\"").append(field).append("\", ").append(field).append(")\n");
+        content.append("    .add(\"").append(field).append("\", ").append(field).append(")");
       }
+      addNonNls1CommentIfNecessary(content);
+      content.append("\n");
     }
 
     content.append("    .toString();\n");
     content.append("}\n");
     return content.toString();
+  }
+
+  private void addNonNls1CommentIfNecessary(StringBuilder content) {
+    if (NonNlsType.NON_NLS_1_COMMENT.equals(getNonNls1Preference())) {
+      content.append(" //$NON-NLS-1$");
+    }
+  }
+
+  private void addNonNls1SupressWarningIfNecessary(StringBuilder content) {
+    if (NonNlsType.NON_NLS_1_SUPRESS.equals(getNonNls1Preference())) {
+      content.append("@SuppressWarnings(\"nls\")\n");
+    }
   }
 
   private void addSkipNullValuesIfNecessary(StringBuilder content) {

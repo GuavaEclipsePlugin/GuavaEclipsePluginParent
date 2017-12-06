@@ -58,6 +58,8 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
   
   public static final String TO_STRING_SKIP_NULL_VALUES = "guavaEclipsePlugin.toStringSkipNullValues"; //$NON-NLS-1$
 
+  public static final String NON_NLS_1_PREFERENCE = "guavaEclipsePlugin.NonNls1Preference"; //$NON-NLS-1$
+
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
@@ -88,6 +90,16 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
     addField(new BooleanFieldEditor(TO_STRING_SKIP_NULL_VALUES,
         "skip NullValues in toString()", getFieldEditorParent()));
+
+    addField(new RadioGroupFieldEditor(NON_NLS_1_PREFERENCE,
+        "How to handle NLS1 warnings?", 1,
+        new String[][] {
+            new String[] {"do nothing about it",
+                NonNlsType.NON_NLS_1_DO_NOTHING.name()},
+            new String[] {"add $NON-NLS-1$ comment after each toString field",
+                NonNlsType.NON_NLS_1_COMMENT.name()},
+            new String[] {"add @SuppressWarnings(\"nls\")",
+                NonNlsType.NON_NLS_1_SUPRESS.name()}}, getFieldEditorParent(), true));
 
   }
 

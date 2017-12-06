@@ -26,6 +26,7 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.NON_NLS_1_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.TO_STRING_SKIP_NULL_VALUES;
@@ -117,6 +118,12 @@ public final class UserPreferenceUtil {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(TO_STRING_SKIP_NULL_VALUES);
     return Boolean.valueOf(a);
+  }
+
+  public static NonNlsType getNonNls1Preference() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(NON_NLS_1_PREFERENCE);
+    return NonNlsType.valueOf(a);
   }
 
 }

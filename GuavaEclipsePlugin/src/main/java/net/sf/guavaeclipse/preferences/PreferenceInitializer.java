@@ -23,6 +23,7 @@ import static net.sf.guavaeclipse.preferences.EqualsEqualityType.INSTANCEOF;
 import static net.sf.guavaeclipse.preferences.FieldsGetterType.FIELDS;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.SMART_OPTION;
+import static net.sf.guavaeclipse.preferences.NonNlsType.NON_NLS_1_DO_NOTHING;
 import static net.sf.guavaeclipse.preferences.PrimitivsBoxingType.AUTOBOXING;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.COMPARE_COMMENT_TASK_TAG;
@@ -34,6 +35,7 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.HIDE_COMPARE_TO
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.INSTANCEOF_CLASSEQUALS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.NON_NLS_1_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.TO_STRING_SKIP_NULL_VALUES;
 
@@ -59,5 +61,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     store.setDefault(EQUALS_METHOD_COMPARE_PRIMITIVES_PREFERENCE, TRUE.toString());
     store.setDefault(EQUALS_HASHCODE_PRIMITIVESBOXING, AUTOBOXING.toString());
     store.setDefault(TO_STRING_SKIP_NULL_VALUES, FALSE.toString());
+    store.setDefault(NON_NLS_1_PREFERENCE, NON_NLS_1_DO_NOTHING.toString());
   }
 }

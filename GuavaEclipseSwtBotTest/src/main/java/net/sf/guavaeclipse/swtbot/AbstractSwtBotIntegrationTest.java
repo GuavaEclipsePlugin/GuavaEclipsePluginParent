@@ -239,7 +239,6 @@ public abstract class AbstractSwtBotIntegrationTest {
       checkBox.click();
     }
     waitForPreferencesShell();
-
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
@@ -254,11 +253,43 @@ public abstract class AbstractSwtBotIntegrationTest {
       checkBox.click();
     }
     waitForPreferencesShell();
-
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
 
+    protected static void selectNonNls1DoNothing() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotRadio radio = bot.radio("do nothing about it");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectNonNls1Comment() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotRadio radio = bot.radio("add $NON-NLS-1$ comment after each toString field");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
+  protected static void selectNonNls1SupressWarning() {
+    SWTBotShell shell = openGuavaPreferences();
+
+    SWTBotRadio radio = bot.radio("add @SuppressWarnings(\"nls\")");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+  
   protected static void selectUseJava7Objects() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 
