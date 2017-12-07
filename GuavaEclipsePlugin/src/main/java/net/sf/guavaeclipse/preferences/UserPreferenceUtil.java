@@ -132,11 +132,6 @@ public final class UserPreferenceUtil {
     store.setValue(CODE_ANALYZE_PREFERENCE, value.name());
   }
 
-  static void saveCodeAnalyzeCommentPreference(String value) {
-    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-    store.setValue(CODE_ANALYZE_COMMENT_PREFERENCE, value);
-  }
-
   public static CodeAnalysisType getCodeAnalysisPreference() {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(CODE_ANALYZE_PREFERENCE);

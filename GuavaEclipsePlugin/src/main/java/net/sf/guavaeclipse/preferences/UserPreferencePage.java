@@ -198,6 +198,7 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     codeAnalysisComment = new StringFieldEditor(CODE_ANALYZE_COMMENT_PREFERENCE, "", buttonComposite);
     codeAnalysisComment.setEnabled(codeAnalysisType == CodeAnalysisType.ADD_COMMENT, buttonComposite);
     codeAnalysisComment.setStringValue(UserPreferenceUtil.getCodeAnalysisCommentPreference());
+    addField(codeAnalysisComment);
   }
 
   private void selectClickMode(CodeAnalysisType codeAnalysisType, Composite composite) {
