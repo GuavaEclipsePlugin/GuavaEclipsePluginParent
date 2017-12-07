@@ -133,18 +133,16 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   @Override
   protected String getPackageToImport() {
-    String packageToImport = super.getPackageToImport();
-    if (tmpHcst == SMART_HASH_CODE && useArrays) {
-        packageToImport += "," + IMPORT_DECL_ARRAYS;
+    if (tmpHcst == SMART_HASH_CODE) {
+      if (useArrays) {
+        return addGeneratedAnnotationImportDeclarationIfNecessary(super.getPackageToImport() + "," + IMPORT_DECL_ARRAYS);
+      }
     }
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      packageToImport = IMPORT_DECL_ARRAYS;
+      return addGeneratedAnnotationImportDeclarationIfNecessary(IMPORT_DECL_ARRAYS);
     }
-    packageToImport = addGeneratedAnnotationImportDeclarationIfNecessary(packageToImport);
-    
-    return packageToImport;
+    return addGeneratedAnnotationImportDeclarationIfNecessary(super.getPackageToImport());
   }
-
 
   private boolean useDeepEquals(String fieldName) throws JavaModelException {
     if (tmpHcst == SMART_HASH_CODE

@@ -101,12 +101,10 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   @Override
   protected String getPackageToImport() {
-    String packageToImport = super.getPackageToImport();
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      packageToImport += "," + IMPORT_DECL_ARRAYS;
+      return addGeneratedAnnotationImportDeclarationIfNecessary(IMPORT_DECL_ARRAYS);
     }
-    packageToImport = addGeneratedAnnotationImportDeclarationIfNecessary(packageToImport);
-    return packageToImport;
+    return addGeneratedAnnotationImportDeclarationIfNecessary(super.getPackageToImport());
   }
 
 }
