@@ -60,7 +60,10 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
         !dontUseObjectsMethodForPrimitives) {
       content.append("@SuppressWarnings(\"boxing\")\n");
     }
-    content.append("public boolean equals(Object object){\n");
+    addGeneratedAnnotationIfNecessary(content);
+    content.append("public boolean equals(Object object){");
+    addCodeAnalysisCommentIfNecessary(content);
+    content.append("\n");
 
     String className = insertionPoint.getInsertionType().getElementName();
     if (eet == EqualsEqualityType.CLASS_EQUALITY) {
@@ -130,17 +133,16 @@ public class EqualsMethodCreator extends AbstractEqualsHashCodeMethodCreator {
 
   @Override
   protected String getPackageToImport() {
-    if (tmpHcst == SMART_HASH_CODE) {
-      if (useArrays) {
-        return super.getPackageToImport() + "," + IMPORT_DECL_ARRAYS;
-      } else {
-        return super.getPackageToImport();
-      }
+    String packageToImport = super.getPackageToImport();
+    if (tmpHcst == SMART_HASH_CODE && useArrays) {
+        packageToImport += "," + IMPORT_DECL_ARRAYS;
     }
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      return IMPORT_DECL_ARRAYS;
+      packageToImport = IMPORT_DECL_ARRAYS;
     }
-    return super.getPackageToImport();
+    packageToImport = addGeneratedAnnotationImportDeclarationIfNecessary(packageToImport);
+    
+    return packageToImport;
   }
 
 
