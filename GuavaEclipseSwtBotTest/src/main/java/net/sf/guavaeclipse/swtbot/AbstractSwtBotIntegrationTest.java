@@ -260,7 +260,7 @@ public abstract class AbstractSwtBotIntegrationTest {
     protected static void selectNonNls1DoNothing() {
     SWTBotShell shell = openGuavaPreferences();
 
-    SWTBotRadio radio = bot.radio("do nothing about it");
+    SWTBotRadio radio = bot.radioInGroup("do nothing", "How to handle NLS1 warnings?");
     radio.setFocus();
     radio.click();
     waitForPreferencesShell();
@@ -289,7 +289,43 @@ public abstract class AbstractSwtBotIntegrationTest {
     bot.button("OK").click();
     bot.waitUntil(Conditions.shellCloses(shell));
   }
+
+  protected static void selectCodeAnalysisBehaviourDoNothing() {
+    SWTBotShell shell = openGuavaPreferences();
   
+    SWTBotRadio radio = bot.radioInGroup("do nothing", "Code analysis behaviour");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+  
+  protected static void selectCodeAnalysisBehaviourGeneratedAnnotation() {
+    SWTBotShell shell = openGuavaPreferences();
+  
+    SWTBotRadio radio = bot.radio("add @Generated annotation");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+  
+  protected static void selectCodeAnalysisBehaviourCommentAndSetNoSonarComment() {
+    SWTBotShell shell = openGuavaPreferences();
+  
+    SWTBotRadio radio = bot.radio("add code analyse comment");
+    radio.setFocus();
+    radio.click();
+    waitForPreferencesShell();
+    SWTBotText textInGroup = bot.textInGroup("Code analysis behaviour");
+    textInGroup.setText("NOSONAR");
+    waitForPreferencesShell();
+    bot.button("OK").click();
+    bot.waitUntil(Conditions.shellCloses(shell));
+  }
+
   protected static void selectUseJava7Objects() {
     SWTBotShell shell = openEqualsHashCodePreferences();
 

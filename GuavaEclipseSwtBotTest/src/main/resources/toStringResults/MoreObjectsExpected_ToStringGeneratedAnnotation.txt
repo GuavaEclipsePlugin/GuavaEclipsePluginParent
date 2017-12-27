@@ -1,0 +1,18 @@
+package net.sf.guavaeclipse.test;
+
+import com.google.common.base.MoreObjects;
+import javax.annotation.Generated;
+
+public class SampleSimple {
+
+	private int intValue;
+
+	private String strValue;
+
+	@Override
+	@Generated(value = "GuavaEclipsePlugin")
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("intValue", intValue).add("strValue", strValue).toString();
+	}
+
+}
