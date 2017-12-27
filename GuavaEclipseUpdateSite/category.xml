@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/">
+   <description url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/SNAPSHOT/latest/">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
 following methods using Google guava utilty classes
 toString()

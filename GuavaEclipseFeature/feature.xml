@@ -2,7 +2,7 @@
 <feature
       id="GuavaEclipseFeature"
       label="Guava Eclipse Feature"
-      version="1.6.0"
+      version="1.7.0.qualifier"
       provider-name="Guava Eclipse Plugin Team"
       plugin="GuavaEclipsePlugin">
 
@@ -199,14 +199,14 @@ ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
    </license>
 
    <url>
-      <update label="Guava Eclipse Plugin Update Site" url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/"/>
+      <update label="Guava Eclipse Plugin Update Site" url="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/SNAPSHOT/latest/"/>
    </url>
 
    <plugin
          id="GuavaEclipsePlugin"
          download-size="32"
          install-size="0"
-         version="1.6.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
 </feature>
