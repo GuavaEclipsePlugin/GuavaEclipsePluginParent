@@ -8,11 +8,14 @@
 
    <description url="https://guavaeclipseplugin.github.io">
       &quot;Guava Eclipse plugin&quot; is an eclipse plugin which will generate
-following methods using Google guava utilty classes
-toString()
-equals(Object object)
-hashCode()
-compareTo(...)
+following methods using Google guava utilty classes or jdk utility classes
+toString() [STRG + SHIFT + 4]
+equals(Object object) [STRG + SHIFT + 5]
+hashCode() [STRG + SHIFT + 5]
+compareTo(...) [STRG + SHIFT + 6]
+
+For PreferencePage setting results look [here](https://GuavaEclipsePlugin.github.io/PreferencePageSettingDetails.html)
+
 ReleaseNotes: https://guavaeclipseplugin.github.io/allReleases.html
    </description>
 

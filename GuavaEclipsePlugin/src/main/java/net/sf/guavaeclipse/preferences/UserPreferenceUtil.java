@@ -28,8 +28,9 @@ import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJE
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.MORE_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.NON_NLS_1_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.SUPERCALL_STRATEGY_PREFERENCE;
-import static net.sf.guavaeclipse.preferences.UserPreferencePage.JAVA_UTILS_OBJECTS_PREFERENCE;
 import static net.sf.guavaeclipse.preferences.UserPreferencePage.TO_STRING_SKIP_NULL_VALUES;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.CODE_ANALYZE_PREFERENCE;
+import static net.sf.guavaeclipse.preferences.UserPreferencePage.CODE_ANALYZE_COMMENT_PREFERENCE;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -124,6 +125,22 @@ public final class UserPreferenceUtil {
     IPreferenceStore store = Activator.getDefault().getPreferenceStore();
     String a = store.getString(NON_NLS_1_PREFERENCE);
     return NonNlsType.valueOf(a);
+  }
+
+  static void saveCodeAnalyzePreference(CodeAnalysisType value) {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    store.setValue(CODE_ANALYZE_PREFERENCE, value.name());
+  }
+
+  public static CodeAnalysisType getCodeAnalysisPreference() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    String a = store.getString(CODE_ANALYZE_PREFERENCE);
+    return CodeAnalysisType.valueOf(a);
+  }
+
+  public static String getCodeAnalysisCommentPreference() {
+    IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    return store.getString(CODE_ANALYZE_COMMENT_PREFERENCE);
   }
 
 }

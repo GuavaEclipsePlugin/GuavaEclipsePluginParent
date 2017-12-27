@@ -36,7 +36,7 @@ import net.sf.guavaeclipse.swtbot.AbstractSwtBotIntegrationTest;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MoreObjectsToStringNonNls1IntegrationTest extends AbstractSwtBotIntegrationTest {
+public class MoreObjectsToStringCodeAnalysisBehaviourIntegrationTest extends AbstractSwtBotIntegrationTest {
 
 
   @BeforeClass
@@ -46,29 +46,29 @@ public class MoreObjectsToStringNonNls1IntegrationTest extends AbstractSwtBotInt
 
   @AfterClass
   public static void changePreferencesBack() throws Exception {
-    selectNonNls1DoNothing();
+    selectCodeAnalysisBehaviourDoNothing();
   }
   
   @Test
-  public void createToStringMethod_NonNls1Comment() throws IOException, URISyntaxException {
-    selectNonNls1Comment();
+  public void createToStringMethod_GeneratedAnnotation() throws IOException, URISyntaxException {
+    selectCodeAnalysisBehaviourGeneratedAnnotation();
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/MoreObjectsExpected_ToStringNonNls1Comment.txt";
-    logEditorResults(fileName, MoreObjectsToStringNonNls1IntegrationTest.class, "createToStringMethod()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringGeneratedAnnotation.txt";
+    logEditorResults(fileName, MoreObjectsToStringCodeAnalysisBehaviourIntegrationTest.class, "createToStringMethod()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }
 
   @Test
-  public void createToStringMethod_NonNls1SupressWarning() throws IOException, URISyntaxException {
-    selectNonNls1SupressWarning();
+  public void createToStringMethod_CommentOnMethod() throws IOException, URISyntaxException {
+    selectCodeAnalysisBehaviourCommentAndSetNoSonarComment();
     SWTBotEclipseEditor cutEditor = executeTestForSampleSimple(TO_STRING);
 
     String editorText = cutEditor.getText();
-    String fileName = "toStringResults/MoreObjectsExpected_ToStringNonNls1SupressWarning.txt";
-    logEditorResults(fileName, MoreObjectsToStringNonNls1IntegrationTest.class, "createToStringMethod()", editorText);
+    String fileName = "toStringResults/MoreObjectsExpected_ToStringNoSonarComment.txt";
+    logEditorResults(fileName, MoreObjectsToStringCodeAnalysisBehaviourIntegrationTest.class, "createToStringMethod()", editorText);
     String expectedText = readFile(fileName);
     assertThat(editorText, is(expectedText));
   }

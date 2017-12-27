@@ -48,7 +48,10 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
     if (PrimitivsBoxingType.AUTOBOXING_SUPRESS_WARNINGS == primitivsBoxingType) {
       content.append("@SuppressWarnings(\"boxing\")\n");
     }
-    content.append("public int hashCode(){\n");
+    addGeneratedAnnotationIfNecessary(content);
+    content.append("public int hashCode(){");
+    addCodeAnalysisCommentIfNecessary(content);
+    content.append("\n");
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
       content.append("   return Arrays.deepHashCode(new Object[] {");
     } else {
@@ -99,9 +102,9 @@ public class HashCodeMethodCreator extends AbstractEqualsHashCodeMethodCreator {
   @Override
   protected String getPackageToImport() {
     if (hcst == ARRAYS_DEEP_HASH_CODE) {
-      return IMPORT_DECL_ARRAYS;
+      return addGeneratedAnnotationImportDeclarationIfNecessary(IMPORT_DECL_ARRAYS);
     }
-    return super.getPackageToImport();
+    return addGeneratedAnnotationImportDeclarationIfNecessary(super.getPackageToImport());
   }
 
 }

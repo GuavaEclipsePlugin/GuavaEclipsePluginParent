@@ -39,6 +39,7 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 import net.sf.guavaeclipse.dto.MethodInsertionPoint;
+import net.sf.guavaeclipse.preferences.CodeAnalysisType;
 import net.sf.guavaeclipse.preferences.HashCodeStrategyType;
 import net.sf.guavaeclipse.preferences.MethodGenerationStratergy;
 import net.sf.guavaeclipse.preferences.UserPreferenceUtil;
@@ -121,6 +122,25 @@ public abstract class AbstractMethodCreator {
       for (String importDecl : importStatements) {
         compilationUnit.createImport(importDecl, null, new NullProgressMonitor());
       }
+    }
+  }
+  
+  protected String addGeneratedAnnotationImportDeclarationIfNecessary(String packageToImport) {
+    if (UserPreferenceUtil.getCodeAnalysisPreference() == CodeAnalysisType.ADD_GENERATED_ANNOTATION) {
+      packageToImport += ",javax.annotation.Generated";
+    }
+    return packageToImport;
+  }
+
+  protected void addCodeAnalysisCommentIfNecessary(StringBuilder content) {
+    if (UserPreferenceUtil.getCodeAnalysisPreference() == CodeAnalysisType.ADD_COMMENT) {
+      content.append(" // ").append(UserPreferenceUtil.getCodeAnalysisCommentPreference());
+    }
+  }
+
+  protected void addGeneratedAnnotationIfNecessary(StringBuilder content) {
+    if (UserPreferenceUtil.getCodeAnalysisPreference() == CodeAnalysisType.ADD_GENERATED_ANNOTATION) {
+      content.append("@Generated(value = \"GuavaEclipsePlugin\")");
     }
   }
 

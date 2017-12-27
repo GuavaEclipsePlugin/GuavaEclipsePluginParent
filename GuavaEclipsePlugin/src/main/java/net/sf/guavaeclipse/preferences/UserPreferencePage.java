@@ -26,6 +26,15 @@ import static net.sf.guavaeclipse.preferences.MethodGenerationStratergy.USE_SUPE
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -60,6 +69,20 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
 
   public static final String NON_NLS_1_PREFERENCE = "guavaEclipsePlugin.NonNls1Preference"; //$NON-NLS-1$
 
+  public static final String CODE_ANALYZE_PREFERENCE = "guavaEclipsePlugin.CodeAnalyzePreference"; //$NON-NLS-1$
+
+  public static final String CODE_ANALYZE_COMMENT_PREFERENCE = "guavaEclipsePlugin.CodeAnalyzeCommentPreference"; //$NON-NLS-1$
+
+  private Button doNothingClickButton;
+
+  private Button generatedAnnotationClickButton;
+
+  private Button codeAnalyseCommentClickButton;
+
+  private CodeAnalysisType codeAnalysisType;
+  
+  private StringFieldEditor codeAnalysisComment;
+  
   public UserPreferencePage() {
     super(FieldEditorPreferencePage.GRID);
   }
@@ -94,14 +117,89 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     addField(new RadioGroupFieldEditor(NON_NLS_1_PREFERENCE,
         "How to handle NLS1 warnings?", 1,
         new String[][] {
-            new String[] {"do nothing about it",
+            new String[] {"do nothing",
                 NonNlsType.NON_NLS_1_DO_NOTHING.name()},
             new String[] {"add $NON-NLS-1$ comment after each toString field",
                 NonNlsType.NON_NLS_1_COMMENT.name()},
             new String[] {"add @SuppressWarnings(\"nls\")",
                 NonNlsType.NON_NLS_1_SUPRESS.name()}}, getFieldEditorParent(), true));
 
+    createCodeAnalysisGroup(getFieldEditorParent());
   }
+
+  private void createCodeAnalysisGroup(Composite composite) {
+    codeAnalysisType = UserPreferenceUtil.getCodeAnalysisPreference();
+    
+    final Group buttonComposite = new Group(composite, SWT.NONE);
+    buttonComposite.setFont(composite.getFont());
+    GridLayout layout = new GridLayout();
+    layout.horizontalSpacing = 8;
+    layout.numColumns = 2;
+    buttonComposite.setLayout(layout);
+    GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+        | GridData.GRAB_HORIZONTAL);
+
+    buttonComposite.setLayoutData(data);
+    buttonComposite.setText("Code analysis behaviour");
+    
+    new PreferenceSpacer(buttonComposite);
+    
+    String label = "do nothing";
+    doNothingClickButton = createRadioButton(buttonComposite, label);
+    doNothingClickButton.addSelectionListener(new SelectionAdapter() {
+
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+            selectClickMode(CodeAnalysisType.NO_SPECIAL_HANDLING, buttonComposite);
+            UserPreferenceUtil.saveCodeAnalyzePreference(CodeAnalysisType.NO_SPECIAL_HANDLING);
+        }
+    });
+    doNothingClickButton.setSelection(codeAnalysisType == CodeAnalysisType.NO_SPECIAL_HANDLING);
+
+    new PreferenceSpacer(buttonComposite);
+    
+    label = "add @Generated annotation";
+    generatedAnnotationClickButton = createRadioButton(buttonComposite, label);
+    generatedAnnotationClickButton.addSelectionListener(new SelectionAdapter() {
+
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+            selectClickMode(CodeAnalysisType.ADD_GENERATED_ANNOTATION, buttonComposite);
+            UserPreferenceUtil.saveCodeAnalyzePreference(CodeAnalysisType.ADD_GENERATED_ANNOTATION);
+        }
+    });
+    generatedAnnotationClickButton.setSelection(codeAnalysisType == CodeAnalysisType.ADD_GENERATED_ANNOTATION);
+
+    new PreferenceSpacer(buttonComposite);
+
+    label = "add code analyse comment";
+    codeAnalyseCommentClickButton = createRadioButton(buttonComposite, label);
+    codeAnalyseCommentClickButton.addSelectionListener(new SelectionAdapter() {
+
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+            selectClickMode(CodeAnalysisType.ADD_COMMENT, buttonComposite);
+            UserPreferenceUtil.saveCodeAnalyzePreference(CodeAnalysisType.ADD_COMMENT);
+        }
+    });
+    codeAnalyseCommentClickButton.setSelection(codeAnalysisType == CodeAnalysisType.ADD_COMMENT);
+    
+    codeAnalysisComment = new StringFieldEditor(CODE_ANALYZE_COMMENT_PREFERENCE, "", buttonComposite);
+    codeAnalysisComment.setEnabled(codeAnalysisType == CodeAnalysisType.ADD_COMMENT, buttonComposite);
+    codeAnalysisComment.setStringValue(UserPreferenceUtil.getCodeAnalysisCommentPreference());
+    addField(codeAnalysisComment);
+  }
+
+  private void selectClickMode(CodeAnalysisType codeAnalysisType, Composite composite) {
+    this.codeAnalysisType = codeAnalysisType;
+    this.codeAnalysisComment.setEnabled(codeAnalysisType == CodeAnalysisType.ADD_COMMENT, composite);
+}
+
+  private static Button createRadioButton(Composite parent, String label) {
+    Button button = new Button(parent, SWT.RADIO | SWT.LEFT | SWT.HORIZONTAL);
+    button.setText(label);
+    return button;
+}
 
   @Override
   public void init(IWorkbench iworkbench) {

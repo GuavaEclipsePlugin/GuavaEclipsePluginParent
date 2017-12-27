@@ -19,8 +19,8 @@ package net.sf.guavaeclipse.creator;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.ARRAYS_DEEP_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.HashCodeStrategyType.SMART_HASH_CODE;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.getNonNls1Preference;
-import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.isSkipNullValues;
+import static net.sf.guavaeclipse.preferences.UserPreferenceUtil.useMoreObjects;
 
 import java.util.List;
 
@@ -50,7 +50,10 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     StringBuilder content = new StringBuilder();
     content.append("@Override\n");
     addNonNls1SupressWarningIfNecessary(content);
-    content.append("public String toString() {\n");
+    addGeneratedAnnotationIfNecessary(content);
+    content.append("public String toString() {");
+    addCodeAnalysisCommentIfNecessary(content);
+    content.append("\n");
     if (useMoreObjects()) {
       content.append("  return MoreObjects.toStringHelper(this)\n");
     } else {
@@ -114,6 +117,7 @@ public class ToStringMethodCreator extends AbstractMethodCreator {
     if (useMoreObjects()) {
       packageToImport = "com.google.common.base.MoreObjects";
     }
+    packageToImport = addGeneratedAnnotationImportDeclarationIfNecessary(packageToImport);
     if (useArrays) {
       return packageToImport + "," + IMPORT_DECL_ARRAYS;
     } else {
