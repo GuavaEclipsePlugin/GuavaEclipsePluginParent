@@ -6,9 +6,9 @@
 
 For PreferencePage setting results look [here](https://GuavaEclipsePlugin.github.io/PreferencePageSettingDetails.html)
 
-# Guava Eclipse Plugin 1.6.0 SNAPSHOT RELEASE NOTES
+# Guava Eclipse Plugin 1.6.0 RELEASE NOTES
 
-We are pleased to announce the Guava Eclipse Plugin 1.6.0 SNAPSHOT release!
+We are pleased to announce the Guava Eclipse Plugin 1.6.0 release!
 
 ### New features:
 - [#30](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/30) Escape autoboxing for primitive types
