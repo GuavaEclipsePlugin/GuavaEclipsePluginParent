@@ -14,6 +14,10 @@ We are pleased to announce the Guava Eclipse Plugin 1.6.0 SNAPSHOT release!
 - [#30](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/30) Escape autoboxing for primitive types
 - [#31](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/31) Add option to generate //$NON-NLS-1$
 - [#34](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/34) Add option to skip nulls on toString generation
+- [#34](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/34) Add option to skip nulls on toString generation
+- [#34](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/34) Add option to skip nulls on toString generation
+- [#35](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/35) Add @Generated annotation to skip static code analyze
+- [#26](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/26) Possibility to add nosonar comment for equals methods
 
 ### Fixed Bugs:
 
