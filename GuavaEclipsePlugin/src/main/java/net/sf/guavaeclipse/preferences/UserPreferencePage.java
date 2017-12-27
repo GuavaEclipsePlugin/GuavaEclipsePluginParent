@@ -117,7 +117,7 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     addField(new RadioGroupFieldEditor(NON_NLS_1_PREFERENCE,
         "How to handle NLS1 warnings?", 1,
         new String[][] {
-            new String[] {"do nothing about it",
+            new String[] {"do nothing",
                 NonNlsType.NON_NLS_1_DO_NOTHING.name()},
             new String[] {"add $NON-NLS-1$ comment after each toString field",
                 NonNlsType.NON_NLS_1_COMMENT.name()},
@@ -125,14 +125,6 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
                 NonNlsType.NON_NLS_1_SUPRESS.name()}}, getFieldEditorParent(), true));
 
     createCodeAnalysisGroup(getFieldEditorParent());
-//    addField(new RadioGroupFieldEditor(CODE_ANALYZE_PREFERENCE,
-//        "Code analysis", 1,
-//        new String[][] {
-//            new String[] {"add generated annotation",
-//                NonNlsType.NON_NLS_1_DO_NOTHING.name()},
-//            new String[] {"add comment on same line from method declaration", 
-//                NonNlsType.NON_NLS_1_COMMENT.name()},
-//            }, getFieldEditorParent(), true));
   }
 
   private void createCodeAnalysisGroup(Composite composite) {
@@ -144,18 +136,15 @@ public class UserPreferencePage extends FieldEditorPreferencePage implements
     layout.horizontalSpacing = 8;
     layout.numColumns = 2;
     buttonComposite.setLayout(layout);
-    GridData gd = new GridData(GridData.FILL_VERTICAL);
-    buttonComposite.setLayoutData(gd);
-//        GridData data = new GridData(SWT.LEFT, SWT.HORIZONTAL, true, true);
-//    GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-//        | GridData.GRAB_HORIZONTAL);
-//
-//    buttonComposite.setLayoutData(data);
+    GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+        | GridData.GRAB_HORIZONTAL);
+
+    buttonComposite.setLayoutData(data);
     buttonComposite.setText("Code analysis behaviour");
     
     new PreferenceSpacer(buttonComposite);
     
-    String label = "do nothing special for code analysis";
+    String label = "do nothing";
     doNothingClickButton = createRadioButton(buttonComposite, label);
     doNothingClickButton.addSelectionListener(new SelectionAdapter() {
 
