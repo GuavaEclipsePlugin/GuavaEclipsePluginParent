@@ -5,7 +5,7 @@ Bundle-SymbolicName: GuavaEclipseSwtBotTest;singleton:=true
 Bundle-Version: 1.7.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: 
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.swtbot.go;bundle-version="2.2.1",
  GuavaEclipsePlugin;bundle-version="1.0.2",
  org.apache.log4j

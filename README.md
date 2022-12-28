@@ -6,6 +6,22 @@
 
 For PreferencePage setting results look [here](https://GuavaEclipsePlugin.github.io/PreferencePageSettingDetails.html)
 
+# Guava Eclipse Plugin 1.7.0 RELEASE NOTES
+
+We are pleased to announce the Guava Eclipse Plugin 1.7.0 release!
+
+### New features:
+- requires java 11
+
+### Fixed Bugs:
+- [#42](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/42) update site on bintray not reachable
+
+### Known Issues:
+- [#17](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/17) Maven Release Mechanism does not work
+- [#16](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/16) MenuEntries does not appear when pressing ShortCut Alt+Shift+S
+- [#21](https://github.com/GuavaEclipseHelperTeam/GuavaEclipseHelper/issues/21) Support for inner classes
+
+
 # Guava Eclipse Plugin 1.6.0 RELEASE NOTES
 
 We are pleased to announce the Guava Eclipse Plugin 1.6.0 release!
