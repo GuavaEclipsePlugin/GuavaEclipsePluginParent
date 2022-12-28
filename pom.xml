@@ -7,19 +7,20 @@
 	<version>1.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<tycho.version>0.23.0</tycho.version>
+		<tycho.version>1.5.1</tycho.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- When you have problems accessing the repo (for example you are behind 
 			a firewall, proxy etc), use a local download mirror for more infos look here: 
 			http://wiki.eclipse.org/Equinox_p2_Repository_Mirroring https://www.bsiag.com/scout/local-p2-mirrors-to-work-offline/ -->
+		<eclipse-repo.url>https://download.eclipse.org/releases/2019-09</eclipse-repo.url>
 		<!-- 
-		<eclipse-repo.url>http://download.eclipse.org/releases/mars</eclipse-repo.url>
-		-->
 		<eclipse-repo.url>file:/D:/p2repos/mars</eclipse-repo.url>
+		-->
 
-		<!-- <swtbot.url>http://download.eclipse.org/technology/swtbot/releases/latest/</swtbot.url> -->
+		<swtbot.url>https://download.eclipse.org/technology/swtbot/releases/2.8.0/</swtbot.url>
+		<!--
 		<swtbot.url>file:/D:/p2repos/swtbot/swtbot</swtbot.url>
-
+ 		-->
 
 		<test.vmparams></test.vmparams>
 		<uitest.vmparams>-Dorg.eclipse.swtbot.search.timeout=10000 -Xmx1024m -XX:MaxPermSize=512m</uitest.vmparams>
@@ -51,7 +52,7 @@
 	</distributionManagement>
 	<repositories>
 		<repository>
-			<id>luna</id>
+			<id>mars</id>
 			<url>${eclipse-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
@@ -64,7 +65,7 @@
 	<modules>
 		<module>GuavaEclipsePlugin</module>
 		<module>GuavaEclipseTest</module>
-		<module>GuavaEclipseSwtBotTest</module>
+		<!--<module>GuavaEclipseSwtBotTest</module>-->
 		<module>GuavaEclipseFeature</module>
 		<module>GuavaEclipseUpdateSite</module>
 	</modules>

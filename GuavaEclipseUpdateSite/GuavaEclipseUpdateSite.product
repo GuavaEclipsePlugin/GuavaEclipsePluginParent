@@ -3,6 +3,7 @@
 
 <product uid="net.sf.guavaeclipse.site" version="1.7.0.qualifier" useFeatures="true" includeLaunchers="false">
 
+
    <configIni use="">
    </configIni>
 
@@ -11,15 +12,17 @@
 
    <windowImages/>
 
+
    <launcher>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
    </plugins>
@@ -30,8 +33,7 @@
 
 
    <repositories>
-      <repository location="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/SNAPSHOT/latest/" enabled="true" />
-      <repository location="https://dl.bintray.com/guavaeclipseplugin/GuavaEclipsePlugin/latest/" enabled="false" />
+      <repository location="http://https://guavaeclipseplugin.github.io/GuavaEclipsePluginUpdateSite/SNAPSHOT/latest" enabled="true" />
    </repositories>
 
    <preferencesInfo>
